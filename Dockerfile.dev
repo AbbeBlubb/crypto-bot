@@ -1,0 +1,18 @@
+# Pull official base image
+# https://docs.docker.com/engine/reference/builder/#from
+FROM node:alpine
+
+# Set working directory
+# https://docs.docker.com/engine/reference/builder/#workdir
+WORKDIR /app
+
+# Install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install
+
+# Add app
+COPY . ./
+
+# Start app
+CMD ["npm", "run", "dev"]
