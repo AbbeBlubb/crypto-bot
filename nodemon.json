@@ -3,7 +3,7 @@
     "ignore": ["src/**/*.spec.ts"],
     "watch": ["src/**/*.ts"],
     "execMap": {
-      "ts": "node --inspect --nolazy -r ts-node/register"
+      "ts": "node --inspect --nolazy -r ts-node/register -r dotenv/config"
     }
   }
   

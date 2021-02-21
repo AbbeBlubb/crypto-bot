@@ -1,9 +1,8 @@
 import * as express from "express";
 import { mainRoute } from "./routes/main.route";
 import { pingRoute } from "./routes/ping.route";
+import "./balance/checkBalance";
 
-import * as dotenv from "dotenv";
-dotenv.config();
 export const PORT = process.env.PORT || 8080;
 const app = express();
 
