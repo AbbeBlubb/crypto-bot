@@ -1,4 +1,5 @@
 import { currencyTableMyFavorites } from "../utils/currencies";
+import { getLocalTimestamp } from "../utils/dateUtils";
 import * as chalk from "chalk";
 
 const APIKEY = process.env.APIKEY;
@@ -10,27 +11,27 @@ const binance = require("node-binance-api")().options({
     useServerTime: true, // If you get timestamp errors, synchronize to server time at startup
 });
 
-interface BinanceAbstractBalanceData {
+interface IBinanceAbstractBalanceData {
     available: string;
     onOrder: string;
 }
 
-interface BinanceCurrencyBalanceData {
-    [key: string]: BinanceAbstractBalanceData;
+interface IBinanceCurrencyBalanceData {
+    [key: string]: IBinanceAbstractBalanceData;
 }
 
-interface CurrencyBalanceData extends BinanceAbstractBalanceData {
+interface CurrencyBalanceData extends IBinanceAbstractBalanceData {
     currency: string;
 }
 
-type IterableCurrencies = [CurrencyBalanceData];
+type IterableCurrencies = Array<CurrencyBalanceData>;
 
 type GetBalanceCallback = (arg: IterableCurrencies) => void;
 
 export function getBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>): void {
     const currenciesList = [];
 
-    binance.balance(function (error, balances: BinanceCurrencyBalanceData) {
+    binance.balance(function (error, balances: IBinanceCurrencyBalanceData) {
         currenciesToGet.forEach(function (currencyTicker): void {
             currenciesList.push({
                 currency: currencyTicker,
@@ -51,7 +52,7 @@ ${currenciesList
         return `${element.currency}: ${element.available} \n`;
     })
     .join("")}
-Printed at ${new Date().toUTCString()} \n\n`;
+Printed ${getLocalTimestamp()} \n\n`;
 
     console.log(chalk.blue(balanceTextToPrint));
 }
