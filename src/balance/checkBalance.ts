@@ -28,6 +28,7 @@ type IterableCurrencies = Array<CurrencyBalanceData>;
 
 type GetBalanceCallback = (arg: IterableCurrencies) => void;
 
+// ToDo: currenciesToGet should have interface corresponding to the Binance available cryptos (crashes if feeded USD, EUR)
 export function getBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>): void {
     const currenciesList = [];
 
@@ -57,12 +58,20 @@ Printed ${getLocalTimestamp()} \n\n`;
     console.log(chalk.blue(balanceTextToPrint));
 }
 
-export function watchBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>): any {
-    const stopWatchBalance = setInterval(function () {
+let _intervalIDForBalanceWatch: NodeJS.Timeout;
+
+function _watchBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>): void {
+    const intervalID = setInterval(function () {
         getBalance(cb, currenciesToGet);
     }, 2000);
-    return stopWatchBalance;
+    _intervalIDForBalanceWatch = intervalID;
 }
 
-const stopWatchBalance = watchBalance(printBalance, currencyTableMyFavorites);
-//clearInterval(stopWatchBalance);
+export function startWatchingBalance(): void {
+    _watchBalance(printBalance, currencyTableMyFavorites);
+}
+
+export function stopWatchingBalance(): void {
+    clearInterval(_intervalIDForBalanceWatch);
+    _intervalIDForBalanceWatch = undefined;
+}

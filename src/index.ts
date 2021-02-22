@@ -1,7 +1,7 @@
 import * as express from "express";
 import { mainRoute } from "./routes/main.route";
 import { pingRoute } from "./routes/ping.route";
-import "./balance/checkBalance";
+import { balanceRoute } from "./routes/balance.route";
 
 export const PORT = process.env.PORT || 8080;
 const app = express();
@@ -11,6 +11,7 @@ app.set("view engine", "pug");
 
 app.use(mainRoute);
 app.use(pingRoute);
+app.use(balanceRoute);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT} \nhttp://localhost:${PORT}/`);
