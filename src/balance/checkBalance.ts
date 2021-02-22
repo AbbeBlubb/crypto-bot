@@ -1,21 +1,14 @@
-import { currencyTableMyFavorites } from "./currencies";
+import { currencyTableMyFavorites } from "../utils/currencies";
+import * as chalk from "chalk";
 
 const APIKEY = process.env.APIKEY;
 const APISECRET = process.env.APISECRET;
-
-import * as chalk from "chalk";
 
 const binance = require("node-binance-api")().options({
     APIKEY: APIKEY,
     APISECRET: APISECRET,
     useServerTime: true, // If you get timestamp errors, synchronize to server time at startup
 });
-
-// binance.balance(function (error, data) {
-//     console.log(chalk.blue("\n", new Date().toUTCString(), "- YOUR CURRENT", tradeRules.currency, "BALANCE:"));
-//     console.log(chalk.blue(JSON.stringify(data[tradeRules.currency]), "\n"));
-//     boughtCurrencies[tradeRules.currency] = data[tradeRules.currency].available;
-// });
 
 interface BinanceAbstractBalanceData {
     available: string;
@@ -34,7 +27,7 @@ type IterableCurrencies = [CurrencyBalanceData];
 
 type GetBalanceCallback = (arg: IterableCurrencies) => void;
 
-function getBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>) {
+export function getBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>): void {
     const currenciesList = [];
 
     binance.balance(function (error, balances: BinanceCurrencyBalanceData) {
@@ -49,7 +42,7 @@ function getBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>) {
     });
 }
 
-function printBalance(currenciesList: IterableCurrencies) {
+export function printBalance(currenciesList: IterableCurrencies): void {
     const balanceTextToPrint = `
 BALANCE
 
@@ -58,9 +51,17 @@ ${currenciesList
         return `${element.currency}: ${element.available} \n`;
     })
     .join("")}
-Printed at ${new Date().toUTCString()}`;
+Printed at ${new Date().toUTCString()} \n\n`;
 
     console.log(chalk.blue(balanceTextToPrint));
 }
 
-getBalance(printBalance, currencyTableMyFavorites);
+export function watchBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>): any {
+    const stopWatchBalance = setInterval(function () {
+        getBalance(cb, currenciesToGet);
+    }, 2000);
+    return stopWatchBalance;
+}
+
+const stopWatchBalance = watchBalance(printBalance, currencyTableMyFavorites);
+//clearInterval(stopWatchBalance);
