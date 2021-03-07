@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Socket to DOM</title>
+    </head>
+
+    <style>
+        * {
+            font-family: consolas;
+        }
+    </style>
+
+    <body>
+        <h1>Price</h1>
+        <p>Newest time at the top</p>
+        <div id="socket-output"></div>
+        <script>
+            const socketOutputPlaceholder = document.querySelector("#socket-output");
+
+            // Create WebSocket connection.
+            const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_15m");
+
+            // Connection opened
+            socket.onopen = function (event) {
+                console.log("Open", event);
+            };
+
+            // Listen for messages
+            socket.onmessage = function (event) {
+                console.log("Message from server ", event.data);
+
+                const messageJSON = JSON.parse(event.data);
+                const newDiv = document.createElement("div");
+
+                const newTime = new Date(messageJSON.k.T).toLocaleTimeString("sv-SE");
+                const newPrice = messageJSON.k.c;
+                const textLineWithTimeAndPrice = `Candle closes: ${newTime} / Live price: ${newPrice}`;
+                const newContentAsTextNode= document.createTextNode(textLineWithTimeAndPrice);
+                newDiv.appendChild(newContentAsTextNode);
+
+                document.body.insertBefore(newDiv, socketOutputPlaceholder.nextSibling);
+            };
+        </script>
+    </body>
+</html>
