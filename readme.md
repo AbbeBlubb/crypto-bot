@@ -2,7 +2,7 @@
 
 Experimental
 
-## Binance.options
+## Lib: Binance.options
 
 If want to take a look at the Binance.options settins, make a console.log after line 282 in file:
 /home/abbe/projects/crypto-bot/node_modules/node-binance-api/node-binance-api.js
