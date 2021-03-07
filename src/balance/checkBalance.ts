@@ -2,12 +2,12 @@ import { currencyTableMyFavorites } from "../utils/currencies";
 import { getLocalTimestamp } from "../utils/dateUtils";
 import * as chalk from "chalk";
 
-const APIKEY = process.env.APIKEY;
-const APISECRET = process.env.APISECRET;
+const BINANCE_API_KEY = process.env.BINANCE_API_KEY;
+const BINANCE_API_SECRET = process.env.BINANCE_API_SECRET;
 
 const binance = require("node-binance-api")().options({
-    APIKEY: APIKEY,
-    APISECRET: APISECRET,
+    BINANCE_API_KEY,
+    BINANCE_API_SECRET,
     useServerTime: true, // If you get timestamp errors, synchronize to server time at startup
 });
 
