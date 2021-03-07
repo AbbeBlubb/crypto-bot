@@ -1,4 +1,4 @@
-import { currencyTableMyFavorites } from "../utils/currencies";
+import { cryptoTickers } from "../utils/tickers";
 import { getLocalTimestamp } from "../utils/dateUtils";
 import * as chalk from "chalk";
 
@@ -68,7 +68,7 @@ function _watchBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>): 
 }
 
 export function startWatchingBalance(): void {
-    _watchBalance(printBalance, currencyTableMyFavorites);
+    _watchBalance(printBalance, cryptoTickers);
 }
 
 export function stopWatchingBalance(): void {
