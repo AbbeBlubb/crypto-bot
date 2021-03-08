@@ -1,6 +1,20 @@
 # Crypto Bot
 
-Experimental
+## Run single TypeScript files
+
+Transpile and run with ts-node:
+
+``` Nodejs
+> npx ts-node get.ts
+```
+
+Or the classic way:
+
+``` Nodejs
+> npm install -g typescript
+> tsc <fileName>.ts
+> node <filName>.js
+```
 
 ## Lib: Binance.options
 
