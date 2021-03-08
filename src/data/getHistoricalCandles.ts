@@ -4,7 +4,7 @@ import * as chalk from "chalk";
 
 /**
  * Will fetch candlesticks and write to file.
- * The fs.createWriteStream() creates a writable stream. The response object is a streams.
+ * The fs.createWriteStream() creates a writable stream. The response object is a stream.
  * The output is therefore not formatted at write, and doesn't need to as it's a machine that will read it.
  */
 
