@@ -6,8 +6,10 @@ import { appendToFilename } from "../utils/appendToFilename";
 
 /**
  * Will fetch candlesticks and write to file.
- * The fs.createWriteStream() creates a writable stream. The response object is a stream.
- * The output is therefore not formatted at write, and doesn't need to as it's a machine that will read it.
+ * Binance returns valid JSON.
+ * The response object is a stream, and fs.createWriteStream() creates a writable stream.
+ * The output is not formatted/pretty at write, and doesn't need to as it's a machine that will read it.
+ * Will not create the directories on its own. All the directories in the path should exist and should be writable.
  */
 
 interface IGetHistoricalCandlesOptions {
