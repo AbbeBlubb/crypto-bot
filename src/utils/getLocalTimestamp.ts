@@ -3,9 +3,10 @@
  */
 
 interface IGetLocalTimeStampOptions {
-    separatorInDate?: string;
-    separatorInTime?: string;
-    separatorForDateAndTimeBlocks?: string;
+    separatorInDate?: string; // 2021x03x09
+    separatorInTime?: string; // 20x12x41
+    separatorForDateAndTimeBlocks?: string; // 2021-03-09x20:12:41
+    generalSeparator?: string | false; // 2021x03x09x20x12x41
 }
 
 function _getDateYYYYMMDD(separatorInDate = "-"): string {
@@ -28,6 +29,11 @@ export function getLocalTimestamp({
     separatorInDate = "-",
     separatorInTime = ":",
     separatorForDateAndTimeBlocks = " ",
+    generalSeparator = false,
 }: IGetLocalTimeStampOptions = {}): string {
-    return `${_getDateYYYYMMDD(separatorInDate)}${separatorForDateAndTimeBlocks}${_getTimeHHMMSS(separatorInTime)}`;
+    if (generalSeparator === false) {
+        return `${_getDateYYYYMMDD(separatorInDate)}${separatorForDateAndTimeBlocks}${_getTimeHHMMSS(separatorInTime)}`;
+    } else {
+        return `${_getDateYYYYMMDD(generalSeparator)}${generalSeparator}${_getTimeHHMMSS(generalSeparator)}`;
+    }
 }

@@ -1,6 +1,7 @@
 import { createWriteStream } from "fs";
 import fetch from "node-fetch";
 import * as chalk from "chalk";
+import { getLocalTimeStamp } from "../utils/getLocalTimestamp";
 
 /**
  * Will fetch candlesticks and write to file.
@@ -23,7 +24,7 @@ async function _fetchCandles({ url, res, symbol, interval, limit, fetch }) {
     return res;
 }
 
-async function _writeCandles({ filePath, res, createWriteStream }) {
+async function _writeCandlesToFile({ filePath, res, createWriteStream }) {
     const fileStream = createWriteStream(filePath);
 
     await new Promise((resolve, reject) => {
@@ -52,7 +53,7 @@ export const getHistoricalCandles = async ({
         return;
     }
 
-    _writeCandles({ filePath, res, createWriteStream });
+    _writeCandlesToFile({ filePath, res, createWriteStream });
 };
 
 const OPTIONS: IGetHistoricalCandlesOptions = {
