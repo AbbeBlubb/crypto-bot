@@ -1,7 +1,8 @@
 import { createWriteStream } from "fs";
 import fetch from "node-fetch";
 import * as chalk from "chalk";
-import { getLocalTimeStamp } from "../utils/getLocalTimestamp";
+import { getLocalTimestamp } from "../utils/getLocalTimestamp";
+import { appendToFilename } from "../utils/appendToFilename";
 
 /**
  * Will fetch candlesticks and write to file.
@@ -10,10 +11,11 @@ import { getLocalTimeStamp } from "../utils/getLocalTimestamp";
  */
 
 interface IGetHistoricalCandlesOptions {
-    symbol: string;
-    interval: string;
-    limit: number;
-    filePath: string;
+    symbol: string; // BTCUSDT
+    interval: string; // 1d
+    limit: number; // 100
+    filePath: string; // Relative to this file, eg "test.json"
+    timestamp?: boolean; // True returns eg. test20210309212724.json
 }
 
 async function _fetchCandles({ url, res, symbol, interval, limit, fetch }) {
@@ -24,11 +26,15 @@ async function _fetchCandles({ url, res, symbol, interval, limit, fetch }) {
     return res;
 }
 
-async function _writeCandlesToFile({ filePath, res, createWriteStream }) {
-    const fileStream = createWriteStream(filePath);
+async function _writeCandlesToFile({ filePath, timestamp, res, createWriteStream, getLocalTimestamp }) {
+    const _filePath = timestamp
+        ? appendToFilename({ filename: filePath, stringToAppend: getLocalTimestamp({ generalSeparator: "" }) })
+        : filePath;
+
+    const fileStream = createWriteStream(_filePath);
 
     await new Promise((resolve, reject) => {
-        const writeMessage = `\nWRITING to ${filePath}`;
+        const writeMessage = `\nWRITING to ${_filePath}`;
         console.log(chalk.yellow(writeMessage));
 
         res.body.pipe(fileStream);
@@ -41,7 +47,8 @@ export const getHistoricalCandles = async ({
     symbol = "BTCUSDT",
     interval = "1d",
     limit = 250,
-    filePath = "output.js",
+    filePath = "output.json",
+    timestamp = false,
 }: IGetHistoricalCandlesOptions): Promise<void> => {
     const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit.toString()}`;
     let res = null;
@@ -53,14 +60,15 @@ export const getHistoricalCandles = async ({
         return;
     }
 
-    _writeCandlesToFile({ filePath, res, createWriteStream });
+    _writeCandlesToFile({ filePath, timestamp, res, createWriteStream, getLocalTimestamp });
 };
 
 const OPTIONS: IGetHistoricalCandlesOptions = {
     symbol: "BTCUSDT",
     interval: "1d",
     limit: 10,
-    filePath: "output.json",
+    filePath: "test.json",
+    timestamp: true,
 };
 
 getHistoricalCandles(OPTIONS);
