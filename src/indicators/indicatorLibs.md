@@ -12,10 +12,12 @@ Wrapper for Tulip Indicators
 
 ### Install for Linux
 
+``` Bash
 > sudo apt-get install
 > sudo apt-get update
 > sudo apt-get install build-essential
 > npm install tulind
+```
 
 ## Other libs
 
