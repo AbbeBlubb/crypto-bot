@@ -31,6 +31,10 @@ Get 1d x 1000 and save to file
 > curl -s "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=100" | tee 1d.json
 ```
 
+## JSON with GET / browser
+
+* <https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=100>
+
 ## GET params
 
 * Docs: <https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#klinecandlestick-data>

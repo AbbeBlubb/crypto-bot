@@ -1,16 +1,22 @@
-# Tulip and other libs for TA
+# Tulip Node and other libs for TA
 
-## Lulip Node
+## Tulip Node - Tulip Indicators for Nodejs
 
 Wrapper for Tulip Indicators
 
-### Sources
+### Tulip Node sources
 
-* <https://www.npmjs.com/package/tulind>
-* <https://github.com/TulipCharts/tulipnode#readme>
-* <https://www.youtube.com/watch?v=G03vE4ZVrNk>
+* Tulip Node GitHub repo:
+  * <https://github.com/TulipCharts/tulipnode>
+* Tulip Node NPM registry:
+  * <https://www.npmjs.com/package/tulind>
+* Tulip Node video and code examples:
+  * <https://www.youtube.com/watch?v=G03vE4ZVrNk>
+  * <https://github.com/karthik947/Tulip-Indicators>
 
 ### Install for Linux
+
+Observe that the name of the library is Tulip Node, althought the name in the NPM registry is "tulind", as for "Tulip Indicators".
 
 ``` Bash
 > sudo apt-get install
