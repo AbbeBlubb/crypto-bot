@@ -1,4 +1,11 @@
 import { readJSONFileToJS } from "../utils/readJSONFileToJS";
+import * as path from "path";
+
+process.on("unhandledRejection", (err) => {
+    console.error(`\nUnhandled Promise rejection, taken care of in listener in ${path.basename(__filename)}\n\n`, err);
+    process.exit(1);
+});
+// Test the listener with: new Promise((res, reject) => reject("Wops!"));
 
 function _runStrategyMA200(arrayWithClosePrices: number[]): boolean {
     console.log("\nArray with close prices:\n\n", arrayWithClosePrices);

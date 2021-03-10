@@ -3,6 +3,7 @@ import { readFile } from "fs";
 /**
  * Reads a file path from the context of the callee
  */
+
 export async function readJSONFileToJS(filePath: string): Promise<any> {
     return new Promise(function (resolve, reject) {
         readFile(filePath, function (err, data) {
