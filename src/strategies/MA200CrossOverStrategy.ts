@@ -10,20 +10,28 @@ import { SMAData } from "../indicators/indicators.types";
  */
 
 export function MA200CrossOverStrategy(tulipDataStructure: ITulipDataStructure): boolean {
-    // Prepare data
+    // Prepare data for indicator
     const arrayWithClosePrices: ClosePrices = tulipDataStructure.close;
+
     // Calculate indicator data
     const SMAData: SMAData = SMA(arrayWithClosePrices, 200);
-    console.log(SMAData);
-
-    /**
-     * res[0] - the arr with all MAs
-     * slice(-1) - the last (and newest) value. slice returns an arr
-     * [0] get the first element in the returned arr
-     */
-    console.log(SMAData.slice(-1)[0]);
 
     // Calculate signal: is price over MA200?
 
-    return false;
+    // ToDo: all signals should be in other files and be named like "latestPriceIsHigherThanLatestSMA200()"
+    // ToDo: The Strategy should just send the TulipDataStructure to the signals, and not prepare any data
+
+    const latestSMA200 = SMAData.slice(-1)[0];
+    const latestClosePrice: number = <number>tulipDataStructure.close.slice(-1)[0];
+
+    console.log(
+        "\nLatest SMA200: ",
+        latestSMA200,
+        "\nLatest close price: ",
+        latestClosePrice,
+        "\nLatest close prise > latest SMA200?",
+        latestClosePrice > latestSMA200
+    );
+
+    return latestClosePrice > latestSMA200;
 }
