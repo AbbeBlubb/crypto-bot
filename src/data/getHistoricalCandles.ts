@@ -68,9 +68,14 @@ export const getHistoricalCandles = async ({
 const OPTIONS: IGetHistoricalCandlesOptions = {
     symbol: "BTCUSDT",
     interval: "1d",
-    limit: 10,
-    filePath: "test.json",
+    limit: 300,
+    filePath: "BTCUSDT",
     timestamp: true,
 };
+
+/**
+ * Run from root: npx ts-node ./src/data/getHistoricalCandles.ts
+ * Output path: root
+ */
 
 getHistoricalCandles(OPTIONS);
