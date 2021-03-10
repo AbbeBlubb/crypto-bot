@@ -2,13 +2,19 @@ import { readJSONFileToJS } from "../utils/readJSONFileToJS";
 import * as path from "path";
 import { MA200CrossOver } from "./MA200CrossOver";
 
-type HistoricalCandles = number[][];
-type ClosePrices = number[];
+type MultiHistoricalCandles = Array<SingleHistoricalCandle>;
+type SingleHistoricalCandle = (string | number)[];
+
+type OpenPrices = SingleHistoricalCandle;
+type HighPrices = SingleHistoricalCandle;
+type LowPrices = SingleHistoricalCandle;
+type ClosePrices = SingleHistoricalCandle;
+
 interface ITulipDataStructure {
-    open: number[];
-    high: number[];
-    low: number[];
-    close: number[];
+    open: OpenPrices;
+    high: HighPrices;
+    low: LowPrices;
+    close: ClosePrices;
 }
 
 process.on("unhandledRejection", (err) => {
@@ -17,7 +23,7 @@ process.on("unhandledRejection", (err) => {
 });
 // Test the listener with: new Promise((res, reject) => reject("Wops!"));
 
-async function _readHistoricalCandlesFromFile(filePath: string): Promise<HistoricalCandles> {
+async function _readHistoricalCandlesFromFile(filePath: string): Promise<MultiHistoricalCandles> {
     try {
         return await readJSONFileToJS(filePath);
     } catch (err) {
@@ -25,22 +31,21 @@ async function _readHistoricalCandlesFromFile(filePath: string): Promise<Histori
     }
 }
 
-function _tulipDataStructure(historicalCandles: HistoricalCandles): ITulipDataStructure {
+function _createTulipDataStructure(multiHistoricalCandles: MultiHistoricalCandles): ITulipDataStructure {
     try {
-        const open = historicalCandles.map((array: number[]) => array[1]);
-        const high = historicalCandles.map((array: number[]) => array[2]);
-        const low = historicalCandles.map((array: number[]) => array[3]);
-        const close = historicalCandles.map((array: number[]) => array[4]);
+        const open = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[1]);
+        const high = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[2]);
+        const low = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[3]);
+        const close = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[4]);
         return { open, high, low, close };
     } catch (err) {
         throw new Error("Unexpected data: " + err);
     }
 }
 
-async function _getArrayWithClosePrices(filePath: string): Promise<ClosePrices> {
-    const historicalCandles: HistoricalCandles = await _readHistoricalCandlesFromFile(filePath);
-    const arrayWithClosePrices: ClosePrices = _tulipDataStructure(historicalCandles).close;
-    return arrayWithClosePrices;
+async function _getTulipDataStructure(filePath: string): Promise<ITulipDataStructure> {
+    const multiHistoricalCandles: MultiHistoricalCandles = await _readHistoricalCandlesFromFile(filePath);
+    return _createTulipDataStructure(multiHistoricalCandles);
 }
 
 function _runStrategy(arrayWithClosePrices: ClosePrices, strategy: (arg: ClosePrices) => boolean): boolean {
@@ -60,7 +65,8 @@ function _runStrategy(arrayWithClosePrices: ClosePrices, strategy: (arg: ClosePr
 
 (async function () {
     // No try-catches here, instead try-catches in separate functions. When they throw, the error will be catched by the unhandledRejection listener; strange but yes, even if it's not a promise, just a try-catch.
-    const arrayWithClosePrices: ClosePrices = await _getArrayWithClosePrices("./BTCUSDT20210310123251.json");
+    const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructure("./BTCUSDT20210310123251.json");
+    const arrayWithClosePrices: ClosePrices = tulipDataStructure.close;
     const buySignal = _runStrategy(arrayWithClosePrices, MA200CrossOver);
     console.log("\nBuy signal: ", buySignal);
 })();
