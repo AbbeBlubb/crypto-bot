@@ -1,24 +1,44 @@
 # Historical data
 
-* Base URL: <https://data.binance.vision>
+## Useful links
+
+### Fetch and store in DB
+
 * Se denna! Dra ner 500 i taget o peta in i DB <https://www.youtube.com/watch?v=bQVT2WRb4yA&t=3s>
+
+### Binance
+
 * Binance API Docs: <https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list>
 * Binacne bloggpost: <https://www.binance.com/en/blog/421499824684901131/Backtest-Your-Trading-Strategy-With-Binance-Futures-Historical-Data>
 
-## Curl
+## Zip with Curl
 
-* curl -s "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=2"
+Get .zip-file
+
 * <https://github.com/binance/binance-public-data#how-to-download-programatically>
+
+## JSON with Curl
+
+Get 1d x 100 and print to STDOUT
+
+``` Bash
+> curl -s "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=100"
+```
 
 Get 1d x 1000 and save to file
 
-* curl -s "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=1000" | tee 1d.js
+``` Bash
+> curl -s "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=100" | tee 1d.json
+```
 
-## GET and response
+## GET params
 
 * Docs: <https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#klinecandlestick-data>
+* Base URL: <https://data.binance.vision>
 
-``` JavaScript
+## JSON Response
+
+``` JSON
 [
   [
     1499040000000,      // Open time
@@ -36,4 +56,3 @@ Get 1d x 1000 and save to file
   ]
 ]
 ```
-
