@@ -1,7 +1,7 @@
 import * as path from "path";
 import { ITulipDataStructure, MultiHistoricalCandles, SingleHistoricalCandle } from "../data/data.types";
 import { readJSONFileToJS } from "../utils/readJSONFileToJS";
-import { MA200CrossOver } from "./MA200CrossOver";
+import { MA200CrossOverStrategy } from "./MA200CrossOverStrategy";
 
 process.on("unhandledRejection", (err) => {
     console.error(`\nUnhandled Promise rejection, taken care of in listener in ${path.basename(__filename)}: `, err);
@@ -44,8 +44,8 @@ function _runStrategy(
 /**
  * Call context:
  *   - Must be called in context of this folder because of the filePath context.
- *   - Cd from root and then run file: > cd src/strategies/ && npx ts-node runMA200CrossOver.ts
- *   - Run from this folder context: > npx ts-node runMA200CrossOver.ts
+ *   - Cd from root and then run file: > cd src/strategies/ && npx ts-node runMA200CrossOverStrategy.ts
+ *   - Run from this folder context: > npx ts-node runMA200CrossOverStrategy.ts
  *
  * Prepare 2 things:
  *   - _getArrayWithClosePrices needs a file path as arg. The file must contain an array with candle-arrays
@@ -55,6 +55,6 @@ function _runStrategy(
 (async function () {
     // No try-catches here, instead try-catches in separate functions. When they throw, the error will be catched by the unhandledRejection listener; strange but yes, even if it's not a promise, just a try-catch.
     const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructure("./BTCUSDT20210310123251.json");
-    const buySignal = _runStrategy(tulipDataStructure, MA200CrossOver);
+    const buySignal = _runStrategy(tulipDataStructure, MA200CrossOverStrategy);
     console.log("\nBuy signal: ", buySignal);
 })();
