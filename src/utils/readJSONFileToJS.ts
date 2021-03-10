@@ -17,5 +17,7 @@ export async function readJSONFileToJS(filePath: string): Promise<any> {
                 resolve(parsedData);
             }
         });
+    }).catch(function (err) {
+        throw new Error("Error in readJSONFileToJS:\n" + err);
     });
 }
