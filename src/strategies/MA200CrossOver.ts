@@ -1,5 +1,12 @@
 import * as tulind from "tulind";
 
+/**
+ * ToDo:
+ * - Export types to separate file
+ * - Typing in MA200 function
+ * - Make the function general
+ * - Maby this indicators should take an TulipDataStructure object, but with ? in keys
+ */
 type ClosePrices = number[];
 
 export function MA200CrossOver(arrayWithClosePrices: ClosePrices): boolean {

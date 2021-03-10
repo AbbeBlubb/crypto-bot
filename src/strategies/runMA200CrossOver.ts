@@ -1,21 +1,15 @@
 import { readJSONFileToJS } from "../utils/readJSONFileToJS";
 import * as path from "path";
 import { MA200CrossOver } from "./MA200CrossOver";
-
-type MultiHistoricalCandles = Array<SingleHistoricalCandle>;
-type SingleHistoricalCandle = (string | number)[];
-
-type OpenPrices = SingleHistoricalCandle;
-type HighPrices = SingleHistoricalCandle;
-type LowPrices = SingleHistoricalCandle;
-type ClosePrices = SingleHistoricalCandle;
-
-interface ITulipDataStructure {
-    open: OpenPrices;
-    high: HighPrices;
-    low: LowPrices;
-    close: ClosePrices;
-}
+import {
+    MultiHistoricalCandles,
+    SingleHistoricalCandle,
+    OpenPrices,
+    HighPrices,
+    LowPrices,
+    ClosePrices,
+    ITulipDataStructure,
+} from "../data/data.types";
 
 process.on("unhandledRejection", (err) => {
     console.error(`\nUnhandled Promise rejection, taken care of in listener in ${path.basename(__filename)}: `, err);
