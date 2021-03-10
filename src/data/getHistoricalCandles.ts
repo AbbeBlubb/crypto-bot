@@ -24,7 +24,7 @@ async function _fetchCandles({ url, res, symbol, interval, limit, fetch }) {
     const fetchMessage = `\nFETCHING:\n- ${symbol} candles\n- ${interval} x ${limit}`;
     console.log(chalk.yellow(fetchMessage));
     res = await fetch(url);
-    if (!res.ok) throw new Error(`Unexpected response: ${res.statusText}`);
+    if (!res.ok) throw new Error(`\nUnexpected response: ${res.statusText}`);
     return res;
 }
 
