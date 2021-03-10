@@ -4,6 +4,12 @@ import { MA200CrossOver } from "./MA200CrossOver";
 
 type HistoricalCandles = number[][];
 type ClosePrices = number[];
+interface ITulipDataStructure {
+    open: number[];
+    high: number[];
+    low: number[];
+    close: number[];
+}
 
 process.on("unhandledRejection", (err) => {
     console.error(`\nUnhandled Promise rejection, taken care of in listener in ${path.basename(__filename)}: `, err);
@@ -19,9 +25,13 @@ async function _readHistoricalCandlesFromFile(filePath: string): Promise<Histori
     }
 }
 
-function _produceArrayWithClosePrices(historicalCandles: HistoricalCandles): ClosePrices {
+function _tulipDataStructure(historicalCandles: HistoricalCandles): ITulipDataStructure {
     try {
-        return historicalCandles.map((array: number[]) => array[4]);
+        const open = historicalCandles.map((array: number[]) => array[1]);
+        const high = historicalCandles.map((array: number[]) => array[2]);
+        const low = historicalCandles.map((array: number[]) => array[3]);
+        const close = historicalCandles.map((array: number[]) => array[4]);
+        return { open, high, low, close };
     } catch (err) {
         throw new Error("Unexpected data: " + err);
     }
@@ -29,7 +39,7 @@ function _produceArrayWithClosePrices(historicalCandles: HistoricalCandles): Clo
 
 async function _getArrayWithClosePrices(filePath: string): Promise<ClosePrices> {
     const historicalCandles: HistoricalCandles = await _readHistoricalCandlesFromFile(filePath);
-    const arrayWithClosePrices: ClosePrices = _produceArrayWithClosePrices(historicalCandles);
+    const arrayWithClosePrices: ClosePrices = _tulipDataStructure(historicalCandles).close;
     return arrayWithClosePrices;
 }
 
