@@ -7,11 +7,16 @@ export function SMA(arrayWithClosePrices: ClosePrices, period: number): SMAData 
     const _period = [period];
     let result: number[];
 
-    tulind.indicators.sma.indicator(_real, _period, (err, res) => {
-        if (err) throw new Error(err);
-        // res is an array, containing one array, with all the values
-        result = res[0];
-    });
+    try {
+        tulind.indicators.sma.indicator(_real, _period, (err, res: number[][]) => {
+            if (err) throw new Error(err);
+
+            // res is an array, containing one array, with all the values
+            result = res[0];
+        });
+    } catch (err) {
+        throw new Error(err);
+    }
 
     return result;
 }
