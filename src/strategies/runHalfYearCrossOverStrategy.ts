@@ -4,6 +4,7 @@ import { _getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStruc
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategy } from "./strategyUtils";
+import { notifyOnTelegram } from "../notifier/telegramUtils";
 
 /**
  * Call context:
@@ -21,5 +22,6 @@ import { runStrategy } from "./strategyUtils";
 
     const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile("./test-data/BTCUSDT20210310123251.json");
     const buySignal = runStrategy(tulipDataStructure, halfYearCrossOverStrategy);
+    notifyOnTelegram(buySignal, "Strategy HalfYearCrossOver: signal!");
     console.log("\nBuy signal from halfYearCrossOverStrategy: ", buySignal);
 })();

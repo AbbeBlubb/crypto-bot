@@ -1,19 +1,17 @@
 import { sendMessageFor } from "simple-telegram-message";
-import * as dotenv from "dotenv";
+import { loadDotenv } from "../utils/loadDotenv";
 
-function _loadDotenv() {
-    const result = dotenv.config({ path: "../../.env" });
-    if (result.error) {
-        throw result.error;
-    }
-    //console.log(result.parsed);
-}
-
-// > npx ts-node telegramUtils.ts
-export function notifyOnTelegram(buySignal: boolean, message: string): void {
+// Run file: > npx ts-node telegramUtils.ts
+export async function notifyOnTelegram(buySignal: boolean, message: string): Promise<void> {
     if (buySignal) {
-        _loadDotenv();
+        loadDotenv();
+
         const sendMessage = sendMessageFor(process.env.TELEGRAM_BOT_API_KEY, process.env.TELEGRAM_CHANNEL_ID);
-        sendMessage(message);
+
+        sendMessage(message)
+            .then(() => console.log("sent!"))
+            .catch(() => {
+                throw new Error("noo!");
+            });
     }
 }
