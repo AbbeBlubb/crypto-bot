@@ -2,6 +2,8 @@ import { ClosePrices, ITulipDataStructure } from "../data/data.types";
 import { SMAData, EMAData } from "../indicators/indicators.types";
 import { SMA } from "../indicators/SMA";
 import { EMA } from "../indicators/EMA";
+import { firstNumberIsGreaterThanSecondNumber } from "../signals/numberComparisions";
+import { isAtLeastOneBooleanTrue } from "../signals/booleanComparisions";
 
 export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructure): boolean {
     // Prepare data for indicator
@@ -10,19 +12,26 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
     // Calculate indicator data
     const SMA140Data: SMAData = SMA(arrayWithClosePrices, 140);
     const EMA150Data: EMAData = EMA(arrayWithClosePrices, 150);
-    const latestSMA140 = SMA140Data.slice(-1)[0];
-    const latestEMA150 = EMA150Data.slice(-1)[0];
+    const latestSMA140: number = SMA140Data.slice(-1)[0];
+    const latestEMA150: number = EMA150Data.slice(-1)[0];
     const latestClosePrice: number = <number>tulipDataStructure.close.slice(-1)[0];
 
     // Calculate signal
 
-    // Latest price is over latest SMA140?
-    // compareLatestPriceWithLatestMA(price, average);
+    const isLatestCandleClosePriceHigherThanLatestSMA140: boolean = firstNumberIsGreaterThanSecondNumber(
+        latestClosePrice,
+        latestSMA140
+    );
 
-    // Latest price is over latest EMA150?
+    const isLatestCandleClosePriceHigherThanLatestEMA150: boolean = firstNumberIsGreaterThanSecondNumber(
+        latestClosePrice,
+        latestEMA150
+    );
 
-    // ToDo: all signals should be in other files and be named like "latestPriceIsHigherThanLatestSMA200()"
-    // ToDo: The Strategy should just send the TulipDataStructure to the signals, and not prepare any data
+    const isLatestCAndlePriceHigherThanOneOfTheMAs: boolean = isAtLeastOneBooleanTrue(
+        isLatestCandleClosePriceHigherThanLatestSMA140,
+        isLatestCandleClosePriceHigherThanLatestEMA150
+    );
 
     console.log(
         "\nLatest SMA140: ",
@@ -31,8 +40,12 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
         latestEMA150,
         "\nLatest close price: ",
         latestClosePrice,
-        "\nLatest close prise > latest SMA140 or latest EMA150?",
-        "no"
+        "\nisLatestCandleClosePriceHigherThanLatestSMA140: ",
+        isLatestCandleClosePriceHigherThanLatestSMA140,
+        "\nisLatestCandleClosePriceHigherThanLatestEMA150",
+        isLatestCandleClosePriceHigherThanLatestEMA150,
+        "\nisLatestCAndlePriceHigherThanTheMAs",
+        isLatestCAndlePriceHigherThanOneOfTheMAs
     );
 
     return false;
