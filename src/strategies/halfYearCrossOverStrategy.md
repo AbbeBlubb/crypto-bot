@@ -2,19 +2,22 @@
 
 ## Entry
 
-https://www.youtube.com/watch?v=VWjuRwGdfTI
+* Inspiration: <https://www.youtube.com/watch?v=VWjuRwGdfTI>
 
-Gäller för BTC
-21w EMA
-20w SMA
+Gäller för BTC, 1w:
+
+* 21w EMA
+* 20w SMA
 
 Borde även gälla för 1d, isf:
-21 x 7 = 147 EMA
-20 x 7 = 140 SMA
 
-Teorin är att i en lång uppgång så testar BTC 21w EMA eller 20w SMA och studsar uppåt
+* 21 x 7 = 147 EMA
+* 20 x 7 = 140 SMA
 
-Detta funkar INTE lika bra med SMA200; man missar trades då.
+Teorin
+
+* Teorin är att i en lång uppgång så testar BTC 21w EMA eller 20w SMA och studsar uppåt
+* Detta funkar INTE lika bra med SMA200; man missar trades då.
 
 ## Exit
 
@@ -26,7 +29,7 @@ Om gummisnodden är för hårt spänd: förebråelse om kraftig rekyl ner.
 
 Vad är för hårt spänd?
 
-- Jämför en kort SMA med den långa som gav köpsignal
+* Jämför en kort SMA med den långa som gav köpsignal
 
 ## SL
 
