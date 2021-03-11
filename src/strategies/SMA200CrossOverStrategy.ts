@@ -2,26 +2,19 @@ import { ClosePrices, ITulipDataStructure } from "../data/data.types";
 import { SMAData } from "../indicators/indicators.types";
 import { SMA } from "../indicators/SMA";
 
-/**
- * ToDo:
- * - Typing in MA200 function
- * - Make the function general
- * - Maby this indicators should take an TulipDataStructure object, but with ? in keys
- */
-
 export function SMA200CrossOverStrategy(tulipDataStructure: ITulipDataStructure): boolean {
     // Prepare data for indicator
     const arrayWithClosePrices: ClosePrices = tulipDataStructure.close;
 
     // Calculate indicator data
-    const SMAData: SMAData = SMA(arrayWithClosePrices, 200);
+    const SMA200Data: SMAData = SMA(arrayWithClosePrices, 200);
 
     // Calculate signal: is price over MA200?
 
     // ToDo: all signals should be in other files and be named like "latestPriceIsHigherThanLatestSMA200()"
     // ToDo: The Strategy should just send the TulipDataStructure to the signals, and not prepare any data
 
-    const latestSMA200 = SMAData.slice(-1)[0];
+    const latestSMA200 = SMA200Data.slice(-1)[0];
     const latestClosePrice: number = <number>tulipDataStructure.close.slice(-1)[0];
 
     console.log(
