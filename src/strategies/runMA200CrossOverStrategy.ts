@@ -2,6 +2,7 @@ import * as path from "path";
 import { ITulipDataStructure, MultiHistoricalCandles, SingleHistoricalCandle } from "../data/data.types";
 import { readJSONFileToJS } from "../utils/readJSONFileToJS";
 import { MA200CrossOverStrategy } from "./MA200CrossOverStrategy";
+import { createTulipDataStructureObject } from "../data/createTulipDataStructureObject";
 
 process.on("unhandledRejection", (err) => {
     console.error(`\nUnhandled Promise rejection, taken care of in listener in ${path.basename(__filename)}: `, err);
@@ -17,21 +18,9 @@ async function _readHistoricalCandlesFromFile(filePath: string): Promise<MultiHi
     }
 }
 
-function _createTulipDataStructure(multiHistoricalCandles: MultiHistoricalCandles): ITulipDataStructure {
-    try {
-        const open = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[1]);
-        const high = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[2]);
-        const low = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[3]);
-        const close = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[4]);
-        return { open, high, low, close };
-    } catch (err) {
-        throw new Error("Unexpected data: " + err);
-    }
-}
-
 async function _getTulipDataStructure(filePath: string): Promise<ITulipDataStructure> {
     const multiHistoricalCandles: MultiHistoricalCandles = await _readHistoricalCandlesFromFile(filePath);
-    return _createTulipDataStructure(multiHistoricalCandles);
+    return createTulipDataStructureObject(multiHistoricalCandles);
 }
 
 function _runStrategy(
