@@ -23,14 +23,14 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
         latestSMA140
     );
 
-    const isLatestCandleClosePriceHigherThanLatestEMA150: boolean = firstNumberIsGreaterThanSecondNumber(
+    const isLatestCandleCloseHigherThanLatestEMA150: boolean = firstNumberIsGreaterThanSecondNumber(
         latestClosePrice,
         latestEMA150
     );
 
-    const isLatestCAndlePriceHigherThanOneOfTheMAs: boolean = isAtLeastOneBooleanTrue(
+    const isLatestCandleCloseHigherThanOneOfTheMAs: boolean = isAtLeastOneBooleanTrue(
         isLatestCandleClosePriceHigherThanLatestSMA140,
-        isLatestCandleClosePriceHigherThanLatestEMA150
+        isLatestCandleCloseHigherThanLatestEMA150
     );
 
     console.log(
@@ -40,13 +40,13 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
         latestEMA150,
         "\nLatest close price: ",
         latestClosePrice,
-        "\nisLatestCandleClosePriceHigherThanLatestSMA140: ",
+        "\nisLatestCandleCloseHigherThanLatestSMA140: ",
         isLatestCandleClosePriceHigherThanLatestSMA140,
-        "\nisLatestCandleClosePriceHigherThanLatestEMA150",
-        isLatestCandleClosePriceHigherThanLatestEMA150,
-        "\nisLatestCAndlePriceHigherThanTheMAs",
-        isLatestCAndlePriceHigherThanOneOfTheMAs
+        "\nisLatestCandleCloseHigherThanLatestEMA150: ",
+        isLatestCandleCloseHigherThanLatestEMA150,
+        "\nisLatestCandleCloseHigherThanTheMAs",
+        isLatestCandleCloseHigherThanOneOfTheMAs
     );
 
-    return false;
+    return isLatestCandleCloseHigherThanOneOfTheMAs;
 }
