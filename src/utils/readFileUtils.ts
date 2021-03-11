@@ -1,10 +1,11 @@
 import { readFile } from "fs";
+import { MultiHistoricalCandles } from "../data/data.types";
 
 /**
  * Reads a file path from the context of the callee
  */
 
-export async function readJSONFileToJS(filePath: string): Promise<any> {
+async function _readJSONFileToJS(filePath: string): Promise<any> {
     return new Promise(function (resolve, reject) {
         readFile(filePath, function (err, data) {
             if (err) {
@@ -20,4 +21,15 @@ export async function readJSONFileToJS(filePath: string): Promise<any> {
     }).catch(function (err) {
         throw new Error("Error in readJSONFileToJS:\n" + err);
     });
+}
+
+/**
+ * Separate functions for each case in order to have clear function return types
+ */
+export async function readHistoricalCandlesFromFile(filePath: string): Promise<MultiHistoricalCandles> {
+    try {
+        return await _readJSONFileToJS(filePath);
+    } catch (err) {
+        throw new Error("Error returned from readJSONFileToJS" + err);
+    }
 }
