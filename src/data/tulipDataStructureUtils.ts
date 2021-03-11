@@ -1,6 +1,7 @@
 import { MultiHistoricalCandles, ITulipDataStructure, SingleHistoricalCandle } from "./data.types";
+import { readHistoricalCandlesFromFile } from "../utils/readFileUtils";
 
-export function createTulipDataStructureObject(multiHistoricalCandles: MultiHistoricalCandles): ITulipDataStructure {
+function _createTulipDataStructureObject(multiHistoricalCandles: MultiHistoricalCandles): ITulipDataStructure {
     try {
         const open = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[1]);
         const high = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[2]);
@@ -10,4 +11,9 @@ export function createTulipDataStructureObject(multiHistoricalCandles: MultiHist
     } catch (err) {
         throw new Error("Unexpected data: " + err);
     }
+}
+
+export async function _getTulipDataStructureObjectFromJSONFile(filePath: string): Promise<ITulipDataStructure> {
+    const multiHistoricalCandles: MultiHistoricalCandles = await readHistoricalCandlesFromFile(filePath);
+    return _createTulipDataStructureObject(multiHistoricalCandles);
 }

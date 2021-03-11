@@ -1,15 +1,9 @@
-import { createTulipDataStructureObject } from "../data/createTulipDataStructureObject";
-import { ITulipDataStructure, MultiHistoricalCandles } from "../data/data.types";
-import { readHistoricalCandlesFromFile } from "../utils/readFileUtils";
-import { MA200CrossOverStrategy } from "./MA200CrossOverStrategy";
-import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
 import * as path from "path";
+import { ITulipDataStructure } from "../data/data.types";
+import { _getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStructureUtils";
+import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
+import { MA200CrossOverStrategy } from "./MA200CrossOverStrategy";
 import { runStrategy } from "./strategyUtils";
-
-async function _getTulipDataStructure(filePath: string): Promise<ITulipDataStructure> {
-    const multiHistoricalCandles: MultiHistoricalCandles = await readHistoricalCandlesFromFile(filePath);
-    return createTulipDataStructureObject(multiHistoricalCandles);
-}
 
 /**
  * Call context:
@@ -32,7 +26,7 @@ async function _getTulipDataStructure(filePath: string): Promise<ITulipDataStruc
 (async function () {
     attachUnhandledRejectionListener(path.basename(__filename));
 
-    const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructure("./BTCUSDT20210310123251.json");
+    const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile("./BTCUSDT20210310123251.json");
     const buySignal = runStrategy(tulipDataStructure, MA200CrossOverStrategy);
     console.log("\nBuy signal: ", buySignal);
 })();
