@@ -27,14 +27,17 @@ function _runStrategy(
  *   - _getTulipDataStructure needs a file path as arg. The file must contain an array with candle-arrays
  *   - Then feed the Tulip Data Structure to the Strategy
  * 
+ * Error handling
+ *   - No try-catches here; this is made in the separate functions
+ *   - When a function throw, the error will be catched by the unhandledRejection listener; strange but yes, even if it's an Error and not a Promise
+ * 
  * ToDo:
  *   - Auto-fetch and write to file, then use the file
  */
 
 (async function () {
-    // No try-catches here, instead try-catches in separate functions. When they throw, the error will be catched by the unhandledRejection listener; strange but yes, even if it's not a promise, just a try-catch.
     attachUnhandledRejectionListener(path.basename(__filename));
-
+    
     const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructure("./BTCUSDT20210310123251.json");
     const buySignal = _runStrategy(tulipDataStructure, MA200CrossOverStrategy);
     console.log("\nBuy signal: ", buySignal);
