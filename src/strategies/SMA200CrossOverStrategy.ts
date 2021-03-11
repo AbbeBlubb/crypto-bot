@@ -1,6 +1,6 @@
 import { ClosePrices, ITulipDataStructure } from "../data/data.types";
-import { SMA } from "../indicators/SMA";
 import { SMAData } from "../indicators/indicators.types";
+import { SMA } from "../indicators/SMA";
 
 /**
  * ToDo:
@@ -9,7 +9,7 @@ import { SMAData } from "../indicators/indicators.types";
  * - Maby this indicators should take an TulipDataStructure object, but with ? in keys
  */
 
-export function MA200CrossOverStrategy(tulipDataStructure: ITulipDataStructure): boolean {
+export function SMA200CrossOverStrategy(tulipDataStructure: ITulipDataStructure): boolean {
     // Prepare data for indicator
     const arrayWithClosePrices: ClosePrices = tulipDataStructure.close;
 
