@@ -25,8 +25,8 @@ import { runStrategy } from "./strategyUtils";
 
 (async function () {
     attachUnhandledRejectionListener(path.basename(__filename));
-
-    const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile("./BTCUSDT20210310123251.json");
+    new Promise((res, reject) => reject("Wops!"));
+    const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile("./test-data/BTCUSDT20210310123251.json");
     const buySignal = runStrategy(tulipDataStructure, MA200CrossOverStrategy);
     console.log("\nBuy signal: ", buySignal);
 })();
