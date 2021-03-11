@@ -1,14 +1,9 @@
-import * as path from "path";
-import { ITulipDataStructure, MultiHistoricalCandles, SingleHistoricalCandle } from "../data/data.types";
+import { createTulipDataStructureObject } from "../data/createTulipDataStructureObject";
+import { ITulipDataStructure, MultiHistoricalCandles } from "../data/data.types";
 import { readHistoricalCandlesFromFile } from "../utils/readFileUtils";
 import { MA200CrossOverStrategy } from "./MA200CrossOverStrategy";
-import { createTulipDataStructureObject } from "../data/createTulipDataStructureObject";
-
-process.on("unhandledRejection", (err) => {
-    console.error(`\nUnhandled Promise rejection, taken care of in listener in ${path.basename(__filename)}: `, err);
-    process.exit(1);
-});
-// Test the listener with: new Promise((res, reject) => reject("Wops!"));
+import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
+import * as path from "path";
 
 async function _getTulipDataStructure(filePath: string): Promise<ITulipDataStructure> {
     const multiHistoricalCandles: MultiHistoricalCandles = await readHistoricalCandlesFromFile(filePath);
@@ -29,12 +24,17 @@ function _runStrategy(
  *   - Run from this folder context: > npx ts-node runMA200CrossOverStrategy.ts
  *
  * Prepare 2 things:
- *   - _getArrayWithClosePrices needs a file path as arg. The file must contain an array with candle-arrays
- *   - _runStrategy needs the data to process and the strategy to run
+ *   - _getTulipDataStructure needs a file path as arg. The file must contain an array with candle-arrays
+ *   - Then feed the Tulip Data Structure to the Strategy
+ * 
+ * ToDo:
+ *   - Auto-fetch and write to file, then use the file
  */
 
 (async function () {
     // No try-catches here, instead try-catches in separate functions. When they throw, the error will be catched by the unhandledRejection listener; strange but yes, even if it's not a promise, just a try-catch.
+    attachUnhandledRejectionListener(path.basename(__filename));
+
     const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructure("./BTCUSDT20210310123251.json");
     const buySignal = _runStrategy(tulipDataStructure, MA200CrossOverStrategy);
     console.log("\nBuy signal: ", buySignal);
