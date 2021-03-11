@@ -33,20 +33,20 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
         isLatestCandleCloseHigherThanLatestEMA150
     );
 
-    console.log(
-        "\nLatest SMA140: ",
-        latestSMA140,
-        "\nLatest EMA150: ",
-        latestEMA150,
-        "\nLatest close price: ",
-        latestClosePrice,
-        "\nisLatestCandleCloseHigherThanLatestSMA140: ",
-        isLatestCandleClosePriceHigherThanLatestSMA140,
-        "\nisLatestCandleCloseHigherThanLatestEMA150: ",
-        isLatestCandleCloseHigherThanLatestEMA150,
-        "\nisLatestCandleCloseHigherThanTheMAs",
-        isLatestCandleCloseHigherThanOneOfTheMAs
-    );
+    // console.log(
+    //     "\nLatest SMA140: ",
+    //     latestSMA140,
+    //     "\nLatest EMA150: ",
+    //     latestEMA150,
+    //     "\nLatest close price: ",
+    //     latestClosePrice,
+    //     "\nisLatestCandleCloseHigherThanLatestSMA140: ",
+    //     isLatestCandleClosePriceHigherThanLatestSMA140,
+    //     "\nisLatestCandleCloseHigherThanLatestEMA150: ",
+    //     isLatestCandleCloseHigherThanLatestEMA150,
+    //     "\nisLatestCandleCloseHigherThanTheMAs",
+    //     isLatestCandleCloseHigherThanOneOfTheMAs
+    // );
 
     return isLatestCandleCloseHigherThanOneOfTheMAs;
 }

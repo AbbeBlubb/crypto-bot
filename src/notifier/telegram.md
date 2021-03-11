@@ -30,7 +30,7 @@ https://api.telegram.org/bot[TELEGRAM_BOT_API_KEY]/sendMessage?chat_id=[TELEGRAM
 
 ## Lib
 
-Simple lib, just a few lines of code, could be as inspiration for own function: <https://github.com/christian-fei/simple-telegram-message>
+Simple lib, just a few lines of code: <https://github.com/christian-fei/simple-telegram-message>
 
 ## Sources
 
