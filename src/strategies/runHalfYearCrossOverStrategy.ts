@@ -27,13 +27,12 @@ import { notifyOnTelegram, INotifyOnTelegramOptions } from "../notifier/telegram
     const buySignal = runStrategy(tulipDataStructure, halfYearCrossOverStrategy);
 
     const notifyOnTelegramOptions: INotifyOnTelegramOptions = {
+        time: "Time", // ToDo: time functionality!
         strategy: "HalfYearCrossOver",
         buySignal,
-        symbol: "EURUSDT",
+        symbol: "EURUSDT", // ToDo: When pairs are run from list
         message: "Great!",
     };
 
     notifyOnTelegram(notifyOnTelegramOptions);
-
-    console.log("\nBuy signal from halfYearCrossOverStrategy: ", buySignal);
 })();
