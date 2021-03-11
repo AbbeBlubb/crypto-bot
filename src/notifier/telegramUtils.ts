@@ -1,8 +1,20 @@
 import { sendMessageFor } from "simple-telegram-message";
 import { loadDotenv } from "../utils/loadDotenv";
 
+export interface INotifyOnTelegramOptions {
+    strategy: string;
+    buySignal: boolean;
+    symbol: string;
+    message?: string;
+}
+
 // Run file: > npx ts-node telegramUtils.ts
-export async function notifyOnTelegram(buySignal: boolean, message: string): Promise<void> {
+export async function notifyOnTelegram({
+    strategy,
+    buySignal,
+    symbol,
+    message = "No message",
+}: INotifyOnTelegramOptions): Promise<void> {
     if (buySignal) {
         loadDotenv();
 
@@ -13,5 +25,7 @@ export async function notifyOnTelegram(buySignal: boolean, message: string): Pro
             .catch(() => {
                 throw new Error("noo!");
             });
+    } else {
+        console.log("not sent");
     }
 }

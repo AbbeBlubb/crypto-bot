@@ -4,7 +4,7 @@ import { _getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStruc
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategy } from "./strategyUtils";
-import { notifyOnTelegram } from "../notifier/telegramUtils";
+import { notifyOnTelegram, INotifyOnTelegramOptions } from "../notifier/telegramUtils";
 
 /**
  * Call context:
@@ -20,8 +20,20 @@ import { notifyOnTelegram } from "../notifier/telegramUtils";
 (async function () {
     attachUnhandledRejectionListener(path.basename(__filename));
 
-    const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile("./test-data/BTCUSDT20210310123251.json");
+    const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile(
+        "./test-data/BTCUSDT20210310123251.json"
+    );
+
     const buySignal = runStrategy(tulipDataStructure, halfYearCrossOverStrategy);
-    notifyOnTelegram(buySignal, "Strategy HalfYearCrossOver: signal!");
+
+    const notifyOnTelegramOptions: INotifyOnTelegramOptions = {
+        strategy: "HalfYearCrossOver",
+        buySignal,
+        symbol: "EURUSDT",
+        message: "Great!",
+    };
+
+    notifyOnTelegram(notifyOnTelegramOptions);
+
     console.log("\nBuy signal from halfYearCrossOverStrategy: ", buySignal);
 })();
