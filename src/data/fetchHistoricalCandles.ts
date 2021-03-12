@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 import * as chalk from "chalk";
 import { getLocalTimestamp } from "../utils/getLocalTimestamp";
 import { appendToFilename } from "../utils/appendToFilename";
+import { IFetchHistoricalCandlesOptions } from "./data.types";
 
 /**
  * Will fetch candlesticks and write to file.
@@ -12,17 +13,8 @@ import { appendToFilename } from "../utils/appendToFilename";
  * Will not create the directories on its own. All the directories in the path should exist and should be writable.
  */
 
-interface IGetHistoricalCandlesOptions {
-    symbol: string; // BTCUSDT
-    interval: string; // 1d
-    limit: number; // 100
-    filePath: string; // Relative to this file, eg "test.json"
-    timestamp?: boolean; // True returns eg. test20210309212724.json
-}
-
 async function _fetchCandles({ url, res, symbol, interval, limit, fetch }) {
-    const fetchMessage = `\nFETCHING:\n- ${symbol} candles\n- ${interval} x ${limit}`;
-    console.log(chalk.yellow(fetchMessage));
+    console.log(chalk`{yellow \nFETCHING:\n- ${symbol} candles\n- ${interval} x ${limit}}`);
     res = await fetch(url);
     if (!res.ok) throw new Error(`\nUnexpected response: ${res.statusText}`);
     return res;
@@ -36,8 +28,7 @@ async function _writeCandlesToFile({ filePath, timestamp, res, createWriteStream
     const fileStream = createWriteStream(_filePath);
 
     await new Promise((resolve, reject) => {
-        const writeMessage = `\nWRITING to ${_filePath}`;
-        console.log(chalk.yellow(writeMessage));
+        console.log(chalk`{\nWRITING to ${_filePath}]`);
 
         res.body.pipe(fileStream);
         res.body.on("error", reject);
@@ -45,13 +36,13 @@ async function _writeCandlesToFile({ filePath, timestamp, res, createWriteStream
     });
 }
 
-export const getHistoricalCandles = async ({
+export const fetchHistoricalCandles = async ({
     symbol = "BTCUSDT",
     interval = "1d",
     limit = 250,
     filePath = "output.json",
     timestamp = false,
-}: IGetHistoricalCandlesOptions): Promise<void> => {
+}: IFetchHistoricalCandlesOptions): Promise<void> => {
     const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit.toString()}`;
     let res = null;
 
@@ -65,12 +56,12 @@ export const getHistoricalCandles = async ({
     _writeCandlesToFile({ filePath, timestamp, res, createWriteStream, getLocalTimestamp });
 };
 
-const OPTIONS: IGetHistoricalCandlesOptions = {
-    symbol: "BTCUSDT",
-    interval: "1d",
-    limit: 300,
-    filePath: "BTCUSDT",
-    timestamp: true,
+const OPTIONS: IFetchHistoricalCandlesOptions = {
+    symbol: "BTCUSDT", // BTCUSDT
+    interval: "1d", // 1d
+    limit: 300, // 100
+    filePath: "BTCUSDT", // Relative to this file, eg "test.json"
+    timestamp: true, // True returns eg. test20210309212724.json
 };
 
 /**
@@ -78,4 +69,4 @@ const OPTIONS: IGetHistoricalCandlesOptions = {
  * Output path: root
  */
 
-getHistoricalCandles(OPTIONS);
+fetchHistoricalCandles(OPTIONS);

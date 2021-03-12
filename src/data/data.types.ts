@@ -1,4 +1,16 @@
 /**
+ * Fetch historical candles
+ */
+
+export interface IFetchHistoricalCandlesOptions {
+    symbol: string;
+    interval: string;
+    limit: number;
+    filePath: string;
+    timestamp?: boolean;
+}
+
+/**
  * Binance response for historical candle data
  */
 
@@ -20,7 +32,3 @@ export interface ITulipDataStructure {
     low: LowPrices;
     close: ClosePrices;
 }
-
-/**
- * 
- */
