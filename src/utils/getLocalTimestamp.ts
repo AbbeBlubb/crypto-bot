@@ -9,24 +9,49 @@ interface IGetLocalTimeStampOptions {
     generalSeparator?: string | false; // 2021x03x09x20x12x41
 }
 
-function _getDateYYYYMMDD(separatorInDate = "-"): string {
+interface IDateDigits {
+    YYYY: string;
+    MM: string;
+    DD: string;
+}
+
+interface ITimeDigits {
+    HH: string;
+    MM: string;
+    SS: string;
+    MsMs: string;
+}
+
+function _getDateDigits(): IDateDigits {
     const today = new Date();
-    const DD = String(today.getDate()).padStart(2, "0");
-    const MM = String(today.getMonth() + 1).padStart(2, "0");
     const YYYY = String(today.getFullYear());
+    const MM = String(today.getMonth() + 1).padStart(2, "0");
+    const DD = String(today.getDate()).padStart(2, "0");
+    return { YYYY, MM, DD };
+}
+
+function _getDateYYYYMMDD(separatorInDate = "."): string {
+    const { YYYY, MM, DD }: IDateDigits = _getDateDigits();
     return `${YYYY}${separatorInDate}${MM}${separatorInDate}${DD}`;
 }
 
-function _getTimeHHMMSS(separatorInTime = ":"): string {
+function _getTimeDigits(): ITimeDigits {
     const today = new Date();
     const HH = String(today.getHours()).padStart(2, "0");
     const MM = String(today.getMinutes()).padStart(2, "0");
     const SS = String(today.getSeconds()).padStart(2, "0");
+    const MsMs = String(today.getMilliseconds()).padStart(2, "0");
+    return { HH, MM, SS, MsMs };
+}
+
+function _getTimeHHMMSS(separatorInTime = "."): string {
+    const { HH, MM, SS } = _getTimeDigits();
     return `${HH}${separatorInTime}${MM}${separatorInTime}${SS}`;
 }
 
-export function getLocalTimestamp({
-    separatorInDate = "-",
+// ToDo: Delete! getLocalTimeStamp
+export function getDateAndTimeString({
+    separatorInDate = ".",
     separatorInTime = ":",
     separatorForDateAndTimeBlocks = " ",
     generalSeparator = false,
