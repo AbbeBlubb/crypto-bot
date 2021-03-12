@@ -20,6 +20,12 @@ import { notifyOnTelegram, INotifyOnTelegramOptions } from "../notifier/telegram
 (async function () {
     attachUnhandledRejectionListener(path.basename(__filename));
 
+    // This run-function should take an options-argument: { symbolsArray = defaultSymbolsArray, candleTimeInterval, periods }. Ready-to-go otpions-objects in separate file
+
+    // forEach(symbol in argsList) ...
+
+    // const filePath = fetchDataAndSaveToFile(symbol, candleTimeInterval, periods)
+
     const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile(
         "./test-data/BTCUSDT20210310123251.json"
     );
