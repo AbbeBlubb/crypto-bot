@@ -1,5 +1,5 @@
 import { createWriteStream } from "fs";
-
+import { Response } from "node-fetch";
 import * as chalk from "chalk";
 import { getLocalTimestamp } from "../utils/getLocalTimestamp";
 import { appendToFilename } from "../utils/appendToFilename";
@@ -39,7 +39,7 @@ export const fetchHistoricalCandles = async ({
     timestamp = false,
 }: IFetchHistoricalCandlesOptions): Promise<void> => {
     const url = getURLForHistoricalCandles({ symbol, interval, limit });
-    let res = null;
+    let res: Response;
 
     try {
         res = await fetchCandles({ url, symbol, interval, limit });
