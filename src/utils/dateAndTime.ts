@@ -2,6 +2,16 @@
  * Call to getLocalTimeStamp() will return date and time in the format "2021-03-09 20:12:41"
  */
 
+interface IDateAndTimeDigits {
+    yyyy: string;
+    momo: string;
+    dd: string;
+    hh: string;
+    mimi: string;
+    ss: string;
+    msms: string;
+}
+
 interface IGetLocalTimeStampOptions {
     separatorInDate?: string; // 2021x03x09
     separatorInTime?: string; // 20x12x41
@@ -9,44 +19,26 @@ interface IGetLocalTimeStampOptions {
     generalSeparator?: string | false; // 2021x03x09x20x12x41
 }
 
-interface IDateDigits {
-    YYYY: string;
-    MM: string;
-    DD: string;
-}
-
-interface ITimeDigits {
-    HH: string;
-    MM: string;
-    SS: string;
-    MsMs: string;
-}
-
-function _getDateDigits(): IDateDigits {
+function _getDateAndTimeDigits(): IDateAndTimeDigits {
     const today = new Date();
-    const YYYY = String(today.getFullYear());
-    const MM = String(today.getMonth() + 1).padStart(2, "0");
-    const DD = String(today.getDate()).padStart(2, "0");
-    return { YYYY, MM, DD };
+    const yyyy = String(today.getFullYear());
+    const momo = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    const hh = String(today.getHours()).padStart(2, "0");
+    const mimi = String(today.getMinutes()).padStart(2, "0");
+    const ss = String(today.getSeconds()).padStart(2, "0");
+    const msms = String(today.getMilliseconds()).padStart(2, "0");
+    return { yyyy, momo, dd, hh, mimi, ss, msms };
 }
 
 function _getDateYYYYMMDD(separatorInDate = "."): string {
-    const { YYYY, MM, DD }: IDateDigits = _getDateDigits();
-    return `${YYYY}${separatorInDate}${MM}${separatorInDate}${DD}`;
-}
-
-function _getTimeDigits(): ITimeDigits {
-    const today = new Date();
-    const HH = String(today.getHours()).padStart(2, "0");
-    const MM = String(today.getMinutes()).padStart(2, "0");
-    const SS = String(today.getSeconds()).padStart(2, "0");
-    const MsMs = String(today.getMilliseconds()).padStart(2, "0");
-    return { HH, MM, SS, MsMs };
+    const { yyyy, momo, dd }: Partial<IDateAndTimeDigits> = _getDateAndTimeDigits();
+    return `${yyyy}${separatorInDate}${momo}${separatorInDate}${dd}`;
 }
 
 function _getTimeHHMMSS(separatorInTime = "."): string {
-    const { HH, MM, SS } = _getTimeDigits();
-    return `${HH}${separatorInTime}${MM}${separatorInTime}${SS}`;
+    const { hh, mimi, ss }: Partial<IDateAndTimeDigits> = _getDateAndTimeDigits();
+    return `${hh}${separatorInTime}${mimi}${separatorInTime}${ss}`;
 }
 
 export function getDateAndTimeString({
