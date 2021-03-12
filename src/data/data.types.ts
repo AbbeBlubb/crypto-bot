@@ -6,8 +6,8 @@ export interface IFetchHistoricalCandlesOptions {
     symbol: string;
     interval: string;
     limit: number;
-    filePath: string;
-    timestamp?: boolean;
+    fileFolder: string;
+    fileExtension: string;
 }
 
 export interface IGetURLForCandles {
@@ -19,6 +19,8 @@ export interface IGetURLForCandles {
 export interface IFetchCandles extends IGetURLForCandles {
     url: string;
 }
+
+
 
 /**
  * Binance response for historical candle data

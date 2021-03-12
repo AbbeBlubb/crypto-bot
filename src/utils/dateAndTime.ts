@@ -9,10 +9,10 @@ interface IDateAndTimeDigits {
     hh: string;
     mimi: string;
     ss: string;
-    msms: string;
+    msmsms: string;
 }
 
-function _getDateAndTimeDigits(): IDateAndTimeDigits {
+export function getDateAndTimeDigits(): IDateAndTimeDigits {
     const today = new Date();
     const yyyy = String(today.getFullYear());
     const momo = String(today.getMonth() + 1).padStart(2, "0");
@@ -20,21 +20,21 @@ function _getDateAndTimeDigits(): IDateAndTimeDigits {
     const hh = String(today.getHours()).padStart(2, "0");
     const mimi = String(today.getMinutes()).padStart(2, "0");
     const ss = String(today.getSeconds()).padStart(2, "0");
-    const msms = String(today.getMilliseconds()).padStart(2, "0");
-    return { yyyy, momo, dd, hh, mimi, ss, msms };
+    const msmsms = String(today.getMilliseconds()).padStart(3, "0");
+    return { yyyy, momo, dd, hh, mimi, ss, msmsms };
 }
 
 export function getDateYYYYMMDD(separatorInDate = "."): string {
-    const { yyyy, momo, dd }: Partial<IDateAndTimeDigits> = _getDateAndTimeDigits();
+    const { yyyy, momo, dd }: Partial<IDateAndTimeDigits> = getDateAndTimeDigits();
     return `${yyyy}${separatorInDate}${momo}${separatorInDate}${dd}`;
 }
 
 export function getTimeHHMMSS(separatorInTime = "."): string {
-    const { hh, mimi, ss }: Partial<IDateAndTimeDigits> = _getDateAndTimeDigits();
+    const { hh, mimi, ss }: Partial<IDateAndTimeDigits> = getDateAndTimeDigits();
     return `${hh}${separatorInTime}${mimi}${separatorInTime}${ss}`;
 }
 
 export function getDateAndTimeForConsole(): string {
-    const { yyyy, momo, dd, hh, mimi }: Partial<IDateAndTimeDigits> = _getDateAndTimeDigits();
+    const { yyyy, momo, dd, hh, mimi }: Partial<IDateAndTimeDigits> = getDateAndTimeDigits();
     return `${yyyy}.${momo}.${dd} ${hh}:${mimi}`;
 }
