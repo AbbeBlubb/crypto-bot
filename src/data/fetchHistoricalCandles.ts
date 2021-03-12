@@ -4,7 +4,7 @@ import * as chalk from "chalk";
 import { getLocalTimestamp } from "../utils/getLocalTimestamp";
 import { appendToFilename } from "../utils/appendToFilename";
 import { IFetchHistoricalCandlesOptions } from "./data.types";
-import { getURLForHistoricalCandles } from "./fetchUtils";
+import { getURLForCandles } from "./fetchUtils";
 import { fetchCandles } from "./fetchUtils";
 
 /**
@@ -38,16 +38,8 @@ export const fetchHistoricalCandles = async ({
     filePath = "output.json",
     timestamp = false,
 }: IFetchHistoricalCandlesOptions): Promise<void> => {
-    const url = getURLForHistoricalCandles({ symbol, interval, limit });
-    let res: Response;
-
-    try {
-        res = await fetchCandles({ url, symbol, interval, limit });
-    } catch (err) {
-        console.error("\n", err);
-        return;
-    }
-
+    const url = getURLForCandles({ symbol, interval, limit });
+    const res: Response = await fetchCandles({ url, symbol, interval, limit });
     _writeCandlesToFile({ filePath, timestamp, res, createWriteStream, getLocalTimestamp });
 };
 

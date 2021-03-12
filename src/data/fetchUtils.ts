@@ -1,8 +1,8 @@
 import * as chalk from "chalk";
 import fetch, { Response } from "node-fetch";
-import { IGetURLForHistoricalCandles, IFetchCandles } from "./data.types";
+import { IGetURLForCandles, IFetchCandles } from "./data.types";
 
-export function getURLForHistoricalCandles({ symbol, interval, limit }: IGetURLForHistoricalCandles): string {
+export function getURLForCandles({ symbol, interval, limit }: IGetURLForCandles): string {
     return `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit.toString()}`;
 }
 

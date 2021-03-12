@@ -10,13 +10,13 @@ export interface IFetchHistoricalCandlesOptions {
     timestamp?: boolean;
 }
 
-export interface IGetURLForHistoricalCandles {
+export interface IGetURLForCandles {
     symbol: string;
     interval: string;
     limit: number;
 }
 
-export interface IFetchCandles extends IGetURLForHistoricalCandles {
+export interface IFetchCandles extends IGetURLForCandles {
     url: string;
 }
 
