@@ -1,11 +1,10 @@
+import * as chalk from "chalk";
 import { createWriteStream } from "fs";
 import { Response } from "node-fetch";
-import * as chalk from "chalk";
-import { getDateAndTimeString } from "../utils/dateAndTime";
 import { appendToFilename } from "../utils/appendToFilename";
+import { getDateAndTimeString } from "../utils/dateAndTime";
 import { IFetchHistoricalCandlesOptions } from "./data.types";
-import { getURLForCandles } from "./fetchUtils";
-import { fetchCandles } from "./fetchUtils";
+import { fetchCandles, getURLForCandles } from "./fetchUtils";
 
 /**
  * Will fetch candlesticks and write to file.

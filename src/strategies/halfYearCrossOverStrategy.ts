@@ -1,9 +1,9 @@
 import { ClosePrices, ITulipDataStructure } from "../data/data.types";
-import { SMAData, EMAData } from "../indicators/indicators.types";
-import { SMA } from "../indicators/SMA";
 import { EMA } from "../indicators/EMA";
-import { firstNumberIsGreaterThanSecondNumber } from "../signals/numberComparisions";
+import { EMAData, SMAData } from "../indicators/indicators.types";
+import { SMA } from "../indicators/SMA";
 import { isAtLeastOneBooleanTrue } from "../signals/booleanComparisions";
+import { firstNumberIsGreaterThanSecondNumber } from "../signals/numberComparisions";
 
 export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructure): boolean {
     // Prepare data for indicator

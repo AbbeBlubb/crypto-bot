@@ -1,10 +1,10 @@
 import * as path from "path";
 import { ITulipDataStructure } from "../data/data.types";
 import { _getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStructureUtils";
+import { INotifyOnTelegramOptions, notifyOnTelegram } from "../notifier/telegramUtils";
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategy } from "./strategyUtils";
-import { notifyOnTelegram, INotifyOnTelegramOptions } from "../notifier/telegramUtils";
 
 /**
  * Call context:

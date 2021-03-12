@@ -1,6 +1,6 @@
-import { cryptoTickers } from "../utils/tickers";
-import { getDateAndTimeString } from "../utils/dateAndTime";
 import * as chalk from "chalk";
+import { getDateAndTimeString } from "../utils/dateAndTime";
+import { cryptoTickers } from "../utils/tickers";
 
 const BINANCE_API_KEY = process.env.BINANCE_API_KEY;
 const BINANCE_API_SECRET = process.env.BINANCE_API_SECRET;
