@@ -1,5 +1,5 @@
 import * as chalk from "chalk";
-import { getDateAndTimeString } from "../utils/dateAndTime";
+import { getDateAndTimeForConsole } from "../utils/dateAndTime";
 import { cryptoTickers } from "../utils/tickers";
 
 const BINANCE_API_KEY = process.env.BINANCE_API_KEY;
@@ -53,7 +53,7 @@ ${currenciesList
         return `${element.currency}: ${element.available} \n`;
     })
     .join("")}
-Printed ${getDateAndTimeString()} \n\n`;
+Printed ${getDateAndTimeForConsole()} \n\n`;
 
     console.log(chalk.blue(balanceTextToPrint));
 }

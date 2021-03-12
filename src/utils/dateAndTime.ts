@@ -12,13 +12,6 @@ interface IDateAndTimeDigits {
     msms: string;
 }
 
-interface IGetLocalTimeStampOptions {
-    separatorInDate?: string; // 2021x03x09
-    separatorInTime?: string; // 20x12x41
-    separatorForDateAndTimeBlocks?: string; // 2021-03-09x20:12:41
-    generalSeparator?: string | false; // 2021x03x09x20x12x41
-}
-
 function _getDateAndTimeDigits(): IDateAndTimeDigits {
     const today = new Date();
     const yyyy = String(today.getFullYear());
@@ -31,25 +24,17 @@ function _getDateAndTimeDigits(): IDateAndTimeDigits {
     return { yyyy, momo, dd, hh, mimi, ss, msms };
 }
 
-function _getDateYYYYMMDD(separatorInDate = "."): string {
+export function getDateYYYYMMDD(separatorInDate = "."): string {
     const { yyyy, momo, dd }: Partial<IDateAndTimeDigits> = _getDateAndTimeDigits();
     return `${yyyy}${separatorInDate}${momo}${separatorInDate}${dd}`;
 }
 
-function _getTimeHHMMSS(separatorInTime = "."): string {
+export function getTimeHHMMSS(separatorInTime = "."): string {
     const { hh, mimi, ss }: Partial<IDateAndTimeDigits> = _getDateAndTimeDigits();
     return `${hh}${separatorInTime}${mimi}${separatorInTime}${ss}`;
 }
 
-export function getDateAndTimeString({
-    separatorInDate = ".",
-    separatorInTime = ":",
-    separatorForDateAndTimeBlocks = " ",
-    generalSeparator = false,
-}: IGetLocalTimeStampOptions = {}): string {
-    if (generalSeparator === false) {
-        return `${_getDateYYYYMMDD(separatorInDate)}${separatorForDateAndTimeBlocks}${_getTimeHHMMSS(separatorInTime)}`;
-    } else {
-        return `${_getDateYYYYMMDD(generalSeparator)}${generalSeparator}${_getTimeHHMMSS(generalSeparator)}`;
-    }
+export function getDateAndTimeForConsole(): string {
+    const { yyyy, momo, dd, hh, mimi }: Partial<IDateAndTimeDigits> = _getDateAndTimeDigits();
+    return `${yyyy}.${momo}.${dd} ${hh}:${mimi}`;
 }
