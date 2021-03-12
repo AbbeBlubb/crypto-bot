@@ -1,8 +1,14 @@
-// Binance response for historical candle data
+/**
+ * Binance response for historical candle data
+ */
+
 export type MultiHistoricalCandles = Array<SingleHistoricalCandle>;
 export type SingleHistoricalCandle = (string | number)[];
 
-// Data structure for Tulip Node
+/**
+ * Data structure for Tulip Node
+ */
+
 export type OpenPrices = SingleHistoricalCandle;
 export type HighPrices = SingleHistoricalCandle;
 export type LowPrices = SingleHistoricalCandle;
@@ -14,3 +20,7 @@ export interface ITulipDataStructure {
     low: LowPrices;
     close: ClosePrices;
 }
+
+/**
+ * 
+ */
