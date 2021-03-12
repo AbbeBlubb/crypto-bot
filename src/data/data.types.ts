@@ -10,6 +10,16 @@ export interface IFetchHistoricalCandlesOptions {
     timestamp?: boolean;
 }
 
+export interface IGetURLForHistoricalCandles {
+    symbol: string;
+    interval: string;
+    limit: number;
+}
+
+export interface IFetchCandles extends IGetURLForHistoricalCandles {
+    url: string;
+}
+
 /**
  * Binance response for historical candle data
  */
