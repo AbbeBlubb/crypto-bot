@@ -4,6 +4,7 @@ import * as chalk from "chalk";
 import { getLocalTimestamp } from "../utils/getLocalTimestamp";
 import { appendToFilename } from "../utils/appendToFilename";
 import { IFetchHistoricalCandlesOptions } from "./data.types";
+import { getURLForHistoricalCandles } from "./fetchUtils";
 
 /**
  * Will fetch candlesticks and write to file.
@@ -14,7 +15,7 @@ import { IFetchHistoricalCandlesOptions } from "./data.types";
  */
 
 async function _fetchCandles({ url, res, symbol, interval, limit, fetch }) {
-    console.log(chalk`{yellow \nFETCHING:\n- ${symbol} candles\n- ${interval} x ${limit}}`);
+    console.log(chalk`{yellow \nFETCHING ${symbol} candles ${interval} x ${limit}}`);
     res = await fetch(url);
     if (!res.ok) throw new Error(`\nUnexpected response: ${res.statusText}`);
     return res;
@@ -28,7 +29,7 @@ async function _writeCandlesToFile({ filePath, timestamp, res, createWriteStream
     const fileStream = createWriteStream(_filePath);
 
     await new Promise((resolve, reject) => {
-        console.log(chalk`{\nWRITING to ${_filePath}]`);
+        console.log(chalk`{yellow WRITING to ${_filePath}}`);
 
         res.body.pipe(fileStream);
         res.body.on("error", reject);
@@ -43,7 +44,7 @@ export const fetchHistoricalCandles = async ({
     filePath = "output.json",
     timestamp = false,
 }: IFetchHistoricalCandlesOptions): Promise<void> => {
-    const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit.toString()}`;
+    const url = getURLForHistoricalCandles(symbol, interval, limit);
     let res = null;
 
     try {
@@ -58,15 +59,15 @@ export const fetchHistoricalCandles = async ({
 
 const OPTIONS: IFetchHistoricalCandlesOptions = {
     symbol: "BTCUSDT", // BTCUSDT
-    interval: "1d", // 1d
-    limit: 300, // 100
-    filePath: "BTCUSDT", // Relative to this file, eg "test.json"
+    interval: "4h", // 1d
+    limit: 20, // 100
+    filePath: "BTCUSDT.json", // Relative to this file, eg "test.json"
     timestamp: true, // True returns eg. test20210309212724.json
 };
 
 /**
- * Run from root: npx ts-node ./src/data/getHistoricalCandles.ts
- * Output path: root
+ * Run from root: cd src/data && npx ts-node fetchHistoricalCandles.ts
+ * Output path: here
  */
 
 fetchHistoricalCandles(OPTIONS);
