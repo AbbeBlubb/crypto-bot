@@ -1,7 +1,7 @@
 import { createWriteStream } from "fs";
 import { Response } from "node-fetch";
 import * as chalk from "chalk";
-import { getDateAndTimeString } from "../utils/getLocalTimestamp";
+import { getDateAndTimeString } from "../utils/dateAndTime";
 import { appendToFilename } from "../utils/appendToFilename";
 import { IFetchHistoricalCandlesOptions } from "./data.types";
 import { getURLForCandles } from "./fetchUtils";

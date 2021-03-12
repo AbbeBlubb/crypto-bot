@@ -49,7 +49,6 @@ function _getTimeHHMMSS(separatorInTime = "."): string {
     return `${HH}${separatorInTime}${MM}${separatorInTime}${SS}`;
 }
 
-// ToDo: Delete! getLocalTimeStamp
 export function getDateAndTimeString({
     separatorInDate = ".",
     separatorInTime = ":",
