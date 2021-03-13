@@ -13,11 +13,9 @@ import * as chalk from "chalk";
  * Will not create the directories on its own. All the directories in the path should exist and should be writable.
  */
 
-async function _writeCandlesToFile({ symbol, interval, limit, fileFolder, fileExtension, responseObject }){
-    const streamToWrite = responseObject.body;
-    const fileNameForCandlesFile: string = getFileNameForCandlesFile({ symbol, interval, limit, fileExtension });
-    const filePath: string = fileFolder + fileNameForCandlesFile;
-    return await writeStreamToFile({ streamToWrite, filePath });
+async function _writeCandlesToFile({ symbol, interval, limit, fileFolder, fileExtension, responseObject }) {
+    const filePath: string = fileFolder + getFileNameForCandlesFile({ symbol, interval, limit, fileExtension });
+    return await writeStreamToFile({ streamToWrite: responseObject.body, filePath });
 }
 
 export const fetchHistoricalCandles = async ({
