@@ -32,7 +32,7 @@ async function halfYearCrossOverStrategyRun({
     additionalMessageToNotifier,
 }: IHalfYearCrossOverStrategyRunConfig) {
     attachUnhandledRejectionListener(path.basename(__filename));
-
+    console.log(chalk`{bgGreen.white RUNNING STRATEGY Half Year Cross-Over Strategy}`);
     // 2. This run-function should take an options-argument: { symbolsArray = defaultSymbolsArray, candleTimeInterval, periods }. Ready-to-go otpions-objects in separate file
 
     const url = getURLForCandles({ symbol, interval, limit });
@@ -54,16 +54,16 @@ async function halfYearCrossOverStrategyRun({
 
     // The analysis should be written to file: append line to file, with info about the buy signal, in CSV
 
-    // ToDo: those options
-    const notifyOnTelegramOptions: INotifyOnTelegramOptions = {
+    // Make this function as promise to wait for completion before consol-logging that the strat is done
+    notifyOnTelegram({
         time: fileNameCreatedTime,
         strategy,
         buySignal,
         symbol,
         additionalMessage: additionalMessageToNotifier,
-    };
+    });
 
-    notifyOnTelegram(notifyOnTelegramOptions);
+    console.log(chalk`{bgGreen.white COMPLETED STRATEGY Half Year Cross-Over Strategy}`);
 }
 
 const config: IHalfYearCrossOverStrategyRunConfig = {
