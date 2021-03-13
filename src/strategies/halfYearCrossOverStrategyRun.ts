@@ -33,20 +33,14 @@ async function halfYearCrossOverStrategyRun({
 
     // 2. This run-function should take an options-argument: { symbolsArray = defaultSymbolsArray, candleTimeInterval, periods }. Ready-to-go otpions-objects in separate file
 
-    // 1. a. Functionality here for fetching (copy from testRunFetchHistoricalCandles)
-    //    b. Fetch file name passed to the tulipDataStructure functionality
-
     const url = getURLForCandles({ symbol, interval, limit });
     const responseObject: Response = await fetchCandles({ url, symbol, interval, limit });
     const filePath: string = fileFolder + getFileNameForCandlesFile({ symbol, interval, limit, fileExtension });
-    const resolved = await writeStreamToFile({ streamToWrite: responseObject.body, filePath });
-    if (resolved) console.log(chalk`{yellow File written}`);
-
-    // 3. forEach(symbol in argsList) ...
-
-    const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile(
-        "./test-data/BTCUSDT20210310123251.json"
-    );
+    const filePathResponse: string = await writeStreamToFile({
+        streamToWrite: responseObject.body,
+        filePath,
+    });
+    const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile(filePathResponse);
 
     const buySignal = runStrategy(tulipDataStructure, halfYearCrossOverStrategy);
 
@@ -75,6 +69,7 @@ const config: IHalfYearCrossOverStrategyRunConfig = {
 /**
  * Run from root: cd src/data && npx ts-node halfYearCrossOverStrategyRun.ts
  * Output path: this folder; ./fetched/
+ * Read path: context same as the output
  */
 
 halfYearCrossOverStrategyRun(config);
