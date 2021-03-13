@@ -7,7 +7,7 @@ export interface IFetchHistoricalCandlesOptions {
     interval: string; // Periods, eg "1d"
     limit: number; // Ammount of candles/periods, in number
     fileFolder: string; // Relative to this file, eg "./fetched/"
-    fileExtension: string; // Without dot, eg "json"
+    fileExtension?: string; // Without dot, eg "json"
 }
 
 export interface IGetURLForCandles {
