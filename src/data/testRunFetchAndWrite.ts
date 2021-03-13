@@ -17,7 +17,7 @@ interface ITestRunOptions {
     fileExtension?: string; // Without dot, eg "json"
 }
 
-export const fetchHistoricalCandles = async ({
+export const testRunFechAndWrite = async ({
     symbol = "BTCUSDT",
     interval = "1d",
     limit = 201,
@@ -44,4 +44,4 @@ const testRunOptions: ITestRunOptions = {
  * Output path: this folder; ./fetched/
  */
 
-fetchHistoricalCandles(testRunOptions);
+testRunFechAndWrite(testRunOptions);
