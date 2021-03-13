@@ -5,7 +5,9 @@ import { IFetchHistoricalCandlesOptions } from "./data.types";
 import { fetchCandles, getURLForCandles } from "./fetchUtils";
 
 /**
- * Will fetch candlesticks and write to file.
+ * Test run functionality:
+ * - Fetches candlesticks
+ * - Write the response to a file
  */
 
 export const fetchHistoricalCandles = async ({
@@ -20,7 +22,19 @@ export const fetchHistoricalCandles = async ({
     const filePath: string = fileFolder + getFileNameForCandlesFile({ symbol, interval, limit, fileExtension });
     const resolved = await writeStreamToFile({ streamToWrite: responseObject.body, filePath });
     if (resolved) console.log(chalk`{yellow File written}`); // ToDo: return promise to the runStrategy
-
-    //const resolved = await writeStreamToFile({ streamToWrite: responseObject.body, filePath });
-    //if (resolved) console.log(chalk`{yellow File written}`); // ToDo: return promise to the runStrategy
 };
+
+const testOptions: IFetchHistoricalCandlesOptions = {
+    symbol: "BTCUSDT",
+    interval: "1d",
+    limit: 201,
+    fileFolder: "./fetched/",
+    fileExtension: "json",
+};
+
+/**
+ * Run from root: cd src/data && npx ts-node testRunFetchHistoricalCandles.ts
+ * Output path: this folder; ./fetched/
+ */
+
+fetchHistoricalCandles(testOptions);

@@ -6,7 +6,7 @@ import { attachUnhandledRejectionListener } from "../utils/attachUnhandledReject
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategy } from "./strategyUtils";
 import { IFetchHistoricalCandlesOptions } from "../data/data.types";
-import { fetchHistoricalCandles } from "../data/fetchHistoricalCandles";
+import { fetchHistoricalCandles } from "../data/testRunFetchHistoricalCandles";
 
 /**
  * Call context:
