@@ -9,7 +9,7 @@ import { attachUnhandledRejectionListener } from "../utils/attachUnhandledReject
 import { getFileNameForCandlesFile, writeStreamToFile } from "../utils/writeFileUtils";
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategy } from "./strategyUtils";
-import { IRunHalfYearCrossOverStrategy } from "./strategy.types";
+import { IHalfYearCrossOverStrategyRunConfig } from "./strategy.types";
 
 /**
  * Call context:
@@ -28,7 +28,7 @@ async function halfYearCrossOverStrategyRun({
     limit,
     fileFolder,
     fileExtension,
-}: IRunHalfYearCrossOverStrategy) {
+}: IHalfYearCrossOverStrategyRunConfig) {
     attachUnhandledRejectionListener(path.basename(__filename));
 
     // 2. This run-function should take an options-argument: { symbolsArray = defaultSymbolsArray, candleTimeInterval, periods }. Ready-to-go otpions-objects in separate file
@@ -64,17 +64,17 @@ async function halfYearCrossOverStrategyRun({
     notifyOnTelegram(notifyOnTelegramOptions);
 }
 
-const runHalfYearCrossOverStrategyConfig: IRunHalfYearCrossOverStrategy = {
-    symbol: "BTCUSDT",
+const config: IHalfYearCrossOverStrategyRunConfig = {
+    symbol: "BTCUSDT", // Symbols arr!
     interval: "1d",
     limit: 201,
     fileFolder: "./fetched/",
     fileExtension: "json",
 };
 
-halfYearCrossOverStrategyRun(runHalfYearCrossOverStrategyConfig);
-
 /**
- * Run from root: cd src/data && npx ts-node testRunFetchHistoricalCandles.ts
+ * Run from root: cd src/data && npx ts-node halfYearCrossOverStrategyRun.ts
  * Output path: this folder; ./fetched/
  */
+
+halfYearCrossOverStrategyRun(config);

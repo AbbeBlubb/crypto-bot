@@ -1,4 +1,4 @@
-export interface IRunHalfYearCrossOverStrategy {
+export interface IHalfYearCrossOverStrategyRunConfig {
     symbol: string; // Eg "BTCUSDT" in capitals
     interval: string; // Periods, eg "1d"
     limit: number; // Ammount of candles/periods, in number
