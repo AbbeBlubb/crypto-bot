@@ -1,7 +1,7 @@
 import * as chalk from "chalk";
 import { Response } from "node-fetch";
 import { getFileNameForCandlesFile, writeStreamToFile } from "../utils/writeFileUtils";
-import { fetchCandles, getURLForCandles } from "./fetchUtils";
+import { fetchCandles, getURLForCandles } from "../data/fetchUtils";
 
 /**
  * Test run functionality:
