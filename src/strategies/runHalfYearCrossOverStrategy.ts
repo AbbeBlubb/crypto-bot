@@ -5,8 +5,6 @@ import { INotifyOnTelegramOptions, notifyOnTelegram } from "../notifier/telegram
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategy } from "./strategyUtils";
-import { IFetchHistoricalCandlesOptions } from "../data/data.types";
-import { fetchHistoricalCandles } from "../data/testRunFetchHistoricalCandles";
 
 /**
  * Call context:
@@ -19,25 +17,15 @@ import { fetchHistoricalCandles } from "../data/testRunFetchHistoricalCandles";
  *   - Use for many cryptos
  */
 
-const testOptions: IFetchHistoricalCandlesOptions = {
-    symbol: "BTCUSDT",
-    interval: "1d",
-    limit: 201,
-    fileFolder: "./fetched/",
-    fileExtension: "json",
-};
-
 (async function () {
     attachUnhandledRejectionListener(path.basename(__filename));
 
-    fetchHistoricalCandles(testOptions); // Filename/path has to be returned!
-    // TODO: WHEN fetch-func resolves with filename, continue this commands
+    // 2. This run-function should take an options-argument: { symbolsArray = defaultSymbolsArray, candleTimeInterval, periods }. Ready-to-go otpions-objects in separate file
 
-    // This run-function should take an options-argument: { symbolsArray = defaultSymbolsArray, candleTimeInterval, periods }. Ready-to-go otpions-objects in separate file
+    // 1. a. Functionality here for fetching (copy from testRunFetchHistoricalCandles)
+    //    b. Fetch file name passed to the tulipDataStructure functionality
 
-    // forEach(symbol in argsList) ...
-
-    // const filePath = fetchDataAndSaveToFile(symbol, candleTimeInterval, periods)
+    // 3. forEach(symbol in argsList) ...
 
     const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile(
         "./test-data/BTCUSDT20210310123251.json"
