@@ -1,9 +1,9 @@
-import * as chalk from "chalk";
-import { createWriteStream } from "fs";
+
 import { Response } from "node-fetch";
 import { IFetchHistoricalCandlesOptions } from "./data.types";
 import { fetchCandles, getURLForCandles } from "./fetchUtils";
-import { getFileNameForCandlesFile } from "../utils/writeFileUtils";
+import { getFileNameForCandlesFile, writeStreamToFile } from "../utils/writeFileUtils";
+import * as chalk from "chalk";
 
 /**
  * Will fetch candlesticks and write to file.
@@ -13,20 +13,11 @@ import { getFileNameForCandlesFile } from "../utils/writeFileUtils";
  * Will not create the directories on its own. All the directories in the path should exist and should be writable.
  */
 
-async function _writeCandlesToFile({ symbol, interval, limit, fileFolder, fileExtension, responseObject }) {
+async function _writeCandlesToFile({ symbol, interval, limit, fileFolder, fileExtension, responseObject }){
+    const streamToWrite = responseObject.body;
     const fileNameForCandlesFile: string = getFileNameForCandlesFile({ symbol, interval, limit, fileExtension });
-
     const filePath: string = fileFolder + fileNameForCandlesFile;
-
-    const fileStream = createWriteStream(filePath);
-
-    await new Promise((resolve, reject) => {
-        console.log(chalk`{yellow WRITING to ${filePath}}`);
-
-        responseObject.body.pipe(fileStream);
-        responseObject.body.on("error", reject);
-        fileStream.on("finish", resolve);
-    });
+    return await writeStreamToFile({ streamToWrite, filePath });
 }
 
 export const fetchHistoricalCandles = async ({
@@ -38,7 +29,8 @@ export const fetchHistoricalCandles = async ({
 }: IFetchHistoricalCandlesOptions): Promise<void> => {
     const url = getURLForCandles({ symbol, interval, limit });
     const responseObject: Response = await fetchCandles({ url, symbol, interval, limit });
-    _writeCandlesToFile({ symbol, interval, limit, fileFolder, fileExtension, responseObject });
+    const resolved = await _writeCandlesToFile({ symbol, interval, limit, fileFolder, fileExtension, responseObject });
+    if (resolved) console.log(chalk`{yellow File written}`);
 };
 
 const OPTIONS: IFetchHistoricalCandlesOptions = {
