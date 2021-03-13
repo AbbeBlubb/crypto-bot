@@ -22,7 +22,7 @@ import { IRunHalfYearCrossOverStrategy } from "./strategy.types";
  *   - Use for many cryptos
  */
 
-async function runHalfYearCrossOverStrategy({
+async function halfYearCrossOverStrategyRun({
     symbol,
     interval,
     limit,
@@ -72,4 +72,9 @@ const runHalfYearCrossOverStrategyConfig: IRunHalfYearCrossOverStrategy = {
     fileExtension: "json",
 };
 
-runHalfYearCrossOverStrategy(runHalfYearCrossOverStrategyConfig);
+halfYearCrossOverStrategyRun(runHalfYearCrossOverStrategyConfig);
+
+/**
+ * Run from root: cd src/data && npx ts-node testRunFetchHistoricalCandles.ts
+ * Output path: this folder; ./fetched/
+ */
