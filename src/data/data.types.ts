@@ -13,9 +13,21 @@ export interface IFetchCandles extends IGetURLForCandles {
 }
 
 export enum Interval {
-    "1m" = "1m",
-    "3m" = "3m",
-    "1d" = "1d",
+    OneMin = "1m", // Miniscule m for minute
+    TreeMin = "3m",
+    FiveMin = "5m",
+    FifteenMin = "15m",
+    ThirtyMin = "30m",
+    OneHour = "1h",
+    TwoHours = "2h",
+    FourHours = "4h",
+    SixHours = "6h",
+    EightHours = "8h",
+    TwelveHours = "12h",
+    OneDay = "1d",
+    TreeDays = "3d",
+    OneWeek = "1w",
+    OneMonth = "1M", // Capital M for Month
 }
 
 /**

@@ -45,7 +45,7 @@ async function halfYearCrossOverStrategyRun({
 
     const buySignal = runStrategy(tulipDataStructure, halfYearCrossOverStrategy);
 
-    // Append line to file, with info about the buy signal, in CSV
+    // The analysis should be written to file: append line to file, with info about the buy signal, in CSV
 
     // ToDo: those options
     const notifyOnTelegramOptions: INotifyOnTelegramOptions = {
