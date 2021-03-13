@@ -29,6 +29,7 @@ async function halfYearCrossOverStrategyRun({
     limit,
     fileFolder,
     fileExtension,
+    additionalMessageToNotifier,
 }: IHalfYearCrossOverStrategyRunConfig) {
     attachUnhandledRejectionListener(path.basename(__filename));
 
@@ -59,7 +60,7 @@ async function halfYearCrossOverStrategyRun({
         strategy,
         buySignal,
         symbol,
-        message: "Great!",
+        additionalMessage: additionalMessageToNotifier,
     };
 
     notifyOnTelegram(notifyOnTelegramOptions);
@@ -72,6 +73,7 @@ const config: IHalfYearCrossOverStrategyRunConfig = {
     limit: 201,
     fileFolder: "./fetched/",
     fileExtension: "json",
+    additionalMessageToNotifier: undefined,
 };
 
 /**

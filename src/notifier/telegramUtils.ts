@@ -7,34 +7,34 @@ export interface INotifyOnTelegramOptions {
     strategy: string;
     buySignal: boolean;
     symbol: string;
-    message?: string;
+    additionalMessage?: string | undefined;
 }
 
-// Run file: > npx ts-node telegramUtils.ts
+/**
+ * - Run file: > npx ts-node telegramUtils.ts
+ * - To test buySignal=false, add buySignal=false before the if-statement
+ */
 export async function notifyOnTelegram({
     strategy,
     symbol,
     time = "<no time given>",
     buySignal,
-    message = "<no message given>",
+    additionalMessage,
 }: INotifyOnTelegramOptions): Promise<void> {
     if (buySignal) {
         loadDotenv();
 
-        const messageToSend = `${strategy}\n${symbol}\n${time}\nBuySignal: ${buySignal}\nAdditional message: ${message}`;
-
+        const buySignalToSend: string = buySignal ? "\nSignal fired" : "";
+        const additionalMessageToSend: string = additionalMessage ? "\n" + additionalMessage : "";
+        const messageToSend = `${strategy}\n${symbol}\n${time}${buySignalToSend}${additionalMessageToSend}`;
         const sendMessage = sendMessageFor(process.env.TELEGRAM_BOT_API_KEY, process.env.TELEGRAM_CHANNEL_ID);
 
         sendMessage(messageToSend)
-            .then(() =>
-                console.log(chalk`{blue {bold \nStrategy ${strategy}: Telegram message sent.}\n${messageToSend}}`)
-            )
+            .then(() => console.log(chalk`{blue \nTELEGRAM NOTIFIER has sent:\n${messageToSend}}`))
             .catch(() => {
                 throw new Error("Error catched in notifyOnTelegram function");
             });
     } else {
-        console.log(
-            chalk`{blue {bold \nStrategy ${strategy}: NO messege was sent to Telegram.}\nNo signal for ${symbol} at ${time}}`
-        );
+        console.log(chalk`{blue \nTELEGRAM NOTIFIER hasn't fired regarding ${strategy} / ${symbol} / ${time}}`);
     }
 }
