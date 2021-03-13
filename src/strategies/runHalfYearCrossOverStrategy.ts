@@ -5,6 +5,8 @@ import { INotifyOnTelegramOptions, notifyOnTelegram } from "../notifier/telegram
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategy } from "./strategyUtils";
+import { IFetchHistoricalCandlesOptions } from "../data/data.types";
+import { fetchHistoricalCandles } from "../data/fetchHistoricalCandles";
 
 /**
  * Call context:
@@ -17,8 +19,19 @@ import { runStrategy } from "./strategyUtils";
  *   - Use for many cryptos
  */
 
+const testOptions: IFetchHistoricalCandlesOptions = {
+    symbol: "BTCUSDT",
+    interval: "1d",
+    limit: 201,
+    fileFolder: "./fetched/",
+    fileExtension: "json",
+};
+
 (async function () {
     attachUnhandledRejectionListener(path.basename(__filename));
+
+    fetchHistoricalCandles(testOptions); // Filename/path has to be returned!
+    // TODO: WHEN fetch-func resolves with filename, continue this commands
 
     // This run-function should take an options-argument: { symbolsArray = defaultSymbolsArray, candleTimeInterval, periods }. Ready-to-go otpions-objects in separate file
 
@@ -32,6 +45,9 @@ import { runStrategy } from "./strategyUtils";
 
     const buySignal = runStrategy(tulipDataStructure, halfYearCrossOverStrategy);
 
+    // Append line to file, with info about the buy signal, in CSV
+
+    // ToDo: those options
     const notifyOnTelegramOptions: INotifyOnTelegramOptions = {
         time: "20:00", // ToDo: time functionality!
         strategy: "HalfYearCrossOverStrategy",
