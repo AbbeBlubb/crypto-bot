@@ -2,14 +2,6 @@
  * Fetch historical candles
  */
 
-export interface IFetchHistoricalCandlesOptions {
-    symbol: string; // Eg "BTCUSDT" in capitals
-    interval: string; // Periods, eg "1d"
-    limit: number; // Ammount of candles/periods, in number
-    fileFolder: string; // Eg "./fetched/". Relative to the callee context, that is, the top-most highest function context
-    fileExtension?: string; // Without dot, eg "json"
-}
-
 export interface IGetURLForCandles {
     symbol: string;
     interval: string;
