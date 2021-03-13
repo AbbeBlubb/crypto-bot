@@ -12,6 +12,12 @@ export interface IFetchCandles extends IGetURLForCandles {
     url: string;
 }
 
+export enum Interval {
+    "1m" = "1m",
+    "3m" = "3m",
+    "1d" = "1d",
+}
+
 /**
  * Binance response for historical candle data
  */

@@ -1,7 +1,7 @@
 import * as chalk from "chalk";
 import { Response } from "node-fetch";
 import * as path from "path";
-import { ITulipDataStructure } from "../data/data.types";
+import { ITulipDataStructure, Interval } from "../data/data.types";
 import { fetchCandles, getURLForCandles } from "../data/fetchUtils";
 import { _getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStructureUtils";
 import { INotifyOnTelegramOptions, notifyOnTelegram } from "../notifier/telegramUtils";
@@ -23,6 +23,7 @@ import { IHalfYearCrossOverStrategyRunConfig } from "./strategy.types";
  */
 
 async function halfYearCrossOverStrategyRun({
+    strategy,
     symbol,
     interval,
     limit,
@@ -49,7 +50,7 @@ async function halfYearCrossOverStrategyRun({
     // ToDo: those options
     const notifyOnTelegramOptions: INotifyOnTelegramOptions = {
         time: "20:00", // ToDo: time functionality!
-        strategy: "HalfYearCrossOverStrategy",
+        strategy,
         buySignal,
         symbol: "EURUSDT", // ToDo: When pairs are run from list
         message: "Great!",
@@ -59,8 +60,9 @@ async function halfYearCrossOverStrategyRun({
 }
 
 const config: IHalfYearCrossOverStrategyRunConfig = {
+    strategy: "Half Year Cross-Over Strategy",
     symbol: "BTCUSDT", // Symbols arr!
-    interval: "1d",
+    interval: Interval.OneDay,
     limit: 201,
     fileFolder: "./fetched/",
     fileExtension: "json",
