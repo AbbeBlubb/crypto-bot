@@ -26,6 +26,7 @@ async function _readJSONFileToJS(filePath: string): Promise<any> {
 /**
  * Separate functions for each case in order to have clear function return types
  */
+
 export async function readHistoricalCandlesFromFile(filePath: string): Promise<MultiHistoricalCandles> {
     try {
         return await _readJSONFileToJS(filePath);

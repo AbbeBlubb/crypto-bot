@@ -1,7 +1,6 @@
 import * as chalk from "chalk";
 import { createWriteStream } from "fs";
 import { Response } from "node-fetch";
-import { appendToFilename } from "../utils/appendToFilename";
 import { IFetchHistoricalCandlesOptions } from "./data.types";
 import { fetchCandles, getURLForCandles } from "./fetchUtils";
 import { getFileNameForCandlesFile } from "../utils/writeFileUtils";
@@ -33,9 +32,9 @@ async function _writeCandlesToFile({ symbol, interval, limit, fileFolder, fileEx
 export const fetchHistoricalCandles = async ({
     symbol = "BTCUSDT",
     interval = "1d",
-    limit = 250,
-    fileFolder,
-    fileExtension,
+    limit = 201,
+    fileFolder = "./fetched/",
+    fileExtension = "json",
 }: IFetchHistoricalCandlesOptions): Promise<void> => {
     const url = getURLForCandles({ symbol, interval, limit });
     const responseObject: Response = await fetchCandles({ url, symbol, interval, limit });
@@ -43,10 +42,10 @@ export const fetchHistoricalCandles = async ({
 };
 
 const OPTIONS: IFetchHistoricalCandlesOptions = {
-    symbol: "BTCUSDT", // BTCUSDT
-    interval: "4h", // 1d
-    limit: 20, // 100
-    fileFolder: "./", // Relative to this file, eg ../..
+    symbol: "BTCUSDT",
+    interval: "1d",
+    limit: 201,
+    fileFolder: "./fetched/",
     fileExtension: "json",
 };
 
