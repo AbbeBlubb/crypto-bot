@@ -6,7 +6,7 @@ import { fetchCandles, getURLForCandles } from "../data/fetchUtils";
 import { _getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStructureUtils";
 import { INotifyOnTelegramOptions, notifyOnTelegram } from "../notifier/telegramUtils";
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
-import { getFileNameForCandlesFile, writeStreamToFile } from "../utils/writeFileUtils";
+import { getFileNameForCandlesFile, IFileNameObject, writeStreamToFile } from "../utils/writeFileUtils";
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategy } from "./strategyUtils";
 import { IHalfYearCrossOverStrategyRunConfig } from "./strategy.types";
@@ -36,7 +36,13 @@ async function halfYearCrossOverStrategyRun({
 
     const url = getURLForCandles({ symbol, interval, limit });
     const responseObject: Response = await fetchCandles({ url, symbol, interval, limit });
-    const filePath: string = fileFolder + getFileNameForCandlesFile({ symbol, interval, limit, fileExtension });
+    const { fileName, fileNameCreatedTime }: IFileNameObject = getFileNameForCandlesFile({
+        symbol,
+        interval,
+        limit,
+        fileExtension,
+    });
+    const filePath: string = fileFolder + fileName;
     const filePathResponse: string = await writeStreamToFile({
         streamToWrite: responseObject.body,
         filePath,
@@ -49,7 +55,7 @@ async function halfYearCrossOverStrategyRun({
 
     // ToDo: those options
     const notifyOnTelegramOptions: INotifyOnTelegramOptions = {
-        time: "20:00", // ToDo: time functionality!
+        time: fileNameCreatedTime,
         strategy,
         buySignal,
         symbol,

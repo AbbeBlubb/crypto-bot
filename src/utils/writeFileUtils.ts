@@ -15,6 +15,11 @@ interface IWriteToFile {
     filePath: string;
 }
 
+export interface IFileNameObject {
+    fileName: string;
+    fileNameCreatedTime: string;
+}
+
 /**
  * Constructs a file name like so: BTCUSDT--2021.03.12--23.13--10.999--1d--200.json
  */
@@ -24,9 +29,12 @@ export function getFileNameForCandlesFile({
     interval,
     limit,
     fileExtension = "json",
-}: IGetFileNameForCandlesFile): string {
+}: IGetFileNameForCandlesFile): IFileNameObject {
     const { yyyy, momo, dd, hh, mimi, ss, msmsms } = getDateAndTimeDigits();
-    return `${symbol}--${yyyy}.${momo}.${dd}--${hh}.${mimi}--${ss}.${msmsms}--${interval}--${limit}.${fileExtension}`;
+    return {
+        fileName: `${symbol}--${yyyy}.${momo}.${dd}--${hh}.${mimi}--${ss}.${msmsms}--${interval}--${limit}.${fileExtension}`,
+        fileNameCreatedTime: `${hh}:${mimi}:${ss}`,
+    };
 }
 
 /**
