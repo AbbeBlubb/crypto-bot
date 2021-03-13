@@ -52,7 +52,7 @@ async function halfYearCrossOverStrategyRun({
         time: "20:00", // ToDo: time functionality!
         strategy,
         buySignal,
-        symbol: "EURUSDT", // ToDo: When pairs are run from list
+        symbol,
         message: "Great!",
     };
 
