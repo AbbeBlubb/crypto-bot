@@ -4,7 +4,7 @@ import * as chalk from "chalk";
 
 export interface INotifyOnTelegramOptions {
     time?: string;
-    strategy: string;
+    strategyName: string;
     buySignal: boolean;
     symbol: string;
     additionalMessage?: string | undefined;
@@ -15,7 +15,7 @@ export interface INotifyOnTelegramOptions {
  * - To test buySignal=false, add buySignal=false before the if-statement
  */
 export async function notifyOnTelegram({
-    strategy,
+    strategyName,
     symbol,
     time = "<no time given>",
     buySignal,
@@ -27,7 +27,7 @@ export async function notifyOnTelegram({
 
             const buySignalToSend: string = buySignal ? "\nSignal fired" : "";
             const additionalMessageToSend: string = additionalMessage ? "\n" + additionalMessage : "";
-            const messageToSend = `${strategy}\n${symbol}\n${time}${buySignalToSend}${additionalMessageToSend}`;
+            const messageToSend = `${strategyName}\n${symbol}\n${time}${buySignalToSend}${additionalMessageToSend}`;
             const sendMessage = sendMessageFor(process.env.TELEGRAM_BOT_API_KEY, process.env.TELEGRAM_CHANNEL_ID);
 
             sendMessage(messageToSend)
@@ -39,7 +39,7 @@ export async function notifyOnTelegram({
                     throw new Error("Error catched in notifyOnTelegram function");
                 });
         } else {
-            console.log(chalk`{blue \nTELEGRAM NOTIFIER hasn't fired regarding ${strategy} / ${symbol} / ${time}}`);
+            console.log(chalk`{blue \nTELEGRAM NOTIFIER hasn't fired regarding ${strategyName} / ${symbol} / ${time}}`);
             resolve();
         }
     });

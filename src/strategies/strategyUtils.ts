@@ -1,8 +1,8 @@
 import { ITulipDataStructure } from "../data/data.types";
 
-export function runStrategy(
+export function runStrategyAlgorithm(
     tulipDataStructure: ITulipDataStructure,
-    strategy: (arg: ITulipDataStructure) => boolean
+    strategyAlgorithm: (tulipDataStructure: ITulipDataStructure) => boolean
 ): boolean {
-    return strategy(tulipDataStructure);
+    return strategyAlgorithm(tulipDataStructure);
 }

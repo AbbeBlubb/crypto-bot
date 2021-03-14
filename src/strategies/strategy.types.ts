@@ -1,7 +1,11 @@
 import { Interval } from "../data/data.types";
+import { ITulipDataStructure } from "../data/data.types";
 
-export interface IHalfYearCrossOverStrategyRunConfig {
-    strategy: "Half Year Cross-Over Strategy";
+type TStrategyAlgorithm = (tulipDataStructure: ITulipDataStructure) => boolean;
+
+export interface IRunStrategy {
+    strategyName: "Half Year Cross-Over Strategy";
+    strategyAlgorithm: TStrategyAlgorithm; // The strategy function imported in the run-file
     symbol: string; // Eg "BTCUSDT" in capitals
     interval: Interval; // Periods, eg "1d"
     limit: number; // Ammount of candles/periods, in number
@@ -10,12 +14,6 @@ export interface IHalfYearCrossOverStrategyRunConfig {
     additionalMessageToNotifier?: string;
 }
 
-export interface IIteratorForStrategy {
-    strategy: "Half Year Cross-Over Strategy";
+export interface IStrategyIteratorConfig extends Omit<IRunStrategy, "symbol"> {
     symbols: string[];
-    interval: Interval;
-    limit: number;
-    fileFolder: string;
-    fileExtension?: string;
-    additionalMessageToNotifier?: string;
 }
