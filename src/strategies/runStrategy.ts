@@ -10,6 +10,7 @@ import { getFileNameForCandlesFile, IFileNameObject, writeStreamToFile } from ".
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategyAlgorithm } from "./strategyUtils";
 import { IRunStrategy, IStrategyIteratorConfig } from "./strategy.types";
+import { cryptoSymbols } from "../utils/tickers";
 
 async function runStrategy({
     strategyName,
@@ -73,7 +74,7 @@ async function runStrategy({
     const config: IStrategyIteratorConfig = {
         strategyName: "Half Year Cross-Over Strategy",
         strategyAlgorithm: halfYearCrossOverStrategy,
-        symbols: ["BTCUSDT", "ADABTC", "DOTBTC"], // ToDo: Import the symbols arr! + interface more compact
+        symbols: cryptoSymbols,
         interval: Interval.OneDay,
         limit: 201,
         fileFolder: "./fetched/",
