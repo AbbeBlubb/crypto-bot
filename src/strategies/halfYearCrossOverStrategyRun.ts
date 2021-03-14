@@ -24,7 +24,6 @@ async function halfYearCrossOverStrategyRun({
         try {
             attachUnhandledRejectionListener(path.basename(__filename));
             console.log(chalk`{bgGreen.white \nRUNNING STRATEGY Half Year Cross-Over Strategy}`);
-            // 2. This run-function should take an options-argument: { symbolsArray = defaultSymbolsArray, candleTimeInterval, periods }. Ready-to-go otpions-objects in separate file
 
             const url = getURLForCandles({ symbol, interval, limit });
             const responseObject: Response = await fetchCandles({ url, symbol, interval, limit });
@@ -73,7 +72,7 @@ async function halfYearCrossOverStrategyRun({
 (async function strategyPromiseLoop(): Promise<void> {
     const config: IIteratorForStrategy = {
         strategy: "Half Year Cross-Over Strategy",
-        symbols: ["BTCUSDT", "ADABTC", "DOTBTC"], // Symbols arr!
+        symbols: ["BTCUSDT", "ADABTC", "DOTBTC"], // ToDo: Import the symbols arr! + interface more compact
         interval: Interval.OneDay,
         limit: 201,
         fileFolder: "./fetched/",
