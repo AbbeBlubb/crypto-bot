@@ -44,8 +44,23 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
     /**
      * Take profit, stop-loss: separate functions that calculate for each run, and the run-strat can change existing orders
      */
-    const takeProfit = 100;
-    const stopLoss = 90;
+
+    const takeProfitFunctionReturn = 100;
+    const stopLossFunctionReturn = 90;
+
+    /**
+     * Build report with all the calculated data
+     */
+
+    const reportForStrat = {
+        strategy: EStrategyNames.HalfYearCrossOverStrategy,
+        latestSMA140,
+        latestEMA150,
+        latestClosePrice,
+        isLatestCandleClosePriceHigherThanLatestSMA140,
+        isLatestCandleCloseHigherThanLatestEMA150,
+        isLatestCandleCloseHigherThanOneOfTheMAs,
+    };
 
     /**
      * Return signals
@@ -53,25 +68,9 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
 
     const buy = isLatestCandleCloseHigherThanOneOfTheMAs || false;
     const sell = sellSignal || false;
-    const report = {
-        strategy: EStrategyNames.HalfYearCrossOverStrategy,
-    };
+    const takeProfit = takeProfitFunctionReturn;
+    const stopLoss = stopLossFunctionReturn;
+    const report = reportForStrat;
 
     return { buy, sell, takeProfit, stopLoss, report };
 }
-
-// Print values:
-// console.log(
-//     "\nLatest SMA140: ",
-//     latestSMA140,
-//     "\nLatest EMA150: ",
-//     latestEMA150,
-//     "\nLatest close price: ",
-//     latestClosePrice,
-//     "\nisLatestCandleCloseHigherThanLatestSMA140: ",
-//     isLatestCandleClosePriceHigherThanLatestSMA140,
-//     "\nisLatestCandleCloseHigherThanLatestEMA150: ",
-//     isLatestCandleCloseHigherThanLatestEMA150,
-//     "\nisLatestCandleCloseHigherThanTheMAs",
-//     isLatestCandleCloseHigherThanOneOfTheMAs
-// );
