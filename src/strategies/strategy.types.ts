@@ -25,4 +25,9 @@ export interface IStrategyIteratorConfig extends Omit<IRunStrategy, "symbol"> {
 export interface IStrategySignals {
     buy: boolean;
     sell: boolean;
+    report: { [key: string]: number | string | boolean };
+}
+
+export enum EStrategyNames {
+    HalfYearCrossOverStrategy = "Half Year Cross-Over Strategy",
 }

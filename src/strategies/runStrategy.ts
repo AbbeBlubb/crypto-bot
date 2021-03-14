@@ -9,7 +9,7 @@ import { attachUnhandledRejectionListener } from "../utils/attachUnhandledReject
 import { getFileNameForCandlesFile, IFileNameObject, writeStreamToFile } from "../utils/writeFileUtils";
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategyAlgorithm } from "./strategyUtils";
-import { IRunStrategy, IStrategyIteratorConfig, IStrategySignals } from "./strategy.types";
+import { IRunStrategy, IStrategyIteratorConfig, IStrategySignals, EStrategyNames } from "./strategy.types";
 import { cryptoSymbols } from "../utils/tickers";
 
 async function runStrategy({
@@ -70,9 +70,11 @@ async function runStrategy({
  * Read path: context same as the output
  */
 
+// ToDo: the server that runs the strat regularly. Until then, bring your comp and do it yourelf
+
 (async function runStrategyPromiseLoop(): Promise<void> {
     const config: IStrategyIteratorConfig = {
-        strategyName: "Half Year Cross-Over Strategy",
+        strategyName: EStrategyNames.HalfYearCrossOverStrategy,
         strategyAlgorithm: halfYearCrossOverStrategy,
         symbols: cryptoSymbols,
         interval: Interval.OneDay,

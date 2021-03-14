@@ -4,7 +4,7 @@ import { EMAData, SMAData } from "../indicators/indicators.types";
 import { SMA } from "../indicators/SMA";
 import { isAtLeastOneBooleanTrue } from "../signals/booleanComparisions";
 import { firstNumberIsGreaterThanSecondNumber } from "../signals/numberComparisions";
-import { IStrategySignals } from "./strategy.types";
+import { IStrategySignals, EStrategyNames } from "./strategy.types";
 
 export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructure): IStrategySignals {
     /**
@@ -45,7 +45,13 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
      * Return signals
      */
 
-    return { buy: isLatestCandleCloseHigherThanOneOfTheMAs, sell: sellSignal };
+    const buy = isLatestCandleCloseHigherThanOneOfTheMAs || false;
+    const sell = sellSignal || false;
+    const report = {
+        strategy: EStrategyNames.HalfYearCrossOverStrategy,
+    };
+
+    return { buy, sell, report };
 }
 
 // Print values:
