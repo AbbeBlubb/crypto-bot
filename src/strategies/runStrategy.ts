@@ -23,8 +23,7 @@ async function runStrategy({
 }: IRunStrategy): Promise<string> {
     return new Promise(async function (resolve, reject) {
         try {
-            attachUnhandledRejectionListener(path.basename(__filename));
-            console.log(chalk`{bgGreen.white \nRUNNING STRATEGY Half Year Cross-Over Strategy}`);
+            console.log(chalk`{bgGreen.white \nRUNNING STRATEGY ${strategyName}}`);
 
             const url = getURLForCandles({ symbol, interval, limit });
             const responseObject: Response = await fetchCandles({ url, symbol, interval, limit });
@@ -45,9 +44,8 @@ async function runStrategy({
 
             const buySignal = runStrategyAlgorithm(tulipDataStructure, strategyAlgorithm);
 
-            // The analysis should be written to file: append line to file, with info about the buy signal, in CSV
+            // ToDo: analysis should be written to file; append line to file, with info about the buy signal, in CSV
 
-            // Make this function as promise to wait for completion before consol-logging that the strat is done
             await notifyOnTelegram({
                 time: fileNameCreatedTime,
                 strategyName,
@@ -56,7 +54,7 @@ async function runStrategy({
                 additionalMessage: additionalMessageToNotifier,
             });
 
-            console.log(chalk`{bgBlue.white \nCOMPLETED STRATEGY Half Year Cross-Over Strategy}`);
+            console.log(chalk`{bgBlue.white \nCOMPLETED STRATEGY ${strategyName}}`);
             resolve("done");
         } catch (error) {
             reject(new Error(error));
@@ -74,7 +72,7 @@ async function runStrategy({
 (async function runStrategyPromiseLoop(): Promise<void> {
     const config: IStrategyIteratorConfig = {
         strategyName: "Half Year Cross-Over Strategy",
-        strategyAlgorithm: halfYearCrossOverStrategy, // The imported strategy function
+        strategyAlgorithm: halfYearCrossOverStrategy,
         symbols: ["BTCUSDT", "ADABTC", "DOTBTC"], // ToDo: Import the symbols arr! + interface more compact
         interval: Interval.OneDay,
         limit: 201,
@@ -82,6 +80,9 @@ async function runStrategy({
         fileExtension: "json",
         additionalMessageToNotifier: undefined,
     };
+
+    attachUnhandledRejectionListener(path.basename(__filename));
+    console.log(`\nStarting strategy iterations: ${config.symbols.length} iterations to go`);
 
     for (let i = 0; i < config.symbols.length; i++) {
         const symbol = config.symbols[i];
