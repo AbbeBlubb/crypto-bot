@@ -85,7 +85,7 @@ async function runStrategy({
     };
 
     attachUnhandledRejectionListener(path.basename(__filename));
-    // ToDo: save all output logging for eventual error handling
+    // ToDo: save all STDOUT/console output logging for eventual error handling
     console.log(`\nStarting strategy iterations: ${config.symbols.length} iterations to go`);
 
     for (let i = 0; i < config.symbols.length; i++) {
