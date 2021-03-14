@@ -47,7 +47,7 @@ async function halfYearCrossOverStrategyRun({
             // The analysis should be written to file: append line to file, with info about the buy signal, in CSV
 
             // Make this function as promise to wait for completion before consol-logging that the strat is done
-            notifyOnTelegram({
+            await notifyOnTelegram({
                 time: fileNameCreatedTime,
                 strategy,
                 buySignal,
@@ -55,7 +55,7 @@ async function halfYearCrossOverStrategyRun({
                 additionalMessage: additionalMessageToNotifier,
             });
 
-            console.log(chalk`{bgGreen.white \nCOMPLETED STRATEGY Half Year Cross-Over Strategy}`);
+            console.log(chalk`{bgBlue.white \nCOMPLETED STRATEGY Half Year Cross-Over Strategy}`);
             resolve("done");
         } catch (error) {
             reject(new Error(error));
@@ -83,6 +83,6 @@ async function halfYearCrossOverStrategyRun({
     for (let i = 0; i < config.symbols.length; i++) {
         const symbol = config.symbols[i];
         const isResolved: string = await halfYearCrossOverStrategyRun({ ...config, symbol });
-        isResolved === "done" && console.log(`\nStrategy iteration ${i + 1} of ${config.symbols.length + 1} done`);
+        isResolved === "done" && console.log(`\nStrategy iteration ${i + 1} of ${config.symbols.length} done`);
     }
 })();

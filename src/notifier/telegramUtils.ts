@@ -21,20 +21,26 @@ export async function notifyOnTelegram({
     buySignal,
     additionalMessage,
 }: INotifyOnTelegramOptions): Promise<void> {
-    if (buySignal) {
-        loadDotenv();
+    return new Promise(function (resolve) {
+        if (buySignal) {
+            loadDotenv();
 
-        const buySignalToSend: string = buySignal ? "\nSignal fired" : "";
-        const additionalMessageToSend: string = additionalMessage ? "\n" + additionalMessage : "";
-        const messageToSend = `${strategy}\n${symbol}\n${time}${buySignalToSend}${additionalMessageToSend}`;
-        const sendMessage = sendMessageFor(process.env.TELEGRAM_BOT_API_KEY, process.env.TELEGRAM_CHANNEL_ID);
+            const buySignalToSend: string = buySignal ? "\nSignal fired" : "";
+            const additionalMessageToSend: string = additionalMessage ? "\n" + additionalMessage : "";
+            const messageToSend = `${strategy}\n${symbol}\n${time}${buySignalToSend}${additionalMessageToSend}`;
+            const sendMessage = sendMessageFor(process.env.TELEGRAM_BOT_API_KEY, process.env.TELEGRAM_CHANNEL_ID);
 
-        sendMessage(messageToSend)
-            .then(() => console.log(chalk`{blue \nTELEGRAM NOTIFIER has sent:\n${messageToSend}}`))
-            .catch(() => {
-                throw new Error("Error catched in notifyOnTelegram function");
-            });
-    } else {
-        console.log(chalk`{blue \nTELEGRAM NOTIFIER hasn't fired regarding ${strategy} / ${symbol} / ${time}}`);
-    }
+            sendMessage(messageToSend)
+                .then(() => {
+                    console.log(chalk`{blue \nTELEGRAM NOTIFIER has sent:\n${messageToSend}}`);
+                    resolve();
+                })
+                .catch(() => {
+                    throw new Error("Error catched in notifyOnTelegram function");
+                });
+        } else {
+            console.log(chalk`{blue \nTELEGRAM NOTIFIER hasn't fired regarding ${strategy} / ${symbol} / ${time}}`);
+            resolve();
+        }
+    });
 }
