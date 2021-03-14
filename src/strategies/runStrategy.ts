@@ -1,7 +1,7 @@
 import * as chalk from "chalk";
 import { Response } from "node-fetch";
 import * as path from "path";
-import { ITulipDataStructure, Interval } from "../data/data.types";
+import { ITulipDataStructure, EInterval } from "../data/data.types";
 import { fetchCandles, getURLForCandles } from "../data/fetchUtils";
 import { _getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStructureUtils";
 import { notifyOnTelegram } from "../notifier/telegramUtils";
@@ -77,7 +77,7 @@ async function runStrategy({
         strategyName: EStrategyNames.HalfYearCrossOverStrategy,
         strategyAlgorithm: halfYearCrossOverStrategy,
         symbols: cryptoSymbols,
-        interval: Interval.OneDay,
+        interval: EInterval.OneDay,
         limit: 201,
         fileFolder: "./fetched/",
         fileExtension: "json",

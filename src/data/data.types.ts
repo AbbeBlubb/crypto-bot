@@ -12,7 +12,7 @@ export interface IFetchCandles extends IGetURLForCandles {
     url: string;
 }
 
-export enum Interval {
+export enum EInterval {
     OneMin = "1m", // Miniscule m for minute
     TreeMin = "3m",
     FiveMin = "5m",
