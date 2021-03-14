@@ -42,6 +42,12 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
     const sellSignal = false;
 
     /**
+     * Take profit, stop-loss: separate functions that calculate for each run, and the run-strat can change existing orders
+     */
+    const takeProfit = 100;
+    const stopLoss = 90;
+
+    /**
      * Return signals
      */
 
@@ -51,7 +57,7 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
         strategy: EStrategyNames.HalfYearCrossOverStrategy,
     };
 
-    return { buy, sell, report };
+    return { buy, sell, takeProfit, stopLoss, report };
 }
 
 // Print values:

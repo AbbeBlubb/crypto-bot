@@ -73,6 +73,7 @@ async function runStrategy({
 // ToDo: the server that runs the strat regularly. Until then, bring your comp and do it yourelf
 
 (async function runStrategyPromiseLoop(): Promise<void> {
+    // ToDo for config: entry ammount
     const config: IStrategyIteratorConfig = {
         strategyName: EStrategyNames.HalfYearCrossOverStrategy,
         strategyAlgorithm: halfYearCrossOverStrategy,

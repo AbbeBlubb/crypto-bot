@@ -25,6 +25,8 @@ export interface IStrategyIteratorConfig extends Omit<IRunStrategy, "symbol"> {
 export interface IStrategySignals {
     buy: boolean;
     sell: boolean;
+    takeProfit: number;
+    stopLoss: number;
     report: { [key: string]: number | string | boolean };
 }
 
