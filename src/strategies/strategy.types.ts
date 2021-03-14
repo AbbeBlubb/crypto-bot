@@ -1,7 +1,6 @@
-import { Interval } from "../data/data.types";
-import { ITulipDataStructure } from "../data/data.types";
+import { Interval, ITulipDataStructure } from "../data/data.types";
 
-type TStrategyAlgorithm = (tulipDataStructure: ITulipDataStructure) => boolean;
+type TStrategyAlgorithm = (tulipDataStructure: ITulipDataStructure) => IStrategySignals;
 
 export interface IRunStrategy {
     strategyName: "Half Year Cross-Over Strategy";
@@ -14,6 +13,16 @@ export interface IRunStrategy {
     additionalMessageToNotifier?: string;
 }
 
+export interface IRunStrategyAlgorithm {
+    tulipDataStructure: ITulipDataStructure;
+    strategyAlgorithm: TStrategyAlgorithm;
+}
+
 export interface IStrategyIteratorConfig extends Omit<IRunStrategy, "symbol"> {
     symbols: string[];
+}
+
+export interface IStrategySignals {
+    buy: boolean;
+    sell: boolean;
 }

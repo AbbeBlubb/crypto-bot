@@ -9,7 +9,7 @@ import { attachUnhandledRejectionListener } from "../utils/attachUnhandledReject
 import { getFileNameForCandlesFile, IFileNameObject, writeStreamToFile } from "../utils/writeFileUtils";
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategyAlgorithm } from "./strategyUtils";
-import { IRunStrategy, IStrategyIteratorConfig } from "./strategy.types";
+import { IRunStrategy, IStrategyIteratorConfig, IStrategySignals } from "./strategy.types";
 import { cryptoSymbols } from "../utils/tickers";
 
 async function runStrategy({
@@ -43,14 +43,14 @@ async function runStrategy({
                 filePathResponse
             );
 
-            const buySignal = runStrategyAlgorithm(tulipDataStructure, strategyAlgorithm);
+            const strategySignals: IStrategySignals = runStrategyAlgorithm({ tulipDataStructure, strategyAlgorithm });
 
             // ToDo: analysis should be written to file; append line to file, with info about the buy signal, in CSV
 
             await notifyOnTelegram({
                 time: fileNameCreatedTime,
                 strategyName,
-                buySignal,
+                buySignal: strategySignals.buy,
                 symbol,
                 additionalMessage: additionalMessageToNotifier,
             });
@@ -83,6 +83,7 @@ async function runStrategy({
     };
 
     attachUnhandledRejectionListener(path.basename(__filename));
+    // ToDo: save all output logging for eventual error handling
     console.log(`\nStarting strategy iterations: ${config.symbols.length} iterations to go`);
 
     for (let i = 0; i < config.symbols.length; i++) {

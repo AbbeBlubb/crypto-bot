@@ -1,8 +1,8 @@
-import { ITulipDataStructure } from "../data/data.types";
+import { IRunStrategyAlgorithm, IStrategySignals } from "./strategy.types";
 
-export function runStrategyAlgorithm(
-    tulipDataStructure: ITulipDataStructure,
-    strategyAlgorithm: (tulipDataStructure: ITulipDataStructure) => boolean
-): boolean {
+export function runStrategyAlgorithm({
+    tulipDataStructure,
+    strategyAlgorithm,
+}: IRunStrategyAlgorithm): IStrategySignals {
     return strategyAlgorithm(tulipDataStructure);
 }
