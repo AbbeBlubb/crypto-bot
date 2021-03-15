@@ -15,7 +15,7 @@ router.get("/balance", (req: Request, res: Response, next: NextFunction) => {
         case BalanceFeed.Closed:
             startWatchingBalance();
             balanceFeedStatus = BalanceFeed.Open;
-            res.send("Feeding balance and printing to terminal");
+            res.send("Feeding balance to STDOUT");
             break;
         case BalanceFeed.Open:
             stopWatchingBalance();
