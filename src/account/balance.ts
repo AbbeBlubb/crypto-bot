@@ -2,6 +2,8 @@ import * as chalk from "chalk";
 import { getDateAndTimeForConsole } from "../utils/dateAndTime";
 import { cryptoTickers } from "../utils/tickers";
 
+// Setup
+
 const BINANCE_API_KEY = process.env.BINANCE_API_KEY;
 const BINANCE_API_SECRET = process.env.BINANCE_API_SECRET;
 
@@ -13,6 +15,8 @@ const binance = require("node-binance-api")().options({
         console.log(log);
     },
 });
+
+// Types
 
 interface IBinanceAbstractBalanceData {
     available: string;
@@ -30,6 +34,8 @@ interface CurrencyBalanceData extends IBinanceAbstractBalanceData {
 type IterableCurrencies = Array<CurrencyBalanceData>;
 
 type GetBalanceCallback = (arg: IterableCurrencies) => void;
+
+// Features
 
 // ToDo: currenciesToGet should have interface corresponding to the Binance available cryptos (crashes if feeded USD, EUR)
 export async function getBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>): Promise<any> {
@@ -57,7 +63,7 @@ ${currenciesList
         return `${element.currency}: ${element.available} \n`;
     })
     .join("")}
-Printed ${getDateAndTimeForConsole()} \n\n`;
+Printed ${getDateAndTimeForConsole()}`;
 
     console.log(chalk.blue(balanceTextToPrint));
 }
@@ -67,7 +73,7 @@ let _intervalIDForBalanceWatch: NodeJS.Timeout;
 function _watchBalance(cb: GetBalanceCallback, currenciesToGet: Array<string>): void {
     const intervalID = setInterval(function () {
         getBalance(cb, currenciesToGet);
-    }, 2000);
+    }, 60000);
     _intervalIDForBalanceWatch = intervalID;
 }
 

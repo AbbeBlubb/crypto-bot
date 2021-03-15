@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { startWatchingBalance, stopWatchingBalance } from "../account/checkBalance";
+import { startWatchingBalance, stopWatchingBalance } from "../account/balance";
 
 enum BalanceFeed {
     Open = "OPEN",
