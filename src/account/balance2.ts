@@ -3,7 +3,7 @@ import { getDateAndTimeForConsole } from "../utils/dateAndTime";
 import { cryptoTickers, TCryptoTickers, TSingleCryptoTicker } from "../utils/tickers";
 import { ISingleCryptoBalance, ITotalCryptoBalanceFromNBA, TMyTotalCryptoBalance } from "./account.types";
 
-// Setup
+// Setup for NBA
 
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
@@ -11,7 +11,7 @@ dotenv.config({ path: "../../.env" });
 const BINANCE_API_KEY = process.env.BINANCE_API_KEY;
 const BINANCE_API_SECRET = process.env.BINANCE_API_SECRET;
 
-const binance = require("node-binance-api")().options({
+const NBA = require("node-binance-api")().options({
     APIKEY: BINANCE_API_KEY,
     APISECRET: BINANCE_API_SECRET,
     useServerTime: true, // If you get timestamp errors, synchronize to server time at startup
@@ -22,14 +22,15 @@ const binance = require("node-binance-api")().options({
 
 // Features
 
-// ToDo: currenciesToGet should have interface corresponding to the Binance available cryptos (crashes if feeded USD, EUR)
+// ToDo: destructure the params? Easier to read the purpose with keys
+// ToDo: filename: getCryptoBalance?
 export async function getCryptoBalance(
     multiCryptoTickersToGet: TCryptoTickers,
     log = false
 ): Promise<TMyTotalCryptoBalance> {
     const myTotalCryptoBalance = [];
 
-    const totalCryptoBalanceFromNBA: ITotalCryptoBalanceFromNBA = await binance.balance();
+    const totalCryptoBalanceFromNBA: ITotalCryptoBalanceFromNBA = await NBA.balance();
 
     multiCryptoTickersToGet.forEach(function (singleCryptoTickerToGet: TSingleCryptoTicker): void {
         myTotalCryptoBalance.push({
@@ -58,6 +59,8 @@ function _mapMyCryptoBalanceToTemplateLiteral(myCryptoBalance: TMyTotalCryptoBal
         })
         .join("")}`;
 }
+
+// ToDo: getFiatCurrency
 
 /**
  * Run: > cd src/account && npx ts-node balance2.ts
