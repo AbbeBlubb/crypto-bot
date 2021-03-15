@@ -1,3 +1,5 @@
+import { TCryptoTickers } from "../utils/tickers";
+
 export interface ITotalCryptoBalanceFromNBA {
     [key: string]: { available: string; onOrder: string };
 }
@@ -8,4 +10,9 @@ export interface ISingleCryptoBalance {
     currency: string;
     available: string;
     onorder: string;
+}
+
+export interface IGetCryptoBalance {
+    multiCryptoTickersToGet: TCryptoTickers;
+    logToConsole: boolean;
 }

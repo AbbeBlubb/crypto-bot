@@ -1,7 +1,7 @@
 import * as chalk from "chalk";
 import { getDateAndTimeForConsole } from "../utils/dateAndTime";
 import { cryptoTickers, TCryptoTickers, TSingleCryptoTicker } from "../utils/tickers";
-import { ISingleCryptoBalance, ITotalCryptoBalanceFromNBA, TMyTotalCryptoBalance } from "./account.types";
+import { IGetCryptoBalance, ISingleCryptoBalance, ITotalCryptoBalanceFromNBA, TMyTotalCryptoBalance } from "./account.types";
 
 // Setup for NBA
 
@@ -22,12 +22,11 @@ const NBA = require("node-binance-api")().options({
 
 // Features
 
-// ToDo: destructure the params? Easier to read the purpose with keys
 // ToDo: filename: getCryptoBalance?
-export async function getCryptoBalance(
-    multiCryptoTickersToGet: TCryptoTickers,
-    log = false
-): Promise<TMyTotalCryptoBalance> {
+export async function getCryptoBalance({
+    multiCryptoTickersToGet,
+    logToConsole = false,
+}: IGetCryptoBalance): Promise<TMyTotalCryptoBalance> {
     const myTotalCryptoBalance = [];
 
     const totalCryptoBalanceFromNBA: ITotalCryptoBalanceFromNBA = await NBA.balance();
@@ -40,7 +39,7 @@ export async function getCryptoBalance(
         });
     });
 
-    log && logMyCryptoBalance(myTotalCryptoBalance as TMyTotalCryptoBalance);
+    logToConsole && logMyCryptoBalance(myTotalCryptoBalance as TMyTotalCryptoBalance);
 
     return myTotalCryptoBalance as TMyTotalCryptoBalance;
 }
