@@ -1,11 +1,18 @@
 import * as chalk from "chalk";
-import { getDateAndTimeForConsole } from "../utils/dateAndTime";
-import { cryptoTickers, TCryptoTickers, TSingleCryptoTicker } from "../utils/tickers";
-import { IGetCryptoBalance, ISingleCryptoBalance, ITotalCryptoBalanceFromNBA, TMyTotalCryptoBalance } from "./account.types";
-
-// Setup for NBA
-
 import * as dotenv from "dotenv";
+import { getDateAndTimeForConsole } from "../utils/dateAndTime";
+import { cryptoTickers, TSingleCryptoTicker, forbiddenTickers } from "../utils/tickers";
+import {
+    IGetCryptoBalance,
+    ISingleCryptoBalance,
+    ITotalCryptoBalanceFromNBA,
+    TMyTotalCryptoBalance,
+} from "./account.types";
+
+/**
+ * Setup for NBA
+ */
+
 dotenv.config({ path: "../../.env" });
 
 const BINANCE_API_KEY = process.env.BINANCE_API_KEY;
@@ -20,31 +27,45 @@ const NBA = require("node-binance-api")().options({
     },
 });
 
-// Features
+/**
+ * - Get crypto balance
+ * - Available fiats: EUR, GBP
+ */
 
-// ToDo: filename: getCryptoBalance?
 export async function getCryptoBalance({
     multiCryptoTickersToGet,
     logToConsole = false,
 }: IGetCryptoBalance): Promise<TMyTotalCryptoBalance> {
-    const myTotalCryptoBalance = [];
+    return new Promise(async function (resolve, reject) {
+        if (forbiddenTickers.some((forbiddenTicker) => multiCryptoTickersToGet.includes(forbiddenTicker))) {
+            throw new Error("getCryptoBalance was feeded with a forbidden ticker");
+        }
 
-    const totalCryptoBalanceFromNBA: ITotalCryptoBalanceFromNBA = await NBA.balance();
+        const myTotalCryptoBalance = [];
+        let totalCryptoBalanceFromNBA: ITotalCryptoBalanceFromNBA;
 
-    multiCryptoTickersToGet.forEach(function (singleCryptoTickerToGet: TSingleCryptoTicker): void {
-        myTotalCryptoBalance.push({
-            currency: singleCryptoTickerToGet,
-            available: totalCryptoBalanceFromNBA[singleCryptoTickerToGet].available,
-            onOrder: totalCryptoBalanceFromNBA[singleCryptoTickerToGet].onOrder,
+        try {
+            totalCryptoBalanceFromNBA = await NBA.balance();
+        } catch (err) {
+            reject;
+        }
+
+        // If ticker don't exist, this crashes. I prefer it to do so I notice fast and add it to the forbiddenTickers
+        multiCryptoTickersToGet.forEach(function (singleCryptoTickerToGet: TSingleCryptoTicker): void {
+            myTotalCryptoBalance.push({
+                currency: singleCryptoTickerToGet,
+                available: totalCryptoBalanceFromNBA[singleCryptoTickerToGet].available,
+                onOrder: totalCryptoBalanceFromNBA[singleCryptoTickerToGet].onOrder,
+            });
         });
+
+        logToConsole && _logMyCryptoBalance(myTotalCryptoBalance as TMyTotalCryptoBalance);
+
+        resolve(myTotalCryptoBalance as TMyTotalCryptoBalance);
     });
-
-    logToConsole && logMyCryptoBalance(myTotalCryptoBalance as TMyTotalCryptoBalance);
-
-    return myTotalCryptoBalance as TMyTotalCryptoBalance;
 }
 
-export function logMyCryptoBalance(myCryptoBalance: TMyTotalCryptoBalance): void {
+function _logMyCryptoBalance(myCryptoBalance: TMyTotalCryptoBalance): void {
     const balanceTextToPrint = `\nBALANCE ${getDateAndTimeForConsole()} ${_mapMyCryptoBalanceToTemplateLiteral(
         myCryptoBalance
     )}`;
@@ -59,10 +80,10 @@ function _mapMyCryptoBalanceToTemplateLiteral(myCryptoBalance: TMyTotalCryptoBal
         .join("")}`;
 }
 
-// ToDo: getFiatCurrency
-
 /**
  * Run: > cd src/account && npx ts-node balance2.ts
  */
 
-getCryptoBalance(cryptoTickers, true);
+getCryptoBalance({ multiCryptoTickersToGet: cryptoTickers, logToConsole: true })
+    .then((res) => console.log("tjoooo", res))
+    .catch((err) => console.log(err));
