@@ -1,6 +1,7 @@
 import * as chalk from "chalk";
 import { getDateAndTimeForConsole } from "../utils/dateAndTime";
-import { cryptoTickers } from "../utils/tickers";
+import { cryptoTickers, TCryptoTickers, TSingleCryptoTicker } from "../utils/tickers";
+import { ITotalCryptoBalanceFromNBA, TMyCryptoBalance } from "./account.types";
 
 // Setup
 
@@ -19,60 +20,36 @@ const binance = require("node-binance-api")().options({
     },
 });
 
-// Types
-
-interface IBinanceAbstractBalanceData {
-    available: string;
-    onOrder: string;
-}
-
-interface IBinanceCurrencyBalanceData {
-    [key: string]: IBinanceAbstractBalanceData;
-}
-
-interface CurrencyBalanceData extends IBinanceAbstractBalanceData {
-    currency: string;
-}
-
-type IterableCurrencies = Array<CurrencyBalanceData>;
-
-type GetBalanceCallback = (arg: IterableCurrencies) => void;
-
 // Features
 
 // ToDo: currenciesToGet should have interface corresponding to the Binance available cryptos (crashes if feeded USD, EUR)
-export async function getCryptoBalance(currenciesToGet: Array<string>): Promise<any> {
-    const currenciesList = [];
+export async function getCryptoBalance(
+    multiCryptoTickersToGet: TCryptoTickers,
+    log = false
+): Promise<TMyCryptoBalance> {
+    const myCryptoBalance = [];
 
-    //await binance.useServerTime();
-    const balanceForAllCryptos = await binance.balance();
-    // console.log(balanceForAllCryptos)
-    currenciesToGet.forEach(function (currencyTicker): void {
-        currenciesList.push({
-            currency: currencyTicker,
-            available: balanceForAllCryptos[currencyTicker].available,
-            onOrder: balanceForAllCryptos[currencyTicker].onOrder,
+    const totalCryptoBalanceFromNBA: ITotalCryptoBalanceFromNBA = await binance.balance();
+
+    multiCryptoTickersToGet.forEach(function (singleCryptoTickerToGet: TSingleCryptoTicker): void {
+        myCryptoBalance.push({
+            currency: singleCryptoTickerToGet,
+            available: totalCryptoBalanceFromNBA[singleCryptoTickerToGet].available,
+            onOrder: totalCryptoBalanceFromNBA[singleCryptoTickerToGet].onOrder,
         });
     });
-    console.log(currenciesList);
+
+    log && logMyCryptoBalance(myCryptoBalance as TMyCryptoBalance);
+
+    return myCryptoBalance as TMyCryptoBalance;
 }
 
-export function printBalance(currenciesList: IterableCurrencies): void {
-    const balanceTextToPrint = `
-BALANCE
-
-${currenciesList
-    .map(function (element: CurrencyBalanceData) {
-        return `${element.currency}: ${element.available} \n`;
-    })
-    .join("")}
-Printed ${getDateAndTimeForConsole()}`;
-
-    console.log(chalk.blue(balanceTextToPrint));
+export function logMyCryptoBalance(myCryptoBalance: TMyCryptoBalance): void {
+    console.log("tjo");
 }
 
 /**
- * Run: > npx ts-node balance2.ts
+ * Run: > cd src/account && npx ts-node balance2.ts
  */
 
-getCryptoBalance(cryptoTickers);
+getCryptoBalance(cryptoTickers, true).then((res) => console.log(res));

@@ -1,3 +1,10 @@
+export type TCryptoTickers = Array<TSingleCryptoTicker>;
+export type TCryptoSymbols = Array<TSingleCryptoSymbol>;
+export type TFiatTickers = Array<TSingleFiatTicker>;
+export type TSingleCryptoTicker = string;
+export type TSingleCryptoSymbol = string;
+export type TSingleFiatTicker = string;
+
 export const ADA = "ADA";
 export const BNB = "BNB";
 export const BTC = "BTC";
