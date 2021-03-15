@@ -18,6 +18,11 @@ export const LITBTC = "LITBTC";
 export const LTCBTC = "LTCBTC";
 export const RVNBTC = "RVNBTC";
 
+export const EUR = "EUR";
+export const USD = "USD";
+
+export const fiatTickers = [EUR, USD];
+
 export const cryptoTickers = [ADA, BNB, BTC, ETH, DOT, LINK, LIT, LTC, RVN];
 
 export const cryptoSymbols = [ADABTC, BNBBTC, BTCUSDT, ETHBTC, DOTBTC, LINKBTC, LITBTC, LTCBTC, RVNBTC];
