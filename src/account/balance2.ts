@@ -1,7 +1,7 @@
 import * as chalk from "chalk";
 import { getDateAndTimeForConsole } from "../utils/dateAndTime";
 import { cryptoTickers, TCryptoTickers, TSingleCryptoTicker } from "../utils/tickers";
-import { ITotalCryptoBalanceFromNBA, TMyCryptoBalance } from "./account.types";
+import { ISingleCryptoBalance, ITotalCryptoBalanceFromNBA, TMyTotalCryptoBalance } from "./account.types";
 
 // Setup
 
@@ -26,30 +26,41 @@ const binance = require("node-binance-api")().options({
 export async function getCryptoBalance(
     multiCryptoTickersToGet: TCryptoTickers,
     log = false
-): Promise<TMyCryptoBalance> {
-    const myCryptoBalance = [];
+): Promise<TMyTotalCryptoBalance> {
+    const myTotalCryptoBalance = [];
 
     const totalCryptoBalanceFromNBA: ITotalCryptoBalanceFromNBA = await binance.balance();
 
     multiCryptoTickersToGet.forEach(function (singleCryptoTickerToGet: TSingleCryptoTicker): void {
-        myCryptoBalance.push({
+        myTotalCryptoBalance.push({
             currency: singleCryptoTickerToGet,
             available: totalCryptoBalanceFromNBA[singleCryptoTickerToGet].available,
             onOrder: totalCryptoBalanceFromNBA[singleCryptoTickerToGet].onOrder,
         });
     });
 
-    log && logMyCryptoBalance(myCryptoBalance as TMyCryptoBalance);
+    log && logMyCryptoBalance(myTotalCryptoBalance as TMyTotalCryptoBalance);
 
-    return myCryptoBalance as TMyCryptoBalance;
+    return myTotalCryptoBalance as TMyTotalCryptoBalance;
 }
 
-export function logMyCryptoBalance(myCryptoBalance: TMyCryptoBalance): void {
-    console.log("tjo");
+export function logMyCryptoBalance(myCryptoBalance: TMyTotalCryptoBalance): void {
+    const balanceTextToPrint = `\nBALANCE ${getDateAndTimeForConsole()} ${_mapMyCryptoBalanceToTemplateLiteral(
+        myCryptoBalance
+    )}`;
+    console.log(chalk.blue(balanceTextToPrint));
+}
+
+function _mapMyCryptoBalanceToTemplateLiteral(myCryptoBalance: TMyTotalCryptoBalance) {
+    return `${myCryptoBalance
+        .map(function (singleCryptoBalance: ISingleCryptoBalance) {
+            return `\n- ${singleCryptoBalance.currency}: ${singleCryptoBalance.available}`;
+        })
+        .join("")}`;
 }
 
 /**
  * Run: > cd src/account && npx ts-node balance2.ts
  */
 
-getCryptoBalance(cryptoTickers, true).then((res) => console.log(res));
+getCryptoBalance(cryptoTickers, true);
