@@ -1,7 +1,7 @@
 import * as chalk from "chalk";
 import * as dotenv from "dotenv";
 import { getDateAndTimeForConsole } from "../utils/dateAndTime";
-import { cryptoTickers, TSingleCryptoTicker, forbiddenTickers } from "../utils/tickers";
+import { cryptoTickersWithEUR, TSingleCryptoTicker, forbiddenTickers } from "../utils/tickers";
 import {
     IGetCryptoBalance,
     ISingleCryptoBalance,
@@ -32,7 +32,7 @@ const NBA = require("node-binance-api")().options({
  * - Available fiats: EUR, GBP
  */
 
-export async function getCryptoBalance({
+export async function getBalance({
     multiCryptoTickersToGet,
     logToConsole = false,
 }: IGetCryptoBalance): Promise<TMyTotalCryptoBalance> {
@@ -47,7 +47,7 @@ export async function getCryptoBalance({
         try {
             totalCryptoBalanceFromNBA = await NBA.balance();
         } catch (err) {
-            reject;
+            reject(err);
         }
 
         // If ticker don't exist, this crashes. I prefer it to do so I notice fast and add it to the forbiddenTickers
@@ -81,9 +81,9 @@ function _mapMyCryptoBalanceToTemplateLiteral(myCryptoBalance: TMyTotalCryptoBal
 }
 
 /**
- * Run: > cd src/account && npx ts-node balance2.ts
+ * Run: > cd src/account && npx ts-node getBalance.ts
  */
 
-getCryptoBalance({ multiCryptoTickersToGet: cryptoTickers, logToConsole: true })
-    .then((res) => console.log("tjoooo", res))
-    .catch((err) => console.log(err));
+// getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true })
+//     .then((res) => console.log(res))
+//     .catch((err) => console.log(err));
