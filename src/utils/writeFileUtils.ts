@@ -53,7 +53,7 @@ export async function writeStreamToFile({ streamToWrite, filePath }: IWriteToFil
         streamToWrite.pipe(fileStream);
         streamToWrite.on("error", () => reject(new Error("Write to file rejected")));
         fileStream.on("finish", () => {
-            console.log(chalk`{yellow ...done}`);
+            //console.log(chalk`{yellow ...done}`);
             resolve(filePath);
         });
     });

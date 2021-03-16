@@ -1,7 +1,9 @@
+import * as chalk from "chalk";
 import { MultiHistoricalCandles, ITulipDataStructure, SingleHistoricalCandle } from "./data.types";
 import { readHistoricalCandlesFromFile } from "../utils/readFileUtils";
 
 function _createTulipDataStructureObject(multiHistoricalCandles: MultiHistoricalCandles): ITulipDataStructure {
+    console.log(chalk`{yellow PROCESSING data}`);
     try {
         const open = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[1]);
         const high = multiHistoricalCandles.map((array: SingleHistoricalCandle) => array[2]);

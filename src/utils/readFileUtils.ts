@@ -1,3 +1,4 @@
+import * as chalk from "chalk";
 import { readFile } from "fs";
 import { MultiHistoricalCandles } from "../data/data.types";
 
@@ -7,6 +8,7 @@ import { MultiHistoricalCandles } from "../data/data.types";
 
 async function _readJSONFileToJS(filePath: string): Promise<any> {
     return new Promise(function (resolve, reject) {
+        console.log(chalk`{yellow READING from ${filePath}}`);
         readFile(filePath, function (err, data) {
             if (err) {
                 reject(err);
