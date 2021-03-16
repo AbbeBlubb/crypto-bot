@@ -53,6 +53,11 @@ async function runStrategy({
 
             // ToDo: analysis should be written to file; append line to file, with info about the buy signal, in CSV
 
+            // ToDo:
+            // - If buy: check available BTC balance to buy crypto for, buy order with SL and TP
+            //           check if I already own the crypto: in that case, thange the SL and TP levels
+            // - If sell: check if I ownthe crypto, and if so, sell
+
             await notifyOnTelegram({
                 time: fileNameCreatedTime,
                 strategyName,
