@@ -57,6 +57,7 @@ async function runStrategy({
             // - If buy: check available BTC balance to buy crypto for, buy order with SL and TP
             //           check if I already own the crypto: in that case, thange the SL and TP levels
             // - If sell: check if I ownthe crypto, and if so, sell
+            // Naming of functions: decideHowToActOnSignals, constructOrderS, placeOrderS
 
             await notifyOnTelegram({
                 time: fileNameCreatedTime,
