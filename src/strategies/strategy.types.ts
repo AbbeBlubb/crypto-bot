@@ -33,3 +33,5 @@ export interface IStrategySignals {
 export enum EStrategyNames {
     HalfYearCrossOverStrategy = "Half Year Cross-Over Strategy",
 }
+
+export type TStrategyHasBeenResolved = "done";

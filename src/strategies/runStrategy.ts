@@ -9,7 +9,13 @@ import { attachUnhandledRejectionListener } from "../utils/attachUnhandledReject
 import { getFileNameForCandlesFile, IFileNameObject, writeStreamToFile } from "../utils/writeFileUtils";
 import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategyAlgorithm } from "./strategyUtils";
-import { IRunStrategy, IStrategyIteratorConfig, IStrategySignals, EStrategyNames } from "./strategy.types";
+import {
+    IRunStrategy,
+    IStrategyIteratorConfig,
+    IStrategySignals,
+    EStrategyNames,
+    TStrategyHasBeenResolved,
+} from "./strategy.types";
 import { cryptoSymbols } from "../utils/tickers";
 
 async function runStrategy({
@@ -21,7 +27,7 @@ async function runStrategy({
     fileFolder,
     fileExtension,
     additionalMessageToNotifier,
-}: IRunStrategy): Promise<string> {
+}: IRunStrategy): Promise<TStrategyHasBeenResolved> {
     return new Promise(async function (resolve, reject) {
         try {
             console.log(chalk`{bgGreen.white \nRUNNING STRATEGY ${strategyName}}`);
@@ -56,7 +62,7 @@ async function runStrategy({
             });
 
             console.log(chalk`{bgBlue.white \nCOMPLETED STRATEGY ${strategyName}}`);
-            resolve("done");
+            resolve("done" as TStrategyHasBeenResolved);
         } catch (error) {
             reject(new Error(error));
         }
@@ -65,7 +71,7 @@ async function runStrategy({
 
 /**
  * Runs specific strategy feeded through the config object
- * Run from root: cd src/data && npx ts-node halfYearCrossOverStrategyRun.ts
+ * Run from root: cd src/strategies && npx ts-node runStrategy.ts
  * Output path: this folder; ./fetched/
  * Read path: context same as the output
  */
@@ -91,7 +97,8 @@ async function runStrategy({
 
     for (let i = 0; i < config.symbols.length; i++) {
         const symbol = config.symbols[i];
-        const isResolved: string = await runStrategy({ ...config, symbol });
-        isResolved === "done" && console.log(`\nStrategy iteration ${i + 1} of ${config.symbols.length} done`);
+        const isResolved: TStrategyHasBeenResolved = await runStrategy({ ...config, symbol });
+        isResolved === ("done" as TStrategyHasBeenResolved) &&
+            console.log(`\nStrategy iteration ${i + 1} of ${config.symbols.length} done`);
     }
 })();
