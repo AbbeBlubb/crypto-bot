@@ -50,7 +50,7 @@ export async function getBalance({
             reject(err);
         }
 
-        // If ticker don't exist, this crashes. I prefer it to do so I notice fast and add it to the forbiddenTickers
+        // If ticker don't exist, this crashes. It's a good thing, as I will notice fast and add it to the forbiddenTickers
         multiCryptoTickersToGet.forEach(function (singleCryptoTickerToGet: TSingleCryptoTicker): void {
             myTotalCryptoBalance.push({
                 currency: singleCryptoTickerToGet,
