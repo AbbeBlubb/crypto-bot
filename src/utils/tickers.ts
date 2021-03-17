@@ -29,10 +29,35 @@ export const LINKBTC = "LINKBTC";
 export const LITBTC = "LITBTC";
 export const LTCBTC = "LTCBTC";
 export const RVNBTC = "RVNBTC";
+export const BTCEUR = "BTCEUR";
 
 export const fiatTickers: Array<string> = [EUR, USD];
 export const cryptoTickers: Array<string> = [ADA, BNB, BTC, ETH, DOT, LINK, LIT, LTC, RVN];
 export const cryptoTickersWithEUR: Array<string> = [EUR, ADA, BNB, BTC, ETH, DOT, LINK, LIT, LTC, RVN];
 export const forbiddenTickers: Array<string> = [USD, "EURO"];
 
-export const cryptoSymbols: Array<string> = [ADABTC, BNBBTC, BTCUSDT, ETHBTC, DOTBTC, LINKBTC, LITBTC, LTCBTC, RVNBTC];
+export const cryptoSymbols: Array<string> = [
+    ADABTC,
+    BNBBTC,
+    BTCUSDT,
+    ETHBTC,
+    DOTBTC,
+    LINKBTC,
+    LITBTC,
+    LTCBTC,
+    RVNBTC,
+    BTCEUR,
+];
+
+export enum ECryptoSymbols {
+    ADABTC = "ADABTC",
+    BANBBTC = "BNBBTC",
+    BTCUSDT = "BTCUSDT",
+    ETHBTC = "ETHBTC",
+    DOTBTC = "DOTBTC",
+    LINKBTC = "LINKBTC",
+    LITBTC = "LITBTC",
+    LTCBTC = "LTCBTC",
+    RVNBTC = "RVNBTC",
+    BTCEUR = "BTCEUR", // Is this one right?
+}

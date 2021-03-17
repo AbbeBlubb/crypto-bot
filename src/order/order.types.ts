@@ -1,10 +1,26 @@
-// What data does an order need in order for it to be an order?
+import { ECryptoSymbols } from "../utils/tickers";
+import { IStrategySignals } from "../strategies/strategy.types";
+
+export enum EOrderType {
+    EnterLongMarket = "EnterLongMarket",
+    ExitLongMarket = "ExitLongMarket",
+    none = "none",
+}
+
+export interface IDecideActionOnStrategySignal {
+    strategySignals: IStrategySignals;
+    symbol: ECryptoSymbols;
+    quantity: number;
+}
+
 export interface IOrder {
-    long?: boolean;
-    short?: boolean;
-    buy?: boolean;
-    sell?: boolean;
-    takeProfit?: number;
-    stopLoss?: number;
-    limit?: number;
+    orderType: EOrderType;
+    symbol: ECryptoSymbols;
+    quantity: number;
+}
+
+export interface IOrderReciept {
+    orderType: EOrderType;
+    orderHasBeenExecuted: boolean;
+    NBAReciept: any;
 }

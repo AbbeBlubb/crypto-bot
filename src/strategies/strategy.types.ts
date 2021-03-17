@@ -1,11 +1,12 @@
 import { EInterval, ITulipDataStructure } from "../data/data.types";
+import { ECryptoSymbols } from "../utils/tickers";
 
 type TStrategyAlgorithm = (tulipDataStructure: ITulipDataStructure) => IStrategySignals;
 
 export interface IRunStrategy {
     strategyName: "Half Year Cross-Over Strategy";
     strategyAlgorithm: TStrategyAlgorithm; // The strategy function imported in the run-file
-    symbol: string; // Eg "BTCUSDT" in capitals
+    symbol: ECryptoSymbols; // Eg "BTCUSDT" in capitals
     interval: EInterval; // Periods, eg "1d"
     limit: number; // Ammount of candles/periods, in number
     fileFolder: string; // Eg "./fetched/". Relative to the callee context, that is, the top-most highest function context

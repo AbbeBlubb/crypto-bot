@@ -1,11 +1,14 @@
-export enum EActionOnSignal {
-    EnterLongPosition,
-    EnterShortPosition,
-    ExitLongPosition,
-    ExitShortPosition,
-}
+import { IOrder, EOrderType, IDecideActionOnStrategySignal } from "../order/order.types";
+import { ECryptoSymbols } from "../utils/tickers";
 
-// Returns the action name
-export function decideActionOnStrategySignal() {
-    return "hello";
+export function decideActionOnStrategySignal({
+    strategySignals,
+    symbol,
+    quantity,
+}: IDecideActionOnStrategySignal): IOrder {
+    return {
+        orderType: EOrderType.none,
+        symbol: ECryptoSymbols.BTCEUR,
+        quantity: 1,
+    };
 }
