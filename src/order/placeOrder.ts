@@ -14,21 +14,36 @@ const NBA = setupNodeBinanceAPI();
  * - Available fiats: EUR, GBP
  */
 
-// ToDo: resolve, reject
 export async function placeOrder({ orderType, symbol, quantity }: IOrder): Promise<IOrderReciept> {
     return new Promise(async function (resolve, reject) {
+        let recieptEnterLongMarket, recieptExitLongMarket;
+
         try {
             switch (orderType) {
                 case EOrderType.EnterLongMarket:
-                    const recieptBuy = await NBA.marketBuy(symbol, quantity);
-                    console.log("ENTER long market executed: ", recieptBuy);
-                    resolve({ orderType, orderHasBeenExecuted: false, NBAReciept: recieptBuy });
+                    recieptEnterLongMarket = await NBA.marketBuy(symbol, quantity);
+                    console.log("ENTER long market executed: ", recieptEnterLongMarket);
+                    resolve({
+                        orderType,
+                        symbol,
+                        quantity,
+                        orderHasBeenExecuted: true,
+                        NBAReciept: recieptEnterLongMarket,
+                        errorMessage: null,
+                    } as IOrderReciept);
                     break;
 
                 case EOrderType.ExitLongMarket:
-                    const recieptSell = await NBA.marketSell(symbol, quantity);
-                    console.log("EXIT long market executed: ", recieptSell);
-                    resolve(recieptSell);
+                    recieptExitLongMarket = await NBA.marketSell(symbol, quantity);
+                    console.log("EXIT long market executed: ", recieptExitLongMarket);
+                    resolve({
+                        orderType,
+                        symbol,
+                        quantity,
+                        orderHasBeenExecuted: true,
+                        NBAReciept: recieptExitLongMarket,
+                        errorMessage: null,
+                    } as IOrderReciept);
                     break;
 
                 default:
@@ -36,13 +51,21 @@ export async function placeOrder({ orderType, symbol, quantity }: IOrder): Promi
                         "Default clause executed in the switch statement in placeOrder.ts. The value of the given expression doesn't match any of the case clauses."
                     );
             }
-        } catch (err) {
-            console.log(err);
+            // Catch rejected promises from awaits
+        } catch (error) {
+            const errorMessage = `Rejected promise in placeOrder.ts. Order type: ${orderType}, symbol: ${symbol}, quantity: ${quantity}. Error body: ${error.body}`;
+            reject({
+                orderType,
+                symbol,
+                quantity,
+                orderHasBeenExecuted: false,
+                NBAReciept: null,
+                errorMessage,
+            } as IOrderReciept);
         }
     });
 }
 
 (async function testSell() {
-    const a = await placeOrder({ orderType: EOrderType.ExitLongMarket, symbol: ECryptoSymbols.ADABTC, quantity: 1 });
-    console.log("a: ", a);
+    await placeOrder({ orderType: EOrderType.ExitLongMarket, symbol: ECryptoSymbols.ADABTC, quantity: 1 });
 })();

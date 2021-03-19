@@ -72,6 +72,6 @@ function _mapMyCryptoBalanceToTemplateLiteral(myCryptoBalance: TMyTotalCryptoBal
  * Run: > cd src/account && npx ts-node getBalance.ts
  */
 
-getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+// getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true })
+//     .then((res) => console.log(res))
+//     .catch((err) => console.log(err));

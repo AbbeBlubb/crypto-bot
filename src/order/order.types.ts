@@ -19,8 +19,8 @@ export interface IOrder {
     quantity: number;
 }
 
-export interface IOrderReciept {
-    orderType: EOrderType;
+export interface IOrderReciept extends IOrder {
     orderHasBeenExecuted: boolean;
     NBAReciept: any;
+    errorMessage: string;
 }
