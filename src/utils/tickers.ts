@@ -59,5 +59,5 @@ export enum ECryptoSymbols {
     LITBTC = "LITBTC",
     LTCBTC = "LTCBTC",
     RVNBTC = "RVNBTC",
-    BTCEUR = "BTCEUR", // Is this one right?
+    BTCEUR = "BTCEUR",
 }
