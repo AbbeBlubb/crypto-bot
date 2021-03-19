@@ -10,10 +10,10 @@ Row 2868
 
 ## node-binance-api docs
 
-- https://www.npmjs.com/package/node-binance-api
+- <https://www.npmjs.com/package/node-binance-api>
 - Placing a MARKET order
 
-## response from order?
+## Sucessful response from order?
 
 ``` JavaScript
 {
@@ -30,3 +30,11 @@ Row 2868
   side: 'BUY' 
 }
 ```
+
+## Unsuccessful response from order
+
+See folder "secrets" in root
+
+## Binance trading rules: minimum trade ammount
+
+<https://www.binance.us/en/trade-limits>
