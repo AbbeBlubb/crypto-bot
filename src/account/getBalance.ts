@@ -1,5 +1,4 @@
 import * as chalk from "chalk";
-import * as dotenv from "dotenv";
 import { getDateAndTimeForConsole } from "../utils/dateAndTime";
 import { cryptoTickersWithEUR, TSingleCryptoTicker, forbiddenTickers } from "../utils/tickers";
 import {
@@ -8,24 +7,13 @@ import {
     ITotalCryptoBalanceFromNBA,
     TMyTotalCryptoBalance,
 } from "./account.types";
+import { setupNodeBinanceAPI } from "./setupNodeBinanceAPI";
 
 /**
  * Setup for NBA
  */
 
-dotenv.config({ path: "../../.env" });
-
-const BINANCE_API_KEY = process.env.BINANCE_API_KEY;
-const BINANCE_API_SECRET = process.env.BINANCE_API_SECRET;
-
-const NBA = require("node-binance-api")().options({
-    APIKEY: BINANCE_API_KEY,
-    APISECRET: BINANCE_API_SECRET,
-    useServerTime: true, // If you get timestamp errors, synchronize to server time at startup
-    log: (log) => {
-        console.log(log);
-    },
-});
+const NBA = setupNodeBinanceAPI();
 
 /**
  * - Get crypto balance
@@ -84,6 +72,6 @@ function _mapMyCryptoBalanceToTemplateLiteral(myCryptoBalance: TMyTotalCryptoBal
  * Run: > cd src/account && npx ts-node getBalance.ts
  */
 
-// getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true })
-//     .then((res) => console.log(res))
-//     .catch((err) => console.log(err));
+getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true })
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));

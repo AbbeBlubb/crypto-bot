@@ -1,24 +1,13 @@
 import * as dotenv from "dotenv";
 import { IOrder } from "./order.types";
 import { EOrderType, IOrderReciept } from "./order.types";
+import { setupNodeBinanceAPI } from "../account/setupNodeBinanceAPI";
 
 /**
  * Setup for NBA
  */
 
-dotenv.config({ path: "../../.env" });
-
-const BINANCE_API_KEY = process.env.BINANCE_API_KEY;
-const BINANCE_API_SECRET = process.env.BINANCE_API_SECRET;
-
-const NBA = require("node-binance-api")().options({
-    APIKEY: BINANCE_API_KEY,
-    APISECRET: BINANCE_API_SECRET,
-    useServerTime: true, // If you get timestamp errors, synchronize to server time at startup
-    log: (log) => {
-        console.log(log);
-    },
-});
+const NBA = setupNodeBinanceAPI();
 
 /**
  * - Get crypto balance
@@ -31,7 +20,7 @@ export async function placeOrder({ orderType, symbol, quantity }: IOrder): Promi
         switch (orderType) {
             case EOrderType.EnterLongMarket:
                 const recieptBuy = await NBA.marketBuy(symbol, quantity);
-                console.log("ENTER long market executed");
+                console.log("ENTER long market executed: ", recieptBuy);
                 resolve({ orderType, orderHasBeenExecuted: false, NBAReciept: recieptBuy });
                 break;
 
