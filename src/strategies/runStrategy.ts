@@ -16,7 +16,7 @@ import {
     EStrategyNames,
     TStrategyHasBeenResolved,
 } from "./strategy.types";
-import { cryptoSymbols } from "../utils/tickers";
+import { cryptoSymbols, ECryptoSymbols } from "../utils/tickers";
 
 async function runStrategy({
     strategyName,
@@ -32,8 +32,11 @@ async function runStrategy({
         try {
             console.log(chalk`{bgGreen.white \nRUNNING STRATEGY ${strategyName}}`);
 
+            // Fetch
             const url = getURLForCandles({ symbol, interval, limit });
             const responseObject: Response = await fetchCandles({ url, symbol, interval, limit });
+
+            // Write
             const { fileName, fileNameCreatedTime }: IFileNameObject = getFileNameForCandlesFile({
                 symbol,
                 interval,
@@ -45,10 +48,13 @@ async function runStrategy({
                 streamToWrite: responseObject.body,
                 filePath,
             });
+
+            // Read and create data structure
             const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile(
                 filePathResponse
             );
 
+            // Run strat
             const strategySignals: IStrategySignals = runStrategyAlgorithm({ tulipDataStructure, strategyAlgorithm });
 
             // ToDo: analysis should be written to file; append line to file, with info about the buy signal, in CSV
@@ -105,7 +111,7 @@ async function runStrategy({
     console.log(`\nStarting strategy iterations: ${config.symbols.length} iterations to go`);
 
     for (let i = 0; i < config.symbols.length; i++) {
-        const symbol = config.symbols[i];
+        const symbol = config.symbols[i] as ECryptoSymbols;
         const isResolved: TStrategyHasBeenResolved = await runStrategy({ ...config, symbol });
         isResolved === ("done" as TStrategyHasBeenResolved) &&
             console.log(`\nStrategy iteration ${i + 1} of ${config.symbols.length} done`);
