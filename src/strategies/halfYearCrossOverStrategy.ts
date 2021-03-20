@@ -8,11 +8,17 @@ import { IStrategySignals, EStrategyNames } from "./strategy.types";
 
 export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructure): IStrategySignals {
     /**
-     * Buy-signal to enter long position (not general buy/buy-back-shorted-position-signal)
+     * Prepare data for indicators
      */
 
-    // Prepare data for indicator
+    const arrayWithOpenPrices = tulipDataStructure.open; // ToDo: type! Array with candles
+    const arrayWithHighPrices = tulipDataStructure.high; // ToDo: type! Array with candles
+    const arrayWithLowPrices = tulipDataStructure.low; // ToDo: type! Array with candles
     const arrayWithClosePrices: ClosePrices = tulipDataStructure.close;
+
+    /**
+     * Buy-signal to enter long position (not general buy/buy-back-shorted-position-signal)
+     */
 
     // Calculate indicator data
     const SMA140Data: SMAData = SMA(arrayWithClosePrices, 140);
