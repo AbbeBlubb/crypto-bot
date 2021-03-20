@@ -35,20 +35,28 @@ export enum EInterval {
  */
 
 export type MultiHistoricalCandles = Array<SingleHistoricalCandle>;
-export type SingleHistoricalCandle = (string | number)[];
+export type SingleHistoricalCandle = [
+    number,
+    string,
+    string,
+    string,
+    string,
+    string,
+    number,
+    string,
+    number,
+    string,
+    string,
+    string
+];
 
 /**
- * Data structure for Tulip Node
+ * Data structure for Tulip Node lib
  */
 
-export type OpenPrices = SingleHistoricalCandle;
-export type HighPrices = SingleHistoricalCandle;
-export type LowPrices = SingleHistoricalCandle;
-export type ClosePrices = SingleHistoricalCandle;
-
 export interface ITulipDataStructure {
-    open: OpenPrices;
-    high: HighPrices;
-    low: LowPrices;
-    close: ClosePrices;
+    open: Array<number>;
+    high: Array<number>;
+    low: Array<number>;
+    close: Array<number>;
 }

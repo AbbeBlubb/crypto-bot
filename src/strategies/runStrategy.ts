@@ -3,7 +3,7 @@ import { Response } from "node-fetch";
 import * as path from "path";
 import { ITulipDataStructure, EInterval } from "../data/data.types";
 import { fetchCandles, getURLForCandles } from "../data/fetchUtils";
-import { _getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStructureUtils";
+import { getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStructureUtils";
 import { notifyOnTelegram } from "../notifier/telegramUtils";
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
 import { getFileNameForCandlesFile, IFileNameObject, writeStreamToFile } from "../utils/writeFileUtils";
@@ -50,7 +50,7 @@ async function runStrategy({
             });
 
             // Read and create data structure
-            const tulipDataStructure: ITulipDataStructure = await _getTulipDataStructureObjectFromJSONFile(
+            const tulipDataStructure: ITulipDataStructure = await getTulipDataStructureObjectFromJSONFile(
                 filePathResponse
             );
 

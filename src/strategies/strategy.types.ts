@@ -23,7 +23,6 @@ export interface IStrategyIteratorConfig extends Omit<IRunStrategy, "symbol"> {
     symbols: string[];
 }
 
-// Specify if it's a position long/short, entry/exit
 export interface IStrategySignals {
     enterLongAtMarketPrice: boolean;
     exitLongAtMarketPrice: boolean;

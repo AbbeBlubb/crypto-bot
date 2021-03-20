@@ -1,8 +1,7 @@
 import * as tulind from "tulind";
-import { ClosePrices } from "../data/data.types";
 import { SMAData } from "./indicators.types";
 
-export function SMA(arrayWithClosePrices: ClosePrices, period: number): SMAData {
+export function SMA(arrayWithClosePrices: Array<number>, period: number): SMAData {
     const _real = [arrayWithClosePrices];
     const _period = [period];
     let result: number[];

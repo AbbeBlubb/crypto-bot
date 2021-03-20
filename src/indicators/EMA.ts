@@ -1,8 +1,7 @@
 import * as tulind from "tulind";
-import { ClosePrices } from "../data/data.types";
 import { EMAData } from "./indicators.types";
 
-export function EMA(arrayWithClosePrices: ClosePrices, period: number): EMAData {
+export function EMA(arrayWithClosePrices: Array<number>, period: number): EMAData {
     const _real = [arrayWithClosePrices];
     const _period = [period];
     let result: number[];

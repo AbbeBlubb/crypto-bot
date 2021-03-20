@@ -1,20 +1,20 @@
-import { ClosePrices, ITulipDataStructure } from "../data/data.types";
+import { ITulipDataStructure } from "../data/data.types";
 import { EMA } from "../indicators/EMA";
 import { EMAData, SMAData } from "../indicators/indicators.types";
 import { SMA } from "../indicators/SMA";
 import { isAtLeastOneBooleanTrue } from "../signals/booleanComparisions";
 import { firstNumberIsGreaterThanSecondNumber } from "../signals/numberComparisions";
-import { IStrategySignals, EStrategyNames } from "./strategy.types";
+import { EStrategyNames, IStrategySignals } from "./strategy.types";
 
 export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructure): IStrategySignals {
     /**
      * Prepare data for indicators
      */
 
-    const arrayWithOpenPrices = tulipDataStructure.open; // ToDo: type! Array with candles
-    const arrayWithHighPrices = tulipDataStructure.high; // ToDo: type! Array with candles
-    const arrayWithLowPrices = tulipDataStructure.low; // ToDo: type! Array with candles
-    const arrayWithClosePrices: ClosePrices = tulipDataStructure.close;
+    const arrayWithOpenPrices = tulipDataStructure.open;
+    const arrayWithHighPrices = tulipDataStructure.high;
+    const arrayWithLowPrices = tulipDataStructure.low;
+    const arrayWithClosePrices = tulipDataStructure.close;
 
     /**
      * Buy-signal to enter long position (not general buy/buy-back-shorted-position-signal)
