@@ -1,7 +1,7 @@
 import { IOrder } from "./order.types";
 import { EOrderType, IOrderReciept } from "./order.types";
 import { setupNodeBinanceAPI } from "../account/setupNodeBinanceAPI";
-import { ECryptoSymbols } from "../utils/tickers";
+// import { ECryptoSymbols } from "../utils/tickers";
 
 /**
  * Setup for NBA
@@ -66,6 +66,10 @@ export async function placeOrder({ orderType, symbol, quantity }: IOrder): Promi
     });
 }
 
-(async function testSell() {
-    await placeOrder({ orderType: EOrderType.ExitLongMarket, symbol: ECryptoSymbols.ADABTC, quantity: 1 });
-})();
+/**
+ * Run: > cd src/order && npx ts-node placeOrder.ts
+ */
+
+// (async function testSell() {
+//     await placeOrder({ orderType: EOrderType.ExitLongMarket, symbol: ECryptoSymbols.ADABTC, quantity: 1 });
+// })();

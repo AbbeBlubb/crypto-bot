@@ -31,9 +31,9 @@ Row 2868
 }
 ```
 
-## Market sell, successful response + error
+## Market sell, successful + error
 
-When sell has been successful, the returned error is null. The response is an object woth .orderId.
+When sell has been successful, the returned error is null. The response is an object with .orderId.
 When sell is not successfull, the returned response is empty object. The error is a large JSON object.
 
 ``` Nodejs
@@ -86,6 +86,10 @@ Response:  [Object: null prototype] {
 
 Error:  null
 ```
+
+## Market buy, successful + error
+
+x
 
 ## Unsuccessful response from order
 
