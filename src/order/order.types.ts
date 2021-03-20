@@ -2,8 +2,8 @@ import { ECryptoSymbols } from "../utils/tickers";
 import { IStrategySignals } from "../strategies/strategy.types";
 
 export enum EOrderType {
-    EnterLongMarket = "EnterLongMarket",
-    ExitLongMarket = "ExitLongMarket",
+    EnterLongAtMarketPrice = "EnterLongAtMarketPrice",
+    ExitLongAtMarketPrice = "ExitLongMarket",
     none = "none",
 }
 

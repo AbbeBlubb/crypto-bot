@@ -8,7 +8,7 @@ import { IStrategySignals, EStrategyNames } from "./strategy.types";
 
 export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructure): IStrategySignals {
     /**
-     * Buy signal
+     * Buy-signal to enter long position (not general buy/buy-back-shorted-position-signal)
      */
 
     // Prepare data for indicator
@@ -36,7 +36,7 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
     );
 
     /**
-     * Sell signal
+     * Sell-signal for entered positions (not general sell/short-signal) - TO DO
      */
 
     const sellSignal = false;
@@ -66,11 +66,11 @@ export function halfYearCrossOverStrategy(tulipDataStructure: ITulipDataStructur
      * Return signals
      */
 
-    const buy = isLatestCandleCloseHigherThanOneOfTheMAs || false;
-    const sell = sellSignal || false;
+    const enterLongAtMarketPrice = isLatestCandleCloseHigherThanOneOfTheMAs || false;
+    const exitLongAtMarketPrice = sellSignal || false;
     const takeProfit = takeProfitFunctionReturn;
     const stopLoss = stopLossFunctionReturn;
     const report = reportForStrat;
 
-    return { buy, sell, takeProfit, stopLoss, report };
+    return { enterLongAtMarketPrice, exitLongAtMarketPrice, takeProfit, stopLoss, report };
 }

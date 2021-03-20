@@ -20,7 +20,7 @@ export async function placeOrder({ orderType, symbol, quantity }: IOrder): Promi
 
         try {
             switch (orderType) {
-                case EOrderType.EnterLongMarket:
+                case EOrderType.EnterLongAtMarketPrice:
                     recieptEnterLongMarket = await NBA.marketBuy(symbol, quantity);
                     console.log("ENTER long market executed: ", recieptEnterLongMarket);
                     resolve({
@@ -33,7 +33,7 @@ export async function placeOrder({ orderType, symbol, quantity }: IOrder): Promi
                     } as IOrderReciept);
                     break;
 
-                case EOrderType.ExitLongMarket:
+                case EOrderType.ExitLongAtMarketPrice:
                     recieptExitLongMarket = await NBA.marketSell(symbol, quantity);
                     console.log("EXIT long market executed: ", recieptExitLongMarket);
                     resolve({

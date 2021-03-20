@@ -59,12 +59,13 @@ async function runStrategy({
 
             // 4. constructOrderFromSignal()
 
-            // 2. placeOrder() - I need to learn about what an order is
+            // 2. placeOrder(buy or sell, quantity...)
 
             await notifyOnTelegram({
                 time: fileNameCreatedTime,
                 strategyName,
-                buySignal: strategySignals.buy,
+                enterLongAtMarketPrice: strategySignals.enterLongAtMarketPrice,
+                exitLongAtMarketPrice: strategySignals.exitLongAtMarketPrice,
                 symbol,
                 additionalMessage: additionalMessageToNotifier,
             });

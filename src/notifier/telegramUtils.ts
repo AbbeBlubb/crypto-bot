@@ -5,7 +5,8 @@ import * as chalk from "chalk";
 export interface INotifyOnTelegramOptions {
     time?: string;
     strategyName: string;
-    buySignal: boolean;
+    enterLongAtMarketPrice: boolean;
+    exitLongAtMarketPrice: boolean;
     symbol: string;
     additionalMessage?: string | undefined;
 }
@@ -14,18 +15,20 @@ export interface INotifyOnTelegramOptions {
  * - Run file: > npx ts-node telegramUtils.ts
  * - To test buySignal=false, add buySignal=false before the if-statement
  */
+
 export async function notifyOnTelegram({
     strategyName,
     symbol,
     time = "<no time given>",
-    buySignal,
+    enterLongAtMarketPrice,
+    exitLongAtMarketPrice,
     additionalMessage,
 }: INotifyOnTelegramOptions): Promise<void> {
     return new Promise(function (resolve) {
-        if (buySignal) {
+        if (enterLongAtMarketPrice) {
             loadDotenv();
 
-            const buySignalToSend: string = buySignal ? "\nSignal fired" : "";
+            const buySignalToSend: string = enterLongAtMarketPrice ? "\nSignal fired" : "";
             const additionalMessageToSend: string = additionalMessage ? "\n" + additionalMessage : "";
             const messageToSend = `${strategyName}\n${symbol}\n${time}${buySignalToSend}${additionalMessageToSend}`;
             const sendMessage = sendMessageFor(process.env.TELEGRAM_BOT_API_KEY, process.env.TELEGRAM_CHANNEL_ID);
@@ -38,6 +41,8 @@ export async function notifyOnTelegram({
                 .catch(() => {
                     throw new Error("Error catched in notifyOnTelegram function");
                 });
+        } else if (exitLongAtMarketPrice) {
+            console.log("Under construction");
         } else {
             console.log(chalk`{blue \nTELEGRAM NOTIFIER hasn't fired regarding ${strategyName} / ${symbol} / ${time}}`);
             resolve();

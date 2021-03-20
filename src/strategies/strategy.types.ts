@@ -25,8 +25,8 @@ export interface IStrategyIteratorConfig extends Omit<IRunStrategy, "symbol"> {
 
 // Specify if it's a position long/short, entry/exit
 export interface IStrategySignals {
-    buy: boolean;
-    sell: boolean;
+    enterLongAtMarketPrice: boolean;
+    exitLongAtMarketPrice: boolean;
     takeProfit: number;
     stopLoss: number;
     report: { [key: string]: number | string | boolean };
