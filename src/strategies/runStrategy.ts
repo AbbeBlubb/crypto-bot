@@ -67,6 +67,7 @@ async function runStrategy({
             const balance = await getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true });
 
             // 4. constructOrderFromSignal()
+            // Also fix the server version so all is automated
 
             // 2. placeOrder(buy or sell, quantity...)
 
