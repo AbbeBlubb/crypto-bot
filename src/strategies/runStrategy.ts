@@ -57,12 +57,13 @@ async function runStrategy({
 
             // Run strat
             const strategySignals: IStrategySignals = runStrategyAlgorithm({ tulipDataStructure, strategyAlgorithm });
+            console.log("Strategy output: ", strategySignals);
 
             // ToDo: analysis should be written to file; append line to file, with info about the buy signal, in CSV
+            // OR set up a DB with Docker!
+            // callFunc({ ...strategySignals, dataIsFromDataFetchedAtTime: fileNameCreatedTime })
 
             // 3. decideActionOnStrategySignal()
-
-            // 1. Call the getBalance as PoC! This will be called after
             const balance = await getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true });
 
             // 4. constructOrderFromSignal()

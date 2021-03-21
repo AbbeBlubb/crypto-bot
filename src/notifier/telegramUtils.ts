@@ -28,7 +28,7 @@ export async function notifyOnTelegram({
         if (enterLongAtMarketPrice) {
             loadDotenv();
 
-            const buySignalToSend: string = enterLongAtMarketPrice ? "\nSignal fired" : "";
+            const buySignalToSend: string = enterLongAtMarketPrice ? "\nENTRY signal fired" : "";
             const additionalMessageToSend: string = additionalMessage ? "\n" + additionalMessage : "";
             const messageToSend = `${strategyName}\n${symbol}\n${time}${buySignalToSend}${additionalMessageToSend}`;
             const sendMessage = sendMessageFor(process.env.TELEGRAM_BOT_API_KEY, process.env.TELEGRAM_CHANNEL_ID);
@@ -42,7 +42,21 @@ export async function notifyOnTelegram({
                     throw new Error("Error catched in notifyOnTelegram function");
                 });
         } else if (exitLongAtMarketPrice) {
-            console.log("Under construction");
+            loadDotenv();
+
+            const sellSignalToSend: string = exitLongAtMarketPrice ? "\nEXIT signal fired" : "";
+            const additionalMessageToSend: string = additionalMessage ? "\n" + additionalMessage : "";
+            const messageToSend = `${strategyName}\n${symbol}\n${time}${sellSignalToSend}${additionalMessageToSend}`;
+            const sendMessage = sendMessageFor(process.env.TELEGRAM_BOT_API_KEY, process.env.TELEGRAM_CHANNEL_ID);
+
+            sendMessage(messageToSend)
+                .then(() => {
+                    console.log(chalk`{blue \nTELEGRAM NOTIFIER has sent:\n${messageToSend}}`);
+                    resolve();
+                })
+                .catch(() => {
+                    throw new Error("Error catched in notifyOnTelegram function");
+                });
         } else {
             console.log(chalk`{blue \nTELEGRAM NOTIFIER hasn't fired regarding ${strategyName} / ${symbol} / ${time}}`);
             resolve();

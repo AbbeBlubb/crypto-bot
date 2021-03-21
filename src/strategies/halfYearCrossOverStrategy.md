@@ -32,3 +32,40 @@ Om gummisnodden är för hårt spänd: förebråelse om kraftig rekyl ner.
 Vad är för hårt spänd?
 
 * Jämför en kort SMA med den långa som gav köpsignal
+
+## Output data
+
+### Interface
+
+``` TypeScript
+export interface IStrategySignals {
+    enterLongAtMarketPrice: boolean;
+    exitLongAtMarketPrice: boolean;
+    takeProfit: number;
+    stopLoss: number;
+    report: { [key: string]: number | string | boolean };
+}
+```
+
+### Object example
+
+``` JavaScript
+{
+  enterLongAtMarketPrice: true,
+  exitLongAtMarketPrice: false,
+  takeProfit: 100,
+  stopLoss: 90,
+  report: {
+    strategy: 'Half Year Cross-Over Strategy',
+    latestSMA140: 0.0000013015714285714297,
+    latestEMA150: 0.000001752424891334612,
+    latestClosePrice: 0.00000397,
+    isLatestCandleCloseHigherThanLatestSMA140: true,
+    isLatestCandleCloseHigherThanLatestEMA150: true,
+    isLatestCandleCloseHigherThanOneOfTheMAs: true,
+    isLatestCandleCloseLowerThanLatestSMA140: false,
+    isLatestCandleCloseLowerThanLatestEMA150: false,
+    isLatestCandleCloseLowerThanOneOfTheMAs: false
+  }
+}
+```
