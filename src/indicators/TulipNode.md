@@ -79,10 +79,3 @@ var low    = [1,2,3,3,2,1,2,2,2,3];
 var close  = [4,5,6,6,6,5,5,5,6,4];
 var volume = [123,232,212,232,111,232,212,321,232,321];
 ```
-
-## Other libs
-
-* <https://github.com/26medias/timeseries-analysis>
-* <https://github.com/anandanand84/technicalindicators>
-* <https://github.com/oransel/node-talib>
-* <https://github.com/acrazing/talib-binding-node>
