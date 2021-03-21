@@ -1,4 +1,4 @@
-# detBalance
+# getBalance
 
 ## Output data on console
 
@@ -31,5 +31,20 @@ export interface ISingleCryptoBalance {
 ## Object
 
 ``` JavaScript
-Nope!
+[
+  { currency: 'ADA', available: '504.00000000', onOrder: '0.00000000' },
+  { currency: 'BNB', available: '0.14925692', onOrder: '0.00000000' },
+  { currency: 'BTC', available: '0.00011320', onOrder: '0.00000000' },
+  { currency: 'ETH', available: '0.00000000', onOrder: '0.00000000' },
+  { currency: 'DOT', available: '0.00000000', onOrder: '0.00000000' },
+  { currency: 'LINK', available: '0.00000000', onOrder: '0.00000000' },
+  { currency: 'LIT', available: '0.00000000', onOrder: '0.00000000' },
+  { currency: 'LTC', available: '0.00000000', onOrder: '0.00000000' },
+  { currency: 'RVN', available: '0.00000000', onOrder: '0.00000000' },
+  {
+    currency: 'EUR',
+    available: '1698.08424162',
+    onOrder: '0.00000000'
+  }
+]
 ```
