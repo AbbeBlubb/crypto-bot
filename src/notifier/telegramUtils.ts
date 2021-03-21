@@ -14,6 +14,7 @@ export interface INotifyOnTelegramOptions {
 /**
  * - Run file: > npx ts-node telegramUtils.ts
  * - To test buySignal=false, add buySignal=false before the if-statement
+ * - TO DO: move Telegram's function sendMessage to separate function, switch statement instead of if-else
  */
 
 export async function notifyOnTelegram({
