@@ -18,6 +18,7 @@ import {
 } from "./strategy.types";
 import { cryptoSymbols, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
 import { getBalance } from "../account/getBalance";
+import { TMyTotalCryptoBalance } from "../account/account.types";
 
 async function runStrategy({
     strategyName,
@@ -64,7 +65,10 @@ async function runStrategy({
 
             // 3.
             // decideActionOnStrategySignal()
-            const balance = await getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true });
+            const balance: TMyTotalCryptoBalance = await getBalance({
+                multiCryptoTickersToGet: cryptoTickersWithEUR,
+                logToConsole: true,
+            });
 
             // 4. constructOrderFromSignal()
             // Also fix the server version so all is automated

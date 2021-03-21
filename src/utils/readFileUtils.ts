@@ -1,6 +1,7 @@
 import * as chalk from "chalk";
 import { readFile } from "fs";
 import { MultiHistoricalCandles } from "../data/data.types";
+import { ECryptoSymbols } from "./tickers";
 
 /**
  * Reads a file path from the context of the callee
@@ -35,4 +36,8 @@ export async function readHistoricalCandlesFromFile(filePath: string): Promise<M
     } catch (err) {
         throw new Error("Error returned from readJSONFileToJS" + err);
     }
+}
+
+export async function readOrderFromFile(filePath: string): Promise<any> {
+    return false;
 }

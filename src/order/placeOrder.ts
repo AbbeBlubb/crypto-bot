@@ -46,6 +46,17 @@ export async function placeOrder({ orderType, symbol, quantity }: IOrder): Promi
                     } as IOrderReciept);
                     break;
 
+                case EOrderType.none:
+                    console.log("No order action required");
+                    resolve({
+                        orderType,
+                        symbol,
+                        quantity,
+                        orderHasBeenExecuted: false,
+                        NBAReciept: null,
+                        errorMessage: null,
+                    });
+
                 default:
                     throw new Error(
                         "Default clause executed in the switch statement in placeOrder.ts. The value of the given expression doesn't match any of the case clauses."

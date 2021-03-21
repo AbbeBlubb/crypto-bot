@@ -1,5 +1,6 @@
 import { ECryptoSymbols } from "../utils/tickers";
 import { IStrategySignals } from "../strategies/strategy.types";
+import { TMyTotalCryptoBalance } from "../account/account.types";
 
 export enum EOrderType {
     EnterLongAtMarketPrice = "EnterLongAtMarketPrice",
@@ -8,6 +9,7 @@ export enum EOrderType {
 }
 
 export interface IDecideActionOnStrategySignal {
+    balance: TMyTotalCryptoBalance;
     strategySignals: IStrategySignals;
     symbol: ECryptoSymbols;
     quantity: number;
