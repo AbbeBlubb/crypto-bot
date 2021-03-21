@@ -16,7 +16,8 @@ import {
     EStrategyNames,
     TStrategyHasBeenResolved,
 } from "./strategy.types";
-import { cryptoSymbols, ECryptoSymbols } from "../utils/tickers";
+import { cryptoSymbols, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
+import { getBalance } from "../account/getBalance";
 
 async function runStrategy({
     strategyName,
@@ -62,6 +63,7 @@ async function runStrategy({
             // 3. decideActionOnStrategySignal()
 
             // 1. Call the getBalance as PoC! This will be called after
+            const balance = await getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true });
 
             // 4. constructOrderFromSignal()
 

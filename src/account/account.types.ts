@@ -1,4 +1,4 @@
-import { TCryptoTickers } from "../utils/tickers";
+// import { TCryptoTickers } from "../utils/tickers";
 
 export interface ITotalCryptoBalanceFromNBA {
     [key: string]: { available: string; onOrder: string };
@@ -13,6 +13,6 @@ export interface ISingleCryptoBalance {
 }
 
 export interface IGetCryptoBalance {
-    multiCryptoTickersToGet: TCryptoTickers;
+    multiCryptoTickersToGet: Array<string>;
     logToConsole: boolean;
 }

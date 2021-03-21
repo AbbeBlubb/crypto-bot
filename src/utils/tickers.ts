@@ -1,63 +1,68 @@
-export type TCryptoTickers = Array<TSingleCryptoTicker>;
-export type TCryptoSymbols = Array<TSingleCryptoSymbol>;
-export type TFiatTickers = Array<TSingleFiatTicker>;
-export type TForbiddenTickers = Array<TSingleForbiddenTicker>;
-export type TSingleCryptoTicker = string;
-export type TSingleCryptoSymbol = string;
-export type TSingleFiatTicker = string;
-export type TSingleForbiddenTicker = string;
+/**
+ * Tickers for account information
+ */
 
-export const ADA = "ADA";
-export const BNB = "BNB";
-export const BTC = "BTC";
-export const ETH = "ETH";
-export const DOT = "DOT";
-export const LINK = "LINK";
-export const LIT = "LIT";
-export const LTC = "LTC";
-export const RVN = "RVN";
+enum EFiatTickers {
+    EUR = "EUR",
+    USD = "USD",
+}
 
-export const EUR = "EUR";
-export const USD = "USD";
+enum ECryptoTickers {
+    ADA = "ADA",
+    BNB = "BNB",
+    BTC = "BTC",
+    ETH = "ETH",
+    DOT = "DOT",
+    LINK = "LINK",
+    LIT = "LIT",
+    LTC = "LTC",
+    RVN = "RVN",
+}
 
-export const ADABTC = "ADABTC";
-export const BNBBTC = "BNBBTC";
-export const BTCUSDT = "BTCUSDT";
-export const ETHBTC = "ETHBTC";
-export const DOTBTC = "DOTBTC";
-export const LINKBTC = "LINKBTC";
-export const LITBTC = "LITBTC";
-export const LTCBTC = "LTCBTC";
-export const RVNBTC = "RVNBTC";
-export const BTCEUR = "BTCEUR";
+export const cryptoTickersWithEUR: Array<string> = [
+    ECryptoTickers.ADA,
+    ECryptoTickers.BNB,
+    ECryptoTickers.BTC,
+    ECryptoTickers.ETH,
+    ECryptoTickers.DOT,
+    ECryptoTickers.LINK,
+    ECryptoTickers.LIT,
+    ECryptoTickers.LTC,
+    ECryptoTickers.RVN,
+    EFiatTickers.EUR,
+];
 
-export const fiatTickers: Array<string> = [EUR, USD];
-export const cryptoTickers: Array<string> = [ADA, BNB, BTC, ETH, DOT, LINK, LIT, LTC, RVN];
-export const cryptoTickersWithEUR: Array<string> = [EUR, ADA, BNB, BTC, ETH, DOT, LINK, LIT, LTC, RVN];
-export const forbiddenTickers: Array<string> = [USD, "EURO"];
+export const forbiddenTickers: Array<string> = ["USD", "EURO"];
+
+/**
+ * Symbols for data-fetch and orders
+ * - Symbols = pairs
+ * - The only fiat in a pair is EUR for a BTC pair
+ * - USD is represented with USDT for a BTC pair
+ */
 
 export enum ECryptoSymbols {
     ADABTC = "ADABTC",
     BNBBTC = "BNBBTC",
+    BTCEUR = "BTCEUR",
     BTCUSDT = "BTCUSDT",
-    ETHBTC = "ETHBTC",
     DOTBTC = "DOTBTC",
+    ETHBTC = "ETHBTC",
     LINKBTC = "LINKBTC",
     LITBTC = "LITBTC",
     LTCBTC = "LTCBTC",
     RVNBTC = "RVNBTC",
-    BTCEUR = "BTCEUR",
 }
 
 export const cryptoSymbols: Array<string> = [
     ECryptoSymbols.ADABTC,
     ECryptoSymbols.BNBBTC,
+    ECryptoSymbols.BTCEUR,
     ECryptoSymbols.BTCUSDT,
-    ECryptoSymbols.ETHBTC,
     ECryptoSymbols.DOTBTC,
+    ECryptoSymbols.ETHBTC,
     ECryptoSymbols.LINKBTC,
     ECryptoSymbols.LITBTC,
     ECryptoSymbols.LTCBTC,
     ECryptoSymbols.RVNBTC,
-    ECryptoSymbols.BTCEUR,
 ];

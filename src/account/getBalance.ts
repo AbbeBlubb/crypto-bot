@@ -1,6 +1,6 @@
 import * as chalk from "chalk";
 import { getDateAndTimeForConsole } from "../utils/dateAndTime";
-import { cryptoTickersWithEUR, TSingleCryptoTicker, forbiddenTickers } from "../utils/tickers";
+import { forbiddenTickers } from "../utils/tickers";
 import {
     IGetCryptoBalance,
     ISingleCryptoBalance,
@@ -39,7 +39,7 @@ export async function getBalance({
         }
 
         // If ticker don't exist, this crashes. It's a good thing, as I will notice fast and add it to the forbiddenTickers
-        multiCryptoTickersToGet.forEach(function (singleCryptoTickerToGet: TSingleCryptoTicker): void {
+        multiCryptoTickersToGet.forEach(function (singleCryptoTickerToGet: string): void {
             myTotalCryptoBalance.push({
                 currency: singleCryptoTickerToGet,
                 available: totalCryptoBalanceFromNBA[singleCryptoTickerToGet].available,
@@ -72,6 +72,7 @@ function _mapMyCryptoBalanceToTemplateLiteral(myCryptoBalance: TMyTotalCryptoBal
  * Run: > cd src/account && npx ts-node getBalance.ts
  */
 
+// import { cryptoTickersWithEUR, forbiddenTickers } from "../utils/tickers";
 // getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true })
 //     .then((res) => console.log(res))
 //     .catch((err) => console.log(err));
