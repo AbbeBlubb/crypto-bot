@@ -16,7 +16,7 @@ import {
     EStrategyNames,
     TStrategyHasBeenResolved,
 } from "./strategy.types";
-import { cryptoSymbols, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
+import { cryptoSymbolsBTCBase, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
 import { getBalance } from "../account/getBalance";
 import { TMyTotalCryptoBalance } from "../account/account.types";
 
@@ -108,14 +108,14 @@ async function runStrategy({
     const strategyIteratorConfig: IStrategyIteratorConfig = {
         strategyName: EStrategyNames.HalfYearCrossOverStrategy,
         strategyAlgorithm: halfYearCrossOverStrategy,
-        symbols: cryptoSymbols,
+        symbols: cryptoSymbolsBTCBase,
         orderAmmountEUR: 200,
         interval: EInterval.OneDay,
         limit: 201,
 
         candlesFileFolder: "./fetched/",
         candlesFileExtension: "json",
-        ordersFileFolder: "./orders",
+        ordersFileFolder: "./orders/",
         ordersFileExtension: "json",
 
         additionalMessageToNotifier: undefined,

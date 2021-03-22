@@ -16,7 +16,7 @@ import {
     EStrategyNames,
     TStrategyHasBeenResolved,
 } from "./strategy.types";
-import { cryptoSymbols, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
+import { cryptoSymbolsEURBase, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
 import { getBalance } from "../account/getBalance";
 import { TMyTotalCryptoBalance } from "../account/account.types";
 
@@ -105,14 +105,14 @@ async function runStrategy({
     const strategyIteratorConfig: IStrategyIteratorConfig = {
         strategyName: EStrategyNames.ShortTermBullishBTCStrategy,
         strategyAlgorithm: shortTermBullishStrategy,
-        symbols: [ECryptoSymbols.BTCEUR],
+        symbols: cryptoSymbolsEURBase,
         orderAmmountEUR: 200,
         interval: EInterval.FifteenMin,
         limit: 151,
 
         candlesFileFolder: "./fetched/",
         candlesFileExtension: "json",
-        ordersFileFolder: "./orders",
+        ordersFileFolder: "./orders/",
         ordersFileExtension: "json",
 
         additionalMessageToNotifier: undefined,

@@ -42,19 +42,30 @@ export const forbiddenTickers: Array<string> = ["USD", "EURO"];
  */
 
 export enum ECryptoSymbols {
-    ADABTC = "ADABTC",
-    BNBBTC = "BNBBTC",
     BTCEUR = "BTCEUR",
     BTCUSDT = "BTCUSDT",
+
+    ADABTC = "ADABTC",
+    BNBBTC = "BNBBTC",
     DOTBTC = "DOTBTC",
     ETHBTC = "ETHBTC",
     LINKBTC = "LINKBTC",
     LITBTC = "LITBTC",
     LTCBTC = "LTCBTC",
     RVNBTC = "RVNBTC",
+
+    ADAEUR = "ADAEUR",
+    BNBEUR = "BNBEUR",
+    DOTEUR = "DOTEUR",
+    ETHEUR = "ETHEUR",
+    LINKEUR = "LINKEUR",
+    LTCEUR = "LTCEUR",
+
+    LITUSDT = "LITUSDT",
+    RVNUSDT = "RVNUSDT",
 }
 
-export const cryptoSymbols: Array<ECryptoSymbols> = [
+export const cryptoSymbolsBTCBase: Array<ECryptoSymbols> = [
     ECryptoSymbols.ADABTC,
     ECryptoSymbols.BNBBTC,
     ECryptoSymbols.BTCEUR,
@@ -65,4 +76,14 @@ export const cryptoSymbols: Array<ECryptoSymbols> = [
     ECryptoSymbols.LITBTC,
     ECryptoSymbols.LTCBTC,
     ECryptoSymbols.RVNBTC,
+];
+
+export const cryptoSymbolsEURBase: Array<ECryptoSymbols> = [
+    ECryptoSymbols.BTCEUR,
+    ECryptoSymbols.ADAEUR,
+    ECryptoSymbols.BNBEUR,
+    ECryptoSymbols.DOTEUR,
+    ECryptoSymbols.ETHEUR,
+    ECryptoSymbols.LINKEUR,
+    ECryptoSymbols.LTCEUR,
 ];
