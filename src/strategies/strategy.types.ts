@@ -38,7 +38,7 @@ export interface IStrategySignals {
 
 export enum EStrategyNames {
     HalfYearCrossOverStrategy = "Half Year Cross-Over Strategy",
-    ShortTermBullishBTCStrategy = "Short Term Bullish BTC Strategy"
+    ShortTermBullishStrategy = "Short Term Bullish Strategy",
 }
 
 export type TStrategyHasBeenResolved = "done";

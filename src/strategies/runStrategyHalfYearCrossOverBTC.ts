@@ -7,7 +7,7 @@ import { getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStruct
 import { notifyOnTelegram } from "../notifier/telegramUtils";
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
 import { getFileNameForCandlesFile, IFileNameObject, writeStreamToFile } from "../utils/writeFileUtils";
-import { shortTermBullishStrategy } from "./shortTermBullishStrategy";
+import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
 import { runStrategyAlgorithm } from "./strategyUtils";
 import {
     IRunStrategy,
@@ -16,7 +16,7 @@ import {
     EStrategyNames,
     TStrategyHasBeenResolved,
 } from "./strategy.types";
-import { cryptoSymbolsEURBase, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
+import { cryptoSymbolsBTCBase, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
 import { getBalance } from "../account/getBalance";
 import { TMyTotalCryptoBalance } from "../account/account.types";
 
@@ -95,7 +95,11 @@ async function runStrategy({
 }
 
 /**
- * Runs strategy for BTC - no altcoins!
+ * OBSERVE this is for Bitcoin as base against altcoins
+ * Runs specific strategy feeded through the config object
+ * Run from root: cd src/strategies && npx ts-node runStrategy.ts
+ * Output path: this folder; ./fetched/
+ * Read path: context same as the output
  */
 
 // ToDo: the server that runs the strat regularly. Until then, bring your comp and do it yourelf
@@ -103,12 +107,12 @@ async function runStrategy({
 (async function runStrategyPromiseLoop(): Promise<void> {
     // To do: move config to separate file with strat nitializer
     const strategyIteratorConfig: IStrategyIteratorConfig = {
-        strategyName: EStrategyNames.ShortTermBullishBTCStrategy,
-        strategyAlgorithm: shortTermBullishStrategy,
-        symbols: cryptoSymbolsEURBase,
+        strategyName: EStrategyNames.HalfYearCrossOverStrategy,
+        strategyAlgorithm: halfYearCrossOverStrategy,
+        symbols: cryptoSymbolsBTCBase,
         orderAmmountEUR: 200,
-        interval: EInterval.FifteenMin,
-        limit: 151,
+        interval: EInterval.OneDay,
+        limit: 201,
 
         candlesFileFolder: "./fetched/",
         candlesFileExtension: "json",

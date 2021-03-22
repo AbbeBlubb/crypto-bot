@@ -6,8 +6,8 @@ import { fetchCandles, getURLForCandles } from "../data/fetchUtils";
 import { getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStructureUtils";
 import { notifyOnTelegram } from "../notifier/telegramUtils";
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
-import { getFileNameForCandlesFile, IFileNameObject, writeStreamToFile } from "../utils/writeFileUtils";
-import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
+import { getFileNameForCandlesFile, IFileNameForCandlesObject, writeStreamToFile } from "../utils/writeFileUtils";
+import { shortTermBullishStrategy } from "./shortTermBullishStrategy";
 import { runStrategyAlgorithm } from "./strategyUtils";
 import {
     IRunStrategy,
@@ -16,7 +16,7 @@ import {
     EStrategyNames,
     TStrategyHasBeenResolved,
 } from "./strategy.types";
-import { cryptoSymbolsBTCBase, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
+import { cryptoSymbolsEURBase, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
 import { getBalance } from "../account/getBalance";
 import { TMyTotalCryptoBalance } from "../account/account.types";
 
@@ -41,16 +41,20 @@ async function runStrategy({
             const responseObject: Response = await fetchCandles({ url, symbol, interval, limit });
 
             // Write
-            const { fileName, fileNameCreatedTime }: IFileNameObject = getFileNameForCandlesFile({
+            const {
+                candlesFileName,
+                candlesFileNameCreatedTime,
+            }: IFileNameForCandlesObject = getFileNameForCandlesFile({
                 symbol,
                 interval,
                 limit,
                 fileExtension: candlesFileExtension,
             });
-            const filePath: string = candlesFileFolder + fileName;
+
             const filePathResponse: string = await writeStreamToFile({
                 streamToWrite: responseObject.body,
-                filePath,
+                targetDir: candlesFileFolder,
+                fileName: candlesFileName,
             });
 
             // Read and create data structure
@@ -78,7 +82,7 @@ async function runStrategy({
             // 2. placeOrder(buy or sell, quantity...)
 
             await notifyOnTelegram({
-                time: fileNameCreatedTime,
+                time: candlesFileNameCreatedTime,
                 strategyName,
                 enterLongAtMarketPrice: strategySignals.enterLongAtMarketPrice,
                 exitLongAtMarketPrice: strategySignals.exitLongAtMarketPrice,
@@ -95,10 +99,7 @@ async function runStrategy({
 }
 
 /**
- * Runs specific strategy feeded through the config object
- * Run from root: cd src/strategies && npx ts-node runStrategy.ts
- * Output path: this folder; ./fetched/
- * Read path: context same as the output
+ * Runs strategy for EUR against crypto
  */
 
 // ToDo: the server that runs the strat regularly. Until then, bring your comp and do it yourelf
@@ -106,16 +107,16 @@ async function runStrategy({
 (async function runStrategyPromiseLoop(): Promise<void> {
     // To do: move config to separate file with strat nitializer
     const strategyIteratorConfig: IStrategyIteratorConfig = {
-        strategyName: EStrategyNames.HalfYearCrossOverStrategy,
-        strategyAlgorithm: halfYearCrossOverStrategy,
-        symbols: cryptoSymbolsBTCBase,
+        strategyName: EStrategyNames.ShortTermBullishStrategy,
+        strategyAlgorithm: shortTermBullishStrategy,
+        symbols: cryptoSymbolsEURBase,
         orderAmmountEUR: 200,
-        interval: EInterval.OneDay,
-        limit: 201,
+        interval: EInterval.FifteenMin,
+        limit: 151,
 
-        candlesFileFolder: "./fetched/",
+        candlesFileFolder: "./shortTermBullishEUR/fetched/",
         candlesFileExtension: "json",
-        ordersFileFolder: "./orders/",
+        ordersFileFolder: "./shortTermBullishEUR/orders/",
         ordersFileExtension: "json",
 
         additionalMessageToNotifier: undefined,

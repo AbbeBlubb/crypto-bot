@@ -1,5 +1,5 @@
 import * as chalk from "chalk";
-import { createWriteStream } from "fs";
+import { createWriteStream, existsSync, mkdirSync } from "fs";
 import { Stream } from "node:stream";
 import { getDateAndTimeDigits } from "./dateAndTime";
 
@@ -12,12 +12,13 @@ interface IGetFileNameForCandlesFile {
 
 interface IWriteToFile {
     streamToWrite: Stream;
-    filePath: string;
+    targetDir?: string;
+    fileName: string;
 }
 
-export interface IFileNameObject {
-    fileName: string;
-    fileNameCreatedTime: string;
+export interface IFileNameForCandlesObject {
+    candlesFileName: string;
+    candlesFileNameCreatedTime: string;
 }
 
 /**
@@ -29,11 +30,11 @@ export function getFileNameForCandlesFile({
     interval,
     limit,
     fileExtension = "json",
-}: IGetFileNameForCandlesFile): IFileNameObject {
+}: IGetFileNameForCandlesFile): IFileNameForCandlesObject {
     const { yyyy, momo, dd, hh, mimi, ss, msmsms } = getDateAndTimeDigits();
     return {
-        fileName: `${symbol}--${yyyy}.${momo}.${dd}--${hh}.${mimi}--${ss}.${msmsms}--${interval}--${limit}.${fileExtension}`,
-        fileNameCreatedTime: `${hh}:${mimi}:${ss}`,
+        candlesFileName: `${symbol}--${yyyy}.${momo}.${dd}--${hh}.${mimi}--${ss}.${msmsms}--${interval}--${limit}.${fileExtension}`,
+        candlesFileNameCreatedTime: `${hh}:${mimi}:${ss}`,
     };
 }
 
@@ -41,12 +42,17 @@ export function getFileNameForCandlesFile({
  * Write response (or other stream) to file and resolve returning the file path string
  * - Binance returns valid JSON
  * - The output is not formatted/pretty at write, and doesn't need to as it's a machine that will read it.
- * - Will not create the directories on its own. All the directories in the path should exist and should be writable.
  */
 
-export async function writeStreamToFile({ streamToWrite, filePath }: IWriteToFile): Promise<string> {
+export async function writeStreamToFile({ streamToWrite, targetDir = "", fileName }: IWriteToFile): Promise<string> {
+    // Ensure output folder exists
+    !existsSync(targetDir) && mkdirSync(targetDir, { recursive: true });
+
+    // Create stream
+    const filePath: string = targetDir + fileName;
     const fileStream = createWriteStream(filePath);
 
+    // Write
     return await new Promise((resolve, reject) => {
         console.log(chalk`{yellow WRITING to ${filePath}}`);
 
