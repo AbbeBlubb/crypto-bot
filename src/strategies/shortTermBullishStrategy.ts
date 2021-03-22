@@ -1,13 +1,14 @@
 import { ITulipDataStructure } from "../data/data.types";
 import { EMA } from "../indicators/EMA";
-import { EMAData, SMAData } from "../indicators/indicators.types";
 import { SMA } from "../indicators/SMA";
 import { isAtLeastOneBooleanTrue } from "../signals/booleanComparisions";
 import { firstNumberIsGreaterThanSecondNumber } from "../signals/numberComparisions";
 import { EStrategyNames, IStrategySignals } from "./strategy.types";
 
-// Only for BTC account; buys and sells BTC against EUR or USDT, on 15 min chart
-// Is it cheaper to trade against USDT?
+/**
+ * - EUR against crypto
+ * - 15 min candles
+ */
 
 export function shortTermBullishStrategy(tulipDataStructure: ITulipDataStructure): IStrategySignals {
     /**
@@ -18,46 +19,50 @@ export function shortTermBullishStrategy(tulipDataStructure: ITulipDataStructure
     const arrayWithClosePrices = tulipDataStructure.close;
 
     // Calculate indicator data
-    const SMA140Data: SMAData = SMA(arrayWithClosePrices, 140);
-    const EMA150Data: EMAData = EMA(arrayWithClosePrices, 150);
-    const latestSMA140: number = SMA140Data.slice(-1)[0];
-    const latestEMA150: number = EMA150Data.slice(-1)[0];
+
+    // 140 periods on 1-h shart equals to 140 * 4 = 560 in 15-min chart
+    // 150 periods on 1-h shart equals to 150 * 4 = 600 in 15-min chart
+
+    const SMA560Data: number[] = SMA(arrayWithClosePrices, 560);
+    const EMA600Data: number[] = EMA(arrayWithClosePrices, 600);
+    const latestSMA560: number = SMA560Data.slice(-1)[0];
+    const latestEMA600: number = EMA600Data.slice(-1)[0];
     const latestClosePrice: number = <number>tulipDataStructure.close.slice(-1)[0];
 
     /**
      * Calculate buy-signal to enter long position (not general buy/buy-back-shorted-position-signal)
      */
 
-    const isLatestCandleCloseHigherThanLatestSMA140: boolean = firstNumberIsGreaterThanSecondNumber(
+    const isLatestCandleCloseHigherThanLatestSMA560: boolean = firstNumberIsGreaterThanSecondNumber(
         latestClosePrice,
-        latestSMA140
+        latestSMA560
     );
-    const isLatestCandleCloseHigherThanLatestEMA150: boolean = firstNumberIsGreaterThanSecondNumber(
+    const isLatestCandleCloseHigherThanLatestEMA600: boolean = firstNumberIsGreaterThanSecondNumber(
         latestClosePrice,
-        latestEMA150
+        latestEMA600
     );
     const isLatestCandleCloseHigherThanOneOfTheMAs: boolean = isAtLeastOneBooleanTrue(
-        isLatestCandleCloseHigherThanLatestSMA140,
-        isLatestCandleCloseHigherThanLatestEMA150
+        isLatestCandleCloseHigherThanLatestSMA560,
+        isLatestCandleCloseHigherThanLatestEMA600
     );
 
     /**
      * Calculate sell-signal for entered positions (not general sell/short-signal) - TO DO
      */
 
-    const isLatestCandleCloseLowerThanLatestSMA140: boolean = firstNumberIsGreaterThanSecondNumber(
-        latestSMA140,
+    const isLatestCandleCloseLowerThanLatestSMA560: boolean = firstNumberIsGreaterThanSecondNumber(
+        latestSMA560,
         latestClosePrice
     );
 
-    const isLatestCandleCloseLowerThanLatestEMA150: boolean = firstNumberIsGreaterThanSecondNumber(
-        latestEMA150,
+    const isLatestCandleCloseLowerThanLatestEMA600: boolean = firstNumberIsGreaterThanSecondNumber(
+        latestEMA600,
         latestClosePrice
     );
 
     const isLatestCandleCloseLowerThanOneOfTheMAs: boolean = isAtLeastOneBooleanTrue(
-        isLatestCandleCloseLowerThanLatestSMA140,
-        isLatestCandleCloseLowerThanLatestEMA150
+        isLatestCandleCloseLowerThanLatestSMA560,
+        isLatestCandleCloseLowerThanLatestEMA600
     );
 
     /**
@@ -74,14 +79,14 @@ export function shortTermBullishStrategy(tulipDataStructure: ITulipDataStructure
 
     const reportForStrat = {
         strategy: EStrategyNames.HalfYearCrossOverStrategy,
-        latestSMA140,
-        latestEMA150,
+        latestSMA560,
+        latestEMA600,
         latestClosePrice,
-        isLatestCandleCloseHigherThanLatestSMA140,
-        isLatestCandleCloseHigherThanLatestEMA150,
+        isLatestCandleCloseHigherThanLatestSMA560,
+        isLatestCandleCloseHigherThanLatestEMA600,
         isLatestCandleCloseHigherThanOneOfTheMAs,
-        isLatestCandleCloseLowerThanLatestSMA140,
-        isLatestCandleCloseLowerThanLatestEMA150,
+        isLatestCandleCloseLowerThanLatestSMA560,
+        isLatestCandleCloseLowerThanLatestEMA600,
         isLatestCandleCloseLowerThanOneOfTheMAs,
     };
 

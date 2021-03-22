@@ -25,7 +25,7 @@ async function runStrategy({
     strategyAlgorithm,
     symbol,
     interval,
-    limit,
+    limit = 500,
     candlesFileFolder,
     candlesFileExtension,
     ordersFileFolder,

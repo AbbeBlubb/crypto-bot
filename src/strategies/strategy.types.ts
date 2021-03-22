@@ -9,7 +9,7 @@ export interface IRunStrategy {
     symbol: ECryptoSymbols; // Eg "BTCUSDT" in capitals
     orderAmmountEUR: number;
     interval: EInterval; // Periods, eg "1d"
-    limit: number; // Ammount of candles/periods, in number
+    limit: number; // Ammount of candles/periods, in number. API efault 500; max 1000.
 
     candlesFileFolder: string; // Eg "./fetched/". Relative to the callee context, that is, the top-most highest function context
     candlesFileExtension?: string; // Without dot, eg "json"
