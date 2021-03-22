@@ -7,7 +7,7 @@ import { getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStruct
 import { notifyOnTelegram } from "../notifier/telegramUtils";
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
 import { getFileNameForCandlesFile, IFileNameObject, writeStreamToFile } from "../utils/writeFileUtils";
-import { halfYearCrossOverStrategy } from "./halfYearCrossOverStrategy";
+import { shortTermBullishStrategy } from "./shortTermBullishStrategy";
 import { runStrategyAlgorithm } from "./strategyUtils";
 import {
     IRunStrategy,
@@ -26,8 +26,10 @@ async function runStrategy({
     symbol,
     interval,
     limit,
-    fileFolder,
-    fileExtension,
+    candlesFileFolder,
+    candlesFileExtension,
+    ordersFileFolder,
+    ordersFileExtension,
     additionalMessageToNotifier,
 }: IRunStrategy): Promise<TStrategyHasBeenResolved> {
     return new Promise(async function (resolve, reject) {
@@ -43,9 +45,9 @@ async function runStrategy({
                 symbol,
                 interval,
                 limit,
-                fileExtension,
+                fileExtension: candlesFileExtension,
             });
-            const filePath: string = fileFolder + fileName;
+            const filePath: string = candlesFileFolder + fileName;
             const filePathResponse: string = await writeStreamToFile({
                 streamToWrite: responseObject.body,
                 filePath,
@@ -99,26 +101,31 @@ async function runStrategy({
 // ToDo: the server that runs the strat regularly. Until then, bring your comp and do it yourelf
 
 (async function runStrategyPromiseLoop(): Promise<void> {
-    // ToDo for config: entry ammount
-    const config: IStrategyIteratorConfig = {
-        strategyName: EStrategyNames.HalfYearCrossOverStrategy,
-        strategyAlgorithm: halfYearCrossOverStrategy,
-        symbols: cryptoSymbols,
-        interval: EInterval.OneDay,
-        limit: 201,
-        fileFolder: "./fetched/",
-        fileExtension: "json",
+    // To do: move config to separate file with strat nitializer
+    const strategyIteratorConfig: IStrategyIteratorConfig = {
+        strategyName: EStrategyNames.ShortTermBullishBTCStrategy,
+        strategyAlgorithm: shortTermBullishStrategy,
+        symbols: [ECryptoSymbols.BTCEUR],
+        orderAmmountEUR: 200,
+        interval: EInterval.FifteenMin,
+        limit: 151,
+
+        candlesFileFolder: "./fetched/",
+        candlesFileExtension: "json",
+        ordersFileFolder: "./orders",
+        ordersFileExtension: "json",
+
         additionalMessageToNotifier: undefined,
     };
 
     attachUnhandledRejectionListener(path.basename(__filename));
     // ToDo: save all STDOUT/console output logging for eventual error handling
-    console.log(`\nStarting strategy iterations: ${config.symbols.length} iterations to go`);
+    console.log(`\nStarting strategy iterations: ${strategyIteratorConfig.symbols.length} iterations to go`);
 
-    for (let i = 0; i < config.symbols.length; i++) {
-        const symbol = config.symbols[i] as ECryptoSymbols;
-        const isResolved: TStrategyHasBeenResolved = await runStrategy({ ...config, symbol });
+    for (let i = 0; i < strategyIteratorConfig.symbols.length; i++) {
+        const symbol = strategyIteratorConfig.symbols[i] as ECryptoSymbols;
+        const isResolved: TStrategyHasBeenResolved = await runStrategy({ ...strategyIteratorConfig, symbol });
         isResolved === ("done" as TStrategyHasBeenResolved) &&
-            console.log(`\nStrategy iteration ${i + 1} of ${config.symbols.length} done`);
+            console.log(`\nStrategy iteration ${i + 1} of ${strategyIteratorConfig.symbols.length} done`);
     }
 })();

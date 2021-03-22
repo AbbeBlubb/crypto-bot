@@ -54,7 +54,7 @@ export enum ECryptoSymbols {
     RVNBTC = "RVNBTC",
 }
 
-export const cryptoSymbols: Array<string> = [
+export const cryptoSymbols: Array<ECryptoSymbols> = [
     ECryptoSymbols.ADABTC,
     ECryptoSymbols.BNBBTC,
     ECryptoSymbols.BTCEUR,

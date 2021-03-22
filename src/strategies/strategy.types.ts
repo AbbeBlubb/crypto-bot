@@ -4,23 +4,28 @@ import { ECryptoSymbols } from "../utils/tickers";
 type TStrategyAlgorithm = (tulipDataStructure: ITulipDataStructure) => IStrategySignals;
 
 export interface IRunStrategy {
-    strategyName: "Half Year Cross-Over Strategy";
+    strategyName: EStrategyNames;
     strategyAlgorithm: TStrategyAlgorithm; // The strategy function imported in the run-file
     symbol: ECryptoSymbols; // Eg "BTCUSDT" in capitals
+    orderAmmountEUR: number;
     interval: EInterval; // Periods, eg "1d"
     limit: number; // Ammount of candles/periods, in number
-    fileFolder: string; // Eg "./fetched/". Relative to the callee context, that is, the top-most highest function context
-    fileExtension?: string; // Without dot, eg "json"
+
+    candlesFileFolder: string; // Eg "./fetched/". Relative to the callee context, that is, the top-most highest function context
+    candlesFileExtension?: string; // Without dot, eg "json"
+    ordersFileFolder: string;
+    ordersFileExtension?: string;
+
     additionalMessageToNotifier?: string;
+}
+
+export interface IStrategyIteratorConfig extends Omit<IRunStrategy, "symbol"> {
+    symbols: ECryptoSymbols[];
 }
 
 export interface IRunStrategyAlgorithm {
     tulipDataStructure: ITulipDataStructure;
     strategyAlgorithm: TStrategyAlgorithm;
-}
-
-export interface IStrategyIteratorConfig extends Omit<IRunStrategy, "symbol"> {
-    symbols: string[];
 }
 
 export interface IStrategySignals {
@@ -33,6 +38,7 @@ export interface IStrategySignals {
 
 export enum EStrategyNames {
     HalfYearCrossOverStrategy = "Half Year Cross-Over Strategy",
+    ShortTermBullishBTCStrategy = "Short Term Bullish BTC Strategy"
 }
 
 export type TStrategyHasBeenResolved = "done";
