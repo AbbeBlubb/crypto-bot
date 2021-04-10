@@ -5,6 +5,7 @@ import { isAtLeastOneBooleanTrue } from "../signals/booleanComparisions";
 import { firstNumberIsGreaterThanSecondNumber } from "../signals/numberComparisions";
 import { cryptoSymbolsEURBase, ECryptoSymbols, EFiatTickers } from "../utils/tickers";
 import { IStrategyAlgorithm, IStrategyConfig, IStrategySignals } from "./strategy.types";
+import { calculateTakeProfit } from "../signals/calculateTakeProfit";
 
 /**
  * Configuration for the strategy
@@ -101,12 +102,6 @@ function algorithm({ symbol, tulipDataStructure }: IStrategyAlgorithm): IStrateg
      * Take profit
      * Hm this must be calculated on the entry price, when the order is done!
      */
-
-    function calculateTakeProfit({ symbol, latestClosePrice, takeProfitConfig }): number {
-        // If scale, use switch statement with object.keys?
-
-        return 8;
-    }
 
     const takeProfitFunctionReturn = calculateTakeProfit({
         symbol,
