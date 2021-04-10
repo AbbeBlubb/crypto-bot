@@ -1,7 +1,16 @@
 import { EInterval, ITulipDataStructure } from "../data/data.types";
 import { ECryptoSymbols, EFiatTickers } from "../utils/tickers";
 
-type TStrategyAlgorithm = (tulipDataStructure: ITulipDataStructure) => IStrategySignals;
+type TStrategyAlgorithm = ({ symbol, tulipDataStructure }: IStrategyAlgorithm) => IStrategySignals;
+
+export interface IStrategyAlgorithm {
+    symbol: ECryptoSymbols;
+    tulipDataStructure: ITulipDataStructure;
+}
+
+export interface IStrategyIteratorConfig extends Omit<IRunStrategy, "symbol"> {
+    symbols: ECryptoSymbols[];
+}
 
 export interface IRunStrategy {
     strategyName: string;
@@ -21,11 +30,10 @@ export interface IRunStrategy {
     additionalMessageToNotifier?: string;
 }
 
-export interface IStrategyIteratorConfig extends Omit<IRunStrategy, "symbol"> {
-    symbols: ECryptoSymbols[];
-}
+export type TStrategyHasBeenResolved = "done";
 
 export interface IRunStrategyAlgorithm {
+    symbol: ECryptoSymbols;
     tulipDataStructure: ITulipDataStructure;
     strategyAlgorithm: TStrategyAlgorithm;
 }
@@ -51,9 +59,3 @@ export interface IStrategySignals {
     report: { [key: string]: number | string | boolean };
 }
 
-// export enum EStrategyNames {
-//     HalfYearCrossOverStrategy = "Half Year Cross-Over Strategy",
-//     ShortTermBullishStrategy = "Short Term Bullish Strategy",
-// }
-
-export type TStrategyHasBeenResolved = "done";

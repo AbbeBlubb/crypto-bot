@@ -60,6 +60,7 @@ async function _runStrategyOnSymbol({
 
             // Run strat
             const strategySignals: IStrategySignals = runStrategyAlgorithm({
+                symbol,
                 tulipDataStructure,
                 strategyAlgorithm: algorithm,
             });

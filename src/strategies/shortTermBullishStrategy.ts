@@ -1,10 +1,10 @@
-import { EInterval, ITulipDataStructure } from "../data/data.types";
+import { EInterval } from "../data/data.types";
 import { EMA } from "../indicators/EMA";
 import { SMA } from "../indicators/SMA";
 import { isAtLeastOneBooleanTrue } from "../signals/booleanComparisions";
 import { firstNumberIsGreaterThanSecondNumber } from "../signals/numberComparisions";
-import { cryptoSymbolsEURBase, EFiatTickers, ECryptoSymbols } from "../utils/tickers";
-import { IStrategySignals, IStrategyConfig } from "./strategy.types";
+import { cryptoSymbolsEURBase, ECryptoSymbols, EFiatTickers } from "../utils/tickers";
+import { IStrategyAlgorithm, IStrategyConfig, IStrategySignals } from "./strategy.types";
 
 /**
  * Configuration for the strategy
@@ -37,7 +37,7 @@ const config: IStrategyConfig = {
  * - Calculates short-term sentiment with: xxx
  */
 
-function algorithm(tulipDataStructure: ITulipDataStructure): IStrategySignals {
+function algorithm({ symbol, tulipDataStructure }: IStrategyAlgorithm): IStrategySignals {
     /**
      * Prepare data for indicators
      */
