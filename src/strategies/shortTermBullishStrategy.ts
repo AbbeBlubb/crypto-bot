@@ -103,6 +103,7 @@ function algorithm({ symbol, tulipDataStructure }: IStrategyAlgorithm): IStrateg
      * Hm this must be calculated on the entry price, when the order is done!
      */
 
+    // TODO: SEND THIS TO THE RUNNER
     const takeProfitFunctionReturn = calculateTakeProfit({
         symbol,
         latestClosePrice,
