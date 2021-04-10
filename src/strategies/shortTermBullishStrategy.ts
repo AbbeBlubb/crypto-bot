@@ -1,16 +1,34 @@
-import { ITulipDataStructure } from "../data/data.types";
+import { EInterval, ITulipDataStructure } from "../data/data.types";
 import { EMA } from "../indicators/EMA";
 import { SMA } from "../indicators/SMA";
 import { isAtLeastOneBooleanTrue } from "../signals/booleanComparisions";
 import { firstNumberIsGreaterThanSecondNumber } from "../signals/numberComparisions";
-import { EStrategyNames, IStrategySignals } from "./strategy.types";
+import { cryptoSymbolsEURBase, EFiatTickers } from "../utils/tickers";
+import { IStrategySignals } from "./strategy.types";
+
+/**
+ * Configuration for the strategy
+ */
+
+const config = {
+    humanReadableName: "Short Term Bullish Strategy",
+    programmingName: "shortTermBullishStrategy",
+    baseCurrency: EFiatTickers.EUR,
+    orderAmmount: 200,
+    symbols: cryptoSymbolsEURBase,
+    interval: EInterval.FifteenMin,
+    limit: 601, // TODO: CHECK AGAIN THE MA:S WORK FINE
+};
 
 /**
  * - EUR against crypto
  * - 15 min candles
+ * - Calculates long-term sentiment with: 140 days SMA and 150 days EMA, in 15-min candles
+ * - Calculates short-term sentiment with: xxx
  */
 
-export function shortTermBullishStrategy(tulipDataStructure: ITulipDataStructure): IStrategySignals {
+// INTERFACE!!
+export function strategy(tulipDataStructure: ITulipDataStructure): IStrategySignals {
     /**
      * Prepare data for indicators
      */
@@ -30,7 +48,7 @@ export function shortTermBullishStrategy(tulipDataStructure: ITulipDataStructure
     const latestClosePrice: number = <number>tulipDataStructure.close.slice(-1)[0];
 
     /**
-     * Calculate buy-signal to enter long position (not general buy/buy-back-shorted-position-signal)
+     * Calculate buy-signal to enter long position
      */
 
     const isLatestCandleCloseHigherThanLatestSMA560: boolean = firstNumberIsGreaterThanSecondNumber(
@@ -47,7 +65,7 @@ export function shortTermBullishStrategy(tulipDataStructure: ITulipDataStructure
     );
 
     /**
-     * Calculate sell-signal for entered positions (not general sell/short-signal) - TO DO
+     * Calculate sell-signal for entered positions - TO DO
      */
 
     const isLatestCandleCloseLowerThanLatestSMA560: boolean = firstNumberIsGreaterThanSecondNumber(
@@ -78,7 +96,7 @@ export function shortTermBullishStrategy(tulipDataStructure: ITulipDataStructure
      */
 
     const reportForStrat = {
-        strategy: EStrategyNames.HalfYearCrossOverStrategy,
+        strategyConfig: config,
         latestSMA560,
         latestEMA600,
         latestClosePrice,
@@ -102,3 +120,8 @@ export function shortTermBullishStrategy(tulipDataStructure: ITulipDataStructure
 
     return { enterLongAtMarketPrice, exitLongAtMarketPrice, takeProfit, stopLoss, report };
 }
+
+export const shortTermBullish = {
+    config,
+    strategy,
+};

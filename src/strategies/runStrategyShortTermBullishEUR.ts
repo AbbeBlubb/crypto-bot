@@ -1,28 +1,24 @@
 import * as chalk from "chalk";
 import { Response } from "node-fetch";
 import * as path from "path";
-import { ITulipDataStructure, EInterval } from "../data/data.types";
+import { TMyTotalCryptoBalance } from "../account/account.types";
+import { getBalance } from "../account/getBalance";
+import { ITulipDataStructure } from "../data/data.types";
 import { fetchCandles, getURLForCandles } from "../data/fetchUtils";
 import { getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStructureUtils";
 import { notifyOnTelegram } from "../notifier/telegramUtils";
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
+import { cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
 import { getFileNameForCandlesFile, IFileNameForCandlesObject, writeStreamToFile } from "../utils/writeFileUtils";
-import { shortTermBullishStrategy } from "./shortTermBullishStrategy";
+import { shortTermBullish } from "./shortTermBullishStrategy";
+import { IRunStrategy, IStrategyIteratorConfig, IStrategySignals, TStrategyHasBeenResolved } from "./strategy.types";
 import { runStrategyAlgorithm } from "./strategyUtils";
-import {
-    IRunStrategy,
-    IStrategyIteratorConfig,
-    IStrategySignals,
-    EStrategyNames,
-    TStrategyHasBeenResolved,
-} from "./strategy.types";
-import { cryptoSymbolsEURBase, cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
-import { getBalance } from "../account/getBalance";
-import { TMyTotalCryptoBalance } from "../account/account.types";
 
 async function runStrategy({
     strategyName,
     strategyAlgorithm,
+    baseCurrency,
+    orderAmmount,
     symbol,
     interval,
     limit = 500,
@@ -104,16 +100,19 @@ async function runStrategy({
 (async function runStrategyPromiseLoop(): Promise<void> {
     // To do: move config to separate file with strat nitializer
     const strategyIteratorConfig: IStrategyIteratorConfig = {
-        strategyName: EStrategyNames.ShortTermBullishStrategy,
-        strategyAlgorithm: shortTermBullishStrategy,
-        symbols: cryptoSymbolsEURBase,
-        orderAmmountEUR: 200,
-        interval: EInterval.FifteenMin,
-        limit: 151,
 
-        candlesFileFolder: "./shortTermBullishEUR/fetched/",
+        strategyName: shortTermBullish.config.humanReadableName,
+        strategyAlgorithm: shortTermBullish.strategy,
+
+        baseCurrency: shortTermBullish.config.baseCurrency,
+        orderAmmount: shortTermBullish.config.orderAmmount,
+        symbols: shortTermBullish.config.symbols, // The promise loop will iterate over these
+        interval: shortTermBullish.config.interval,
+        limit: shortTermBullish.config.limit,
+
+        candlesFileFolder: `./${shortTermBullish.config.programmingName}-${shortTermBullish.config.baseCurrency}/fetched/`,
         candlesFileExtension: "json",
-        ordersFileFolder: "./shortTermBullishEUR/orders/",
+        ordersFileFolder: `./${shortTermBullish.config.programmingName}-${shortTermBullish.config.baseCurrency}/orders/`,
         ordersFileExtension: "json",
 
         additionalMessageToNotifier: undefined,

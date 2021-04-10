@@ -2,7 +2,7 @@
  * Tickers for account information
  */
 
-enum EFiatTickers {
+export enum EFiatTickers {
     EUR = "EUR",
     USD = "USD",
 }

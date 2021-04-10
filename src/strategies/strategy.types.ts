@@ -4,10 +4,11 @@ import { ECryptoSymbols } from "../utils/tickers";
 type TStrategyAlgorithm = (tulipDataStructure: ITulipDataStructure) => IStrategySignals;
 
 export interface IRunStrategy {
-    strategyName: EStrategyNames;
+    strategyName: string;
     strategyAlgorithm: TStrategyAlgorithm; // The strategy function imported in the run-file
+    baseCurrency: string;
+    orderAmmount: number;
     symbol: ECryptoSymbols; // Eg "BTCUSDT" in capitals
-    orderAmmountEUR: number;
     interval: EInterval; // Periods, eg "1d"
     limit: number; // Ammount of candles/periods, in number. API efault 500; max 1000.
 
@@ -36,9 +37,9 @@ export interface IStrategySignals {
     report: { [key: string]: number | string | boolean };
 }
 
-export enum EStrategyNames {
-    HalfYearCrossOverStrategy = "Half Year Cross-Over Strategy",
-    ShortTermBullishStrategy = "Short Term Bullish Strategy",
-}
+// export enum EStrategyNames {
+//     HalfYearCrossOverStrategy = "Half Year Cross-Over Strategy",
+//     ShortTermBullishStrategy = "Short Term Bullish Strategy",
+// }
 
 export type TStrategyHasBeenResolved = "done";
