@@ -28,7 +28,7 @@ const config = {
  */
 
 // INTERFACE!!
-export function strategy(tulipDataStructure: ITulipDataStructure): IStrategySignals {
+function algorithm(tulipDataStructure: ITulipDataStructure): IStrategySignals {
     /**
      * Prepare data for indicators
      */
@@ -96,7 +96,6 @@ export function strategy(tulipDataStructure: ITulipDataStructure): IStrategySign
      */
 
     const reportForStrat = {
-        strategyConfig: config,
         latestSMA560,
         latestEMA600,
         latestClosePrice,
@@ -112,16 +111,17 @@ export function strategy(tulipDataStructure: ITulipDataStructure): IStrategySign
      * Return signals
      */
 
+    const strategyConfig = config;
     const enterLongAtMarketPrice = isLatestCandleCloseHigherThanOneOfTheMAs || false;
     const exitLongAtMarketPrice = isLatestCandleCloseLowerThanOneOfTheMAs || false;
     const takeProfit = takeProfitFunctionReturn;
     const stopLoss = stopLossFunctionReturn;
     const report = reportForStrat;
 
-    return { enterLongAtMarketPrice, exitLongAtMarketPrice, takeProfit, stopLoss, report };
+    return { strategyConfig, enterLongAtMarketPrice, exitLongAtMarketPrice, takeProfit, stopLoss, report };
 }
 
 export const shortTermBullish = {
     config,
-    strategy,
+    algorithm,
 };

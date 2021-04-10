@@ -16,12 +16,12 @@ import { runStrategyAlgorithm } from "./strategyUtils";
 
 async function runStrategy({
     strategyName,
-    strategyAlgorithm,
+    algorithm,
     baseCurrency,
     orderAmmount,
     symbol,
     interval,
-    limit = 500,
+    limit,
     candlesFileFolder,
     candlesFileExtension,
     ordersFileFolder,
@@ -59,7 +59,10 @@ async function runStrategy({
             );
 
             // Run strat
-            const strategySignals: IStrategySignals = runStrategyAlgorithm({ tulipDataStructure, strategyAlgorithm });
+            const strategySignals: IStrategySignals = runStrategyAlgorithm({
+                tulipDataStructure,
+                strategyAlgorithm: algorithm,
+            });
 
             // ToDo: decideActionOnStrategySignal()
 
@@ -97,22 +100,23 @@ async function runStrategy({
 
 // ToDo: the server that runs the strat regularly. Until then, bring your comp and do it yourelf
 
-(async function runStrategyPromiseLoop(): Promise<void> {
-    // To do: move config to separate file with strat nitializer
+async function runStrategyPromiseLoop(strategyObject): Promise<void> {
+    const { config, algorithm } = strategyObject;
+    const { humanReadableName, programmingName, baseCurrency, orderAmmount, symbols, interval, limit = 500 } = config;
+
     const strategyIteratorConfig: IStrategyIteratorConfig = {
+        strategyName: humanReadableName,
+        algorithm,
 
-        strategyName: shortTermBullish.config.humanReadableName,
-        strategyAlgorithm: shortTermBullish.strategy,
+        baseCurrency,
+        orderAmmount,
+        symbols, // The promise loop will iterate over these
+        interval,
+        limit,
 
-        baseCurrency: shortTermBullish.config.baseCurrency,
-        orderAmmount: shortTermBullish.config.orderAmmount,
-        symbols: shortTermBullish.config.symbols, // The promise loop will iterate over these
-        interval: shortTermBullish.config.interval,
-        limit: shortTermBullish.config.limit,
-
-        candlesFileFolder: `./${shortTermBullish.config.programmingName}-${shortTermBullish.config.baseCurrency}/fetched/`,
+        candlesFileFolder: `./${programmingName}-${config.baseCurrency}/fetched/`,
         candlesFileExtension: "json",
-        ordersFileFolder: `./${shortTermBullish.config.programmingName}-${shortTermBullish.config.baseCurrency}/orders/`,
+        ordersFileFolder: `./${programmingName}-${config.baseCurrency}/orders/`,
         ordersFileExtension: "json",
 
         additionalMessageToNotifier: undefined,
@@ -128,4 +132,6 @@ async function runStrategy({
         isResolved === ("done" as TStrategyHasBeenResolved) &&
             console.log(`\nStrategy iteration ${i + 1} of ${strategyIteratorConfig.symbols.length} done`);
     }
-})();
+}
+
+runStrategyPromiseLoop(shortTermBullish);

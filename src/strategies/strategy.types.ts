@@ -1,11 +1,11 @@
 import { EInterval, ITulipDataStructure } from "../data/data.types";
-import { ECryptoSymbols } from "../utils/tickers";
+import { ECryptoSymbols, EFiatTickers } from "../utils/tickers";
 
 type TStrategyAlgorithm = (tulipDataStructure: ITulipDataStructure) => IStrategySignals;
 
 export interface IRunStrategy {
     strategyName: string;
-    strategyAlgorithm: TStrategyAlgorithm; // The strategy function imported in the run-file
+    algorithm: TStrategyAlgorithm; // The strategy function imported in the run-file
     baseCurrency: string;
     orderAmmount: number;
     symbol: ECryptoSymbols; // Eg "BTCUSDT" in capitals
@@ -29,7 +29,18 @@ export interface IRunStrategyAlgorithm {
     strategyAlgorithm: TStrategyAlgorithm;
 }
 
+interface IStrategyConfig {
+    humanReadableName: string;
+    programmingName: string;
+    baseCurrency: EFiatTickers;
+    orderAmmount: number;
+    symbols: Array<string>;
+    interval: EInterval;
+    limit: number;
+}
+
 export interface IStrategySignals {
+    strategyConfig: IStrategyConfig;
     enterLongAtMarketPrice: boolean;
     exitLongAtMarketPrice: boolean;
     takeProfit: number;
