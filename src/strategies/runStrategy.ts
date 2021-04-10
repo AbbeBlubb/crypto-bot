@@ -10,11 +10,10 @@ import { notifyOnTelegram } from "../notifier/telegramUtils";
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
 import { cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
 import { getFileNameForCandlesFile, IFileNameForCandlesObject, writeStreamToFile } from "../utils/writeFileUtils";
-import { shortTermBullish } from "./shortTermBullishStrategy";
 import { IRunStrategy, IStrategyIteratorConfig, IStrategySignals, TStrategyHasBeenResolved } from "./strategy.types";
 import { runStrategyAlgorithm } from "./strategyUtils";
 
-async function runStrategy({
+async function _runStrategyOnSymbol({
     strategyName,
     algorithm,
     baseCurrency,
@@ -93,14 +92,7 @@ async function runStrategy({
     });
 }
 
-/**
- * Runs strategy for EUR against crypto
- * Run from root: cd src/strategies && npx ts-node runStrategyShortTermBullishEUR.ts
- */
-
-// ToDo: the server that runs the strat regularly. Until then, bring your comp and do it yourelf
-
-async function runStrategyPromiseLoop(strategyObject): Promise<void> {
+async function _promiseLoopForStrategy(strategyObject): Promise<void> {
     const { config, algorithm } = strategyObject;
     const { humanReadableName, programmingName, baseCurrency, orderAmmount, symbols, interval, limit = 500 } = config;
 
@@ -128,10 +120,16 @@ async function runStrategyPromiseLoop(strategyObject): Promise<void> {
 
     for (let i = 0; i < strategyIteratorConfig.symbols.length; i++) {
         const symbol = strategyIteratorConfig.symbols[i] as ECryptoSymbols;
-        const isResolved: TStrategyHasBeenResolved = await runStrategy({ ...strategyIteratorConfig, symbol });
+        const isResolved: TStrategyHasBeenResolved = await _runStrategyOnSymbol({ ...strategyIteratorConfig, symbol });
         isResolved === ("done" as TStrategyHasBeenResolved) &&
             console.log(`\nStrategy iteration ${i + 1} of ${strategyIteratorConfig.symbols.length} done`);
     }
 }
 
-runStrategyPromiseLoop(shortTermBullish);
+/**
+ * Runs the strategy instructions in _runStrategyOnSymbol for each symbol in the strategy object
+ */
+
+export function runStrategy(strategyObject): void {
+    _promiseLoopForStrategy(strategyObject);
+}
