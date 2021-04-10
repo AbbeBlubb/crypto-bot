@@ -9,11 +9,6 @@ import { setupNodeBinanceAPI } from "../account/setupNodeBinanceAPI";
 
 const NBA = setupNodeBinanceAPI();
 
-/**
- * - Get crypto balance
- * - Available fiats: EUR, GBP
- */
-
 export async function placeOrder({ orderType, symbol, quantity }: IOrder): Promise<IOrderReciept> {
     return new Promise(async function (resolve, reject) {
         let recieptEnterLongMarket, recieptExitLongMarket;

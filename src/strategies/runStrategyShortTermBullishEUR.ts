@@ -65,12 +65,8 @@ async function runStrategy({
             // Run strat
             const strategySignals: IStrategySignals = runStrategyAlgorithm({ tulipDataStructure, strategyAlgorithm });
 
-            // ToDo: analysis should be written to file; append line to file, with info about the buy signal, in CSV
-            // OR set up a DB with Docker!
-            // callFunc({ ...strategySignals, dataIsFromDataFetchedAtTime: fileNameCreatedTime })
+            // ToDo: decideActionOnStrategySignal()
 
-            // 3.
-            // decideActionOnStrategySignal()
             const balance: TMyTotalCryptoBalance = await getBalance({
                 multiCryptoTickersToGet: cryptoTickersWithEUR,
                 logToConsole: true,
@@ -100,6 +96,7 @@ async function runStrategy({
 
 /**
  * Runs strategy for EUR against crypto
+ * Run from root: cd src/strategies && npx ts-node runStrategyShortTermBullishEUR.ts
  */
 
 // ToDo: the server that runs the strat regularly. Until then, bring your comp and do it yourelf

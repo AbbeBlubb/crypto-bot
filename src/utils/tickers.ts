@@ -11,25 +11,28 @@ enum ECryptoTickers {
     ADA = "ADA",
     BNB = "BNB",
     BTC = "BTC",
-    ETH = "ETH",
     DOT = "DOT",
+    ETH = "ETH",
     LINK = "LINK",
     LIT = "LIT",
     LTC = "LTC",
     RVN = "RVN",
+    USDT = "USDT",
 }
 
 export const cryptoTickersWithEUR: Array<string> = [
+    EFiatTickers.EUR,
+    ECryptoTickers.USDT,
+
     ECryptoTickers.ADA,
     ECryptoTickers.BNB,
     ECryptoTickers.BTC,
-    ECryptoTickers.ETH,
     ECryptoTickers.DOT,
+    ECryptoTickers.ETH,
     ECryptoTickers.LINK,
     ECryptoTickers.LIT,
     ECryptoTickers.LTC,
     ECryptoTickers.RVN,
-    EFiatTickers.EUR,
 ];
 
 export const forbiddenTickers: Array<string> = ["USD", "EURO"];
@@ -80,10 +83,10 @@ export const cryptoSymbolsBTCBase: Array<ECryptoSymbols> = [
 
 export const cryptoSymbolsEURBase: Array<ECryptoSymbols> = [
     ECryptoSymbols.BTCEUR,
-    ECryptoSymbols.ADAEUR,
-    ECryptoSymbols.BNBEUR,
-    ECryptoSymbols.DOTEUR,
-    ECryptoSymbols.ETHEUR,
-    ECryptoSymbols.LINKEUR,
-    ECryptoSymbols.LTCEUR,
+    // ECryptoSymbols.ADAEUR,
+    // ECryptoSymbols.BNBEUR,
+    // ECryptoSymbols.DOTEUR,
+    // ECryptoSymbols.ETHEUR,
+    // ECryptoSymbols.LINKEUR,
+    // ECryptoSymbols.LTCEUR,
 ];
