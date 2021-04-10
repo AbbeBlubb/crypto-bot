@@ -19,14 +19,19 @@ const config: IStrategyConfig = {
     interval: EInterval.FifteenMin,
     limit: 601,
     additionalMessageToNotifier: undefined,
-    takeProfitOnPercent: {
-        [ECryptoSymbols.BTCEUR]: 5,
-        [ECryptoSymbols.ADAEUR]: 5,
-        [ECryptoSymbols.BNBEUR]: 5,
-        [ECryptoSymbols.DOTEUR]: 5,
-        [ECryptoSymbols.ETHEUR]: 5,
-        [ECryptoSymbols.LINKEUR]: 5,
-        [ECryptoSymbols.LTCEUR]: 5,
+    takeProfit: {
+        percent: {
+            [ECryptoSymbols.BTCEUR]: 5,
+            [ECryptoSymbols.ADAEUR]: 5,
+            [ECryptoSymbols.BNBEUR]: 5,
+            [ECryptoSymbols.DOTEUR]: 5,
+            [ECryptoSymbols.ETHEUR]: 5,
+            [ECryptoSymbols.LINKEUR]: 5,
+            [ECryptoSymbols.LTCEUR]: 5,
+        },
+        // usdt: {
+        //     [ECryptoSymbols.BTCEUR]: 4,
+        // },
     },
 };
 
@@ -93,11 +98,26 @@ function algorithm({ symbol, tulipDataStructure }: IStrategyAlgorithm): IStrateg
     );
 
     /**
-     * Take profit, stop-loss: separate functions that calculate for each run, and the run-strat can change existing orders
-     * To do!
+     * Take profit
+     * Hm this must be calculated on the entry price, when the order is done!
      */
 
-    const takeProfitFunctionReturn = 100; // To do
+    function calculateTakeProfit({ symbol, latestClosePrice, takeProfitConfig }): number {
+        // If scale, use switch statement with object.keys?
+
+        return 8;
+    }
+
+    const takeProfitFunctionReturn = calculateTakeProfit({
+        symbol,
+        latestClosePrice,
+        takeProfitConfig: config.takeProfit,
+    });
+
+    /**
+     * Stop-loss
+     */
+
     const stopLossFunctionReturn = 90; // To do
 
     /**

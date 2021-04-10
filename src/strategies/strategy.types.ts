@@ -47,7 +47,7 @@ export interface IStrategyConfig {
     interval: EInterval;
     limit: number;
     additionalMessageToNotifier: string | undefined;
-    takeProfitOnPercent: { [key: string]: number };
+    takeProfit: { [key: string]: { [key: string]: number } };
 }
 
 export interface IStrategySignals {
@@ -58,4 +58,3 @@ export interface IStrategySignals {
     stopLoss: number;
     report: { [key: string]: number | string | boolean };
 }
-
