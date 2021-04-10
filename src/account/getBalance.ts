@@ -72,7 +72,7 @@ function _mapMyCryptoBalanceToTemplateLiteral(myCryptoBalance: TMyTotalCryptoBal
  * Run: > cd src/account && npx ts-node getBalance.ts
  */
 
-// import { cryptoTickersWithEUR, forbiddenTickers } from "../utils/tickers";
-// getBalance({ multiCryptoTickersToGet: cryptoTickersWithEUR, logToConsole: true })
+// import { tickersForBalanceCheck, forbiddenTickers } from "../utils/tickers";
+// getBalance({ multiCryptoTickersToGet: tickersForBalanceCheck, logToConsole: true })
 //     .then((res) => console.log(res))
 //     .catch((err) => console.log(err));

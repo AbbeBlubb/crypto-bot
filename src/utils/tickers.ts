@@ -1,10 +1,7 @@
-/**
- * Tickers for account information
- */
+export const forbiddenTickers: Array<string> = ["USD", "EURO"];
 
 export enum EFiatTickers {
     EUR = "EUR",
-    USD = "USD",
 }
 
 enum ECryptoTickers {
@@ -20,7 +17,7 @@ enum ECryptoTickers {
     USDT = "USDT",
 }
 
-export const cryptoTickersWithEUR: Array<string> = [
+export const tickersForBalanceCheck: Array<string> = [
     EFiatTickers.EUR,
     ECryptoTickers.USDT,
 
@@ -34,8 +31,6 @@ export const cryptoTickersWithEUR: Array<string> = [
     ECryptoTickers.LTC,
     ECryptoTickers.RVN,
 ];
-
-export const forbiddenTickers: Array<string> = ["USD", "EURO"];
 
 /**
  * Symbols for data-fetch and orders
@@ -83,10 +78,10 @@ export const cryptoSymbolsBTCBase: Array<ECryptoSymbols> = [
 
 export const cryptoSymbolsEURBase: Array<ECryptoSymbols> = [
     ECryptoSymbols.BTCEUR,
-    // ECryptoSymbols.ADAEUR,
-    // ECryptoSymbols.BNBEUR,
-    // ECryptoSymbols.DOTEUR,
-    // ECryptoSymbols.ETHEUR,
-    // ECryptoSymbols.LINKEUR,
-    // ECryptoSymbols.LTCEUR,
+    ECryptoSymbols.ADAEUR,
+    ECryptoSymbols.BNBEUR,
+    ECryptoSymbols.DOTEUR,
+    ECryptoSymbols.ETHEUR,
+    ECryptoSymbols.LINKEUR,
+    ECryptoSymbols.LTCEUR,
 ];

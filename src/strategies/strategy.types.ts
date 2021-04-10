@@ -11,6 +11,7 @@ export interface IRunStrategy {
     symbol: ECryptoSymbols; // Eg "BTCUSDT" in capitals
     interval: EInterval; // Periods, eg "1d"
     limit: number; // Ammount of candles/periods, in number. API efault 500; max 1000.
+    tickersForBalanceCheck: Array<string>;
 
     candlesFileFolder: string; // Eg "./fetched/". Relative to the callee context, that is, the top-most highest function context
     candlesFileExtension?: string; // Without dot, eg "json"
@@ -37,6 +38,7 @@ interface IStrategyConfig {
     symbols: Array<string>;
     interval: EInterval;
     limit: number;
+    additionalMessageToNotifier: string | undefined;
 }
 
 export interface IStrategySignals {

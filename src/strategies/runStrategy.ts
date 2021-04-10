@@ -8,7 +8,7 @@ import { fetchCandles, getURLForCandles } from "../data/fetchUtils";
 import { getTulipDataStructureObjectFromJSONFile } from "../data/tulipDataStructureUtils";
 import { notifyOnTelegram } from "../notifier/telegramUtils";
 import { attachUnhandledRejectionListener } from "../utils/attachUnhandledRejectionListener";
-import { cryptoTickersWithEUR, ECryptoSymbols } from "../utils/tickers";
+import { tickersForBalanceCheck, ECryptoSymbols } from "../utils/tickers";
 import { getFileNameForCandlesFile, IFileNameForCandlesObject, writeStreamToFile } from "../utils/writeFileUtils";
 import { IRunStrategy, IStrategyIteratorConfig, IStrategySignals, TStrategyHasBeenResolved } from "./strategy.types";
 import { runStrategyAlgorithm } from "./strategyUtils";
@@ -21,6 +21,7 @@ async function _runStrategyOnSymbol({
     symbol,
     interval,
     limit,
+    tickersForBalanceCheck,
     candlesFileFolder,
     candlesFileExtension,
     ordersFileFolder,
@@ -66,7 +67,7 @@ async function _runStrategyOnSymbol({
             // ToDo: decideActionOnStrategySignal()
 
             const balance: TMyTotalCryptoBalance = await getBalance({
-                multiCryptoTickersToGet: cryptoTickersWithEUR,
+                multiCryptoTickersToGet: tickersForBalanceCheck,
                 logToConsole: true,
             });
 
@@ -94,7 +95,16 @@ async function _runStrategyOnSymbol({
 
 async function _promiseLoopForStrategy(strategyObject): Promise<void> {
     const { config, algorithm } = strategyObject;
-    const { humanReadableName, programmingName, baseCurrency, orderAmmount, symbols, interval, limit = 500 } = config;
+    const {
+        humanReadableName,
+        programmingName,
+        baseCurrency,
+        orderAmmount,
+        symbols,
+        interval,
+        limit = 500,
+        additionalMessageToNotifier = undefined,
+    } = config;
 
     const strategyIteratorConfig: IStrategyIteratorConfig = {
         strategyName: humanReadableName,
@@ -105,13 +115,14 @@ async function _promiseLoopForStrategy(strategyObject): Promise<void> {
         symbols, // The promise loop will iterate over these
         interval,
         limit,
+        tickersForBalanceCheck,
 
         candlesFileFolder: `./${programmingName}-${config.baseCurrency}/fetched/`,
         candlesFileExtension: "json",
         ordersFileFolder: `./${programmingName}-${config.baseCurrency}/orders/`,
         ordersFileExtension: "json",
 
-        additionalMessageToNotifier: undefined,
+        additionalMessageToNotifier,
     };
 
     attachUnhandledRejectionListener(path.basename(__filename));

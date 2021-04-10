@@ -18,6 +18,7 @@ const config = {
     symbols: cryptoSymbolsEURBase,
     interval: EInterval.FifteenMin,
     limit: 601, // TODO: CHECK AGAIN THE MA:S WORK FINE
+    additionalMessageToNotifier: undefined,
 };
 
 /**
@@ -27,7 +28,6 @@ const config = {
  * - Calculates short-term sentiment with: xxx
  */
 
-// INTERFACE!!
 function algorithm(tulipDataStructure: ITulipDataStructure): IStrategySignals {
     /**
      * Prepare data for indicators
