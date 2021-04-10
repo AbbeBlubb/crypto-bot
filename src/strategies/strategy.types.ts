@@ -30,7 +30,7 @@ export interface IRunStrategyAlgorithm {
     strategyAlgorithm: TStrategyAlgorithm;
 }
 
-interface IStrategyConfig {
+export interface IStrategyConfig {
     humanReadableName: string;
     programmingName: string;
     baseCurrency: EFiatTickers;
@@ -39,6 +39,7 @@ interface IStrategyConfig {
     interval: EInterval;
     limit: number;
     additionalMessageToNotifier: string | undefined;
+    takeProfitOnPercent: { [key: string]: number };
 }
 
 export interface IStrategySignals {

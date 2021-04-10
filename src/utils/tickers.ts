@@ -78,10 +78,10 @@ export const cryptoSymbolsBTCBase: Array<ECryptoSymbols> = [
 
 export const cryptoSymbolsEURBase: Array<ECryptoSymbols> = [
     ECryptoSymbols.BTCEUR,
-    ECryptoSymbols.ADAEUR,
-    ECryptoSymbols.BNBEUR,
-    ECryptoSymbols.DOTEUR,
-    ECryptoSymbols.ETHEUR,
-    ECryptoSymbols.LINKEUR,
-    ECryptoSymbols.LTCEUR,
+    // ECryptoSymbols.ADAEUR,
+    // ECryptoSymbols.BNBEUR,
+    // ECryptoSymbols.DOTEUR,
+    // ECryptoSymbols.ETHEUR,
+    // ECryptoSymbols.LINKEUR,
+    // ECryptoSymbols.LTCEUR,
 ];

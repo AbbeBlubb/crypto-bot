@@ -3,22 +3,31 @@ import { EMA } from "../indicators/EMA";
 import { SMA } from "../indicators/SMA";
 import { isAtLeastOneBooleanTrue } from "../signals/booleanComparisions";
 import { firstNumberIsGreaterThanSecondNumber } from "../signals/numberComparisions";
-import { cryptoSymbolsEURBase, EFiatTickers } from "../utils/tickers";
-import { IStrategySignals } from "./strategy.types";
+import { cryptoSymbolsEURBase, EFiatTickers, ECryptoSymbols } from "../utils/tickers";
+import { IStrategySignals, IStrategyConfig } from "./strategy.types";
 
 /**
  * Configuration for the strategy
  */
 
-const config = {
+const config: IStrategyConfig = {
     humanReadableName: "Short Term Bullish Strategy",
     programmingName: "shortTermBullishStrategy",
     baseCurrency: EFiatTickers.EUR,
     orderAmmount: 200,
     symbols: cryptoSymbolsEURBase,
     interval: EInterval.FifteenMin,
-    limit: 601, // TODO: CHECK AGAIN THE MA:S WORK FINE
+    limit: 601,
     additionalMessageToNotifier: undefined,
+    takeProfitOnPercent: {
+        [ECryptoSymbols.BTCEUR]: 5,
+        [ECryptoSymbols.ADAEUR]: 5,
+        [ECryptoSymbols.BNBEUR]: 5,
+        [ECryptoSymbols.DOTEUR]: 5,
+        [ECryptoSymbols.ETHEUR]: 5,
+        [ECryptoSymbols.LINKEUR]: 5,
+        [ECryptoSymbols.LTCEUR]: 5,
+    },
 };
 
 /**
